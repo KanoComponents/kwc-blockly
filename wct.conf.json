@@ -1,0 +1,10 @@
+{
+    "verbose": false,
+    "plugins": {
+        "junit-reporter": {
+            "output": {
+                "name": "wct.xml"
+            }
+        }
+    }
+}

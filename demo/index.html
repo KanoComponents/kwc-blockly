@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+        <title>kwc-blockly demo</title>
+
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../kwc-blockly.html">
+
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+                kwc-blockly {
+                    width: 800px;
+                    height: 500px;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <div class="vertical-section-container">
+            <h3>Basic kwc-blockly demo</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly id="demo1"></kwc-blockly>
+                    <script>
+                        let basic = document.getElementById('demo1');
+                        basic.loadBlocks('<xml><block type="math_number"></block></xml>');
+                    </script>
+                </template>
+            </demo-snippet>
+            <h3>kwc-blockly with toolbox</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly id="demo2"></kwc-blockly>
+                    <script>
+                        let withToolbox = document.getElementById('demo2');
+                        withToolbox.toolbox = [{
+                            id: 'math',
+                            name: 'Math',
+                            colour: 'red',
+                            blocks: [
+                                { id: 'math_number', colour: '#ff0000' },
+                                { id: 'math_arithmetic' }
+                            ]
+                        }, {
+                            id: 'variables',
+                            name: 'Variables',
+                            colour: '#673ab7',
+                            blocks: [
+                                { id: 'variables_set', colour: '#673ab7' }
+                            ]
+                        }]
+                    </script>
+                </template>
+            </demo-snippet>
+        </div>
+    </body>
+
+</html>

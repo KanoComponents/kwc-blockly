@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>kwc-blockly test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../kwc-blockly.html">
+</head>
+
+<body>
+    <test-fixture id="basic">
+        <template>
+            <kwc-blockly></kwc-blockly>
+        </template>
+    </test-fixture>
+
+    <script>
+
+        suite('kwc-blockly', function () {
+            test('instantiating the element works', function () {
+                var element = fixture('basic');
+                assert.equal(element.is, 'kwc-blockly');
+            });
+
+            test('Loads the color of blocks', function () {
+                var element = fixture('basic'),
+                    color = '#fff000',
+                    id = 'test_block',
+                    workspace  = element.getWorkspace(),
+                    block, svgRoot, svgPath
+                element.loadBlocks(`<xml><block id="${id}" type="math_number" colour="${color}"></block></xml>`);
+                block = workspace.getBlockById(id);
+                svgRoot = block.getSvgRoot();
+                svgPath = svgRoot.querySelector('.blocklyPath');
+                assert.equal(svgPath.getAttribute('fill'), color);
+            });
+        });
+        
+        suite('kwc-blockly-toolbox', function () {
+            test('can set the toolbox', function (cb) {
+                var element = fixture('basic'),
+                    toolbox;
+                toolbox = element.getToolbox();
+                toolbox.addEventListener('dom-change', () => {
+                    let categories = Polymer.dom(toolbox.root).querySelectorAll('.category');
+                    assert.lengthOf(categories, 1);
+                    assert.equal(categories[0].textContent.trim(), 'Test');
+                    cb();
+                });
+                element.toolbox = [{
+                    id: 'test',
+                    name: 'Test',
+                    blocks: [{
+                        id: 'math_number'
+                    }]
+                }];
+            });
+        })
+    </script>
+</body>
+
+</html>
