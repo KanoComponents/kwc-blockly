@@ -6,7 +6,7 @@
     "polymer": "Polymer/polymer#^1.9.0",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
-    "web-components": "KanoComputing/web-components#^1.4.3",
+    "web-components": "git@github.com:KanoComputing/web-components.git#master",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0"
   },
   "devDependencies": {
@@ -21,6 +21,10 @@
     "paper-dialog": "^2.0.0",
     "iron-component-page": "^3.0.0",
     "iron-doc-viewer": "^3.0.0",
-    "paper-styles": "^2.0.0"
+    "paper-styles": "^2.0.0",
+    "polymer": "^1.9.0",
+    "iron-flex-layout": "^2.0.0",
+    "iron-icon": "^2.0.1",
+    "iron-iconset-svg": "^2.0.1"
   }
 }
