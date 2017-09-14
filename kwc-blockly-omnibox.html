@@ -92,9 +92,9 @@
             </template>
         </div>
         <div class="extra"></div>
-        <iron-a11y-keys target="[[target]]" keys="down" on-keys-pressed="_onDownPressed"></iron-a11y-keys>
-        <iron-a11y-keys target="[[target]]" keys="up" on-keys-pressed="_onUpPressed"></iron-a11y-keys>
-        <iron-a11y-keys target="[[target]]" keys="enter" on-keys-pressed="_onEnterPressed"></iron-a11y-keys>
+        <iron-a11y-keys target="[[_target]]" keys="down" on-keys-pressed="_onDownPressed"></iron-a11y-keys>
+        <iron-a11y-keys target="[[_target]]" keys="up" on-keys-pressed="_onUpPressed"></iron-a11y-keys>
+        <iron-a11y-keys target="[[_target]]" keys="enter" on-keys-pressed="_onEnterPressed"></iron-a11y-keys>
     </template>
     <script>
         Polymer({
@@ -104,9 +104,8 @@
                     type: String,
                     observer: '_queryChanged'
                 },
-                targetWorkspace: {
-                    type: Object
-                },
+                results: Array,
+                targetWorkspace: Object,
                 noDrag: {
                     type: Boolean,
                     value: false
@@ -114,10 +113,13 @@
                 filter: {
                     type: Function,
                     observer: '_filterChanged'
-                }
+                },
+                qts: Number,
+                selected: Number,
+                _target: Object
             },
             attached () {
-                this.target = this.$.input;
+                this._target = this.$.input;
             },
             _blockCreated () {
                 this.fire('close');

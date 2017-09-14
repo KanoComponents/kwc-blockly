@@ -84,7 +84,7 @@ Example:
         <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
             <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
         </div>
-        <paper-dialog id="dialog" entry-animation="from-big-animation" fit-into="[[svg]]" with-backdrop>
+        <paper-dialog id="dialog" entry-animation="from-big-animation" fit-into="[[_svg]]" with-backdrop>
             <div id="dialog-content">
                 <h2>[[dialog.message]]</h2>
                 <div class="container" hidden$="[[dialog.noInput]]">
@@ -96,8 +96,8 @@ Example:
                 </div>
             </div>
         </paper-dialog>
-        <iron-a11y-keys keys="meta+f" on-keys-pressed="_openOmnibox" target="[[target]]"></iron-a11y-keys>
-        <iron-a11y-keys keys="esc" on-keys-pressed="_closeOmnibox" target="[[target]]"></iron-a11y-keys>
+        <iron-a11y-keys keys="meta+f" on-keys-pressed="_openOmnibox" target="[[_target]]"></iron-a11y-keys>
+        <iron-a11y-keys keys="esc" on-keys-pressed="_closeOmnibox" target="[[_target]]"></iron-a11y-keys>
     </template>
 </dom-module>
 
@@ -142,7 +142,9 @@ Example:
                 value: function () {
                     return this.resolveUrl('./blockly/media/');
                 }
-            }
+            },
+            _target: Object,
+            _svg: Object
         },
         listeners: {
             'toolbox.scroll': '_onToolboxScroll'
@@ -161,7 +163,7 @@ Example:
             this.dialog = {
                 element: this.$.dialog
             };
-            this.target = this;
+            this._target = this;
             this.visible = false;
             options = new Blockly.Options({
                 media: this.media,
@@ -177,8 +179,8 @@ Example:
                     scaleSpeed: 1.2
                 }
             });
-            this.svg = this.$.svg;
-            this.svg.addEventListener('mousewheel', this._onMouseWheel);
+            this._svg = this.$.svg;
+            this._svg.addEventListener('mousewheel', this._onMouseWheel);
             defs = Blockly.utils.createSvgElement('defs', {}, this.svg);
             options.gridPattern = Blockly.utils.createSvgElement('pattern', {'id': 'blocklyGridPattern' + String(Math.random()).substring(2), 'patternUnits': 'userSpaceOnUse'}, defs);
             // Load CSS.
@@ -218,7 +220,7 @@ Example:
             document.addEventListener('iron-overlay-opened', this._blurInput);
         },
         detached () {
-            this.svg.removeEventListener('mousewheel', this._onMouseWheel);
+            this._svg.removeEventListener('mousewheel', this._onMouseWheel);
             this.workspace.dispose();
             // document.body.style.overflow = undefined;
             document.removeEventListener('iron-overlay-opened', this._blurInput);

@@ -29,7 +29,7 @@ pipeline {
         stage('test') {
             steps {
                 script {
-                    sh "polymer lint"
+                    sh "polymer lint -i kwc-*"
                     sh "polymer test --local chrome"
                     junit allowEmptyResults: true, testResults: 'wct.xml'
                 }
