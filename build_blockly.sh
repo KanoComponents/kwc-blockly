@@ -21,10 +21,8 @@ echo 'Building blockly'
 ./build.py
 
 mv $TMP_DIR/blockly/blockly_* $CURRENT_DIR/blockly_built/
-mkdir -p $CURRENT_DIR/blockly_built/msg/
-mkdir -p $CURRENT_DIR/blockly_built/media/
-mv $TMP_DIR/blockly/msg/**/* $CURRENT_DIR/blockly_built/msg/
-mv $TMP_DIR/blockly/media/* $CURRENT_DIR/blockly_built/media/
+mv $TMP_DIR/blockly/msg $CURRENT_DIR/blockly_built/msg
+mv $TMP_DIR/blockly/media $CURRENT_DIR/blockly_built/media
 mv $TMP_DIR/blockly/blocks_compressed.js $CURRENT_DIR/blockly_built/blocks_compressed.js
 mv $TMP_DIR/blockly/dart_compressed.js $CURRENT_DIR/blockly_built/dart_compressed.js
 mv $TMP_DIR/blockly/javascript_compressed.js $CURRENT_DIR/blockly_built/javascript_compressed.js
