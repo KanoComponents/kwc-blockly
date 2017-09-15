@@ -9,8 +9,19 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
 
+    <script src="../blockly_built/blockly_compressed.js"></script>
+    <script src="../blockly_built/blocks_compressed.js"></script>
+    <script src="../blockly_built/msg/js/en.js"></script>
+    <script src="../blockly_built/javascript_compressed.js"></script>
     <link rel="import" href="../kwc-blockly.html">
+    <style>
+        kwc-blockly {
+            width: 800px;
+            height: 600px;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,6 +33,15 @@
 
     <script>
 
+        function scroll(node, delta) {
+            let event = new CustomEvent('mousewheel');
+
+            event.deltaX = delta.x || 0;
+            event.deltaY = delta.y || 0;
+
+            node.dispatchEvent(event);
+        }
+
         suite('kwc-blockly', function () {
             test('instantiating the element works', function () {
                 var element = fixture('basic');
@@ -32,13 +52,24 @@
                 var element = fixture('basic'),
                     color = '#fff000',
                     id = 'test_block',
-                    workspace  = element.getWorkspace(),
-                    block, svgRoot, svgPath
+                    workspace = element.getWorkspace(),
+                    block, svgRoot, svgPath;
                 element.loadBlocks(`<xml><block id="${id}" type="math_number" colour="${color}"></block></xml>`);
                 block = workspace.getBlockById(id);
                 svgRoot = block.getSvgRoot();
                 svgPath = svgRoot.querySelector('.blocklyPath');
                 assert.equal(svgPath.getAttribute('fill'), color);
+            });
+
+            test('Scrolls the workspace', function () {
+                var element = fixture('basic'),
+                    workspace = element.getWorkspace(),
+                    canvas = workspace.getCanvas(),
+                    prevTransform;
+
+                prevTransform = canvas.getAttribute('transform');
+                scroll(workspace.getParentSvg(), { x: -45, y: 0 });
+                assert.notEqual(prevTransform, canvas.getAttribute('transform'));
             });
         });
         
@@ -61,7 +92,50 @@
                     }]
                 }];
             });
-        })
+        });
+
+        suite('ColourField', function () {
+            test('uses kwc-color-picker', function () {
+                var element = fixture('basic'),
+                    id = 'test_id',
+                    workspace = element.getWorkspace(),
+                    svgRoot, fieldSvg;
+                element.loadBlocks(`<xml><block type="colour_picker" id="${id}"></block></xml>`);
+                svgRoot = workspace.getBlockById(id).getSvgRoot();
+
+                fieldSvg = svgRoot.querySelector('.blocklyEditableText');
+
+                MockInteractions.tap(fieldSvg);
+
+                assert.isNotNull(document.body.querySelector('.blocklyWidgetDiv kwc-color-picker'));
+
+            });
+        });
+
+        suite('FieldArrayLength', function () {
+            test('updates the number of items using the UI', function () {
+                var element = fixture('basic'),
+                    id = 'test_id',
+                    workspace = element.getWorkspace(),
+                    block, svgRoot, fieldSvg, input, prevItems;
+                element.loadBlocks(`<xml><block type="lists_create_with" id="${id}"></block></xml>`);
+                block = workspace.getBlockById(id);
+                svgRoot = block.getSvgRoot();
+
+                prevItems = block.itemCount_;
+
+                assert.equal(prevItems, 3);
+                
+                fieldSvg = svgRoot.querySelector('.blocklyConfigInput rect');
+                
+                MockInteractions.tap(fieldSvg);
+                
+                input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
+                input.set('value', 7);
+
+                assert.equal(block.itemCount_, 7);
+            });
+        });
     </script>
 </body>
 

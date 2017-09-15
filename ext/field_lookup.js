@@ -62,9 +62,8 @@ Blockly.FieldLookup.prototype.showEditor_ = function () {
     var workspace = this.sourceBlock_.workspace;
 
     var omnibox = workspace.openOmnibox();
-    var relativePos = workspace.getParentSvg().getBoundingClientRect();
-    omnibox.style.top = `${relativePos.top + xy.y}px`;
-    omnibox.style.left = `${relativePos.left + xy.x}px`;
+    omnibox.style.top = `${xy.y}px`;
+    omnibox.style.left = `${xy.x}px`;
 
     omnibox.filter = (block) => {
         let blockConnection;

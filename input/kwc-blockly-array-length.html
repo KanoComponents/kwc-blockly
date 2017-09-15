@@ -1,0 +1,39 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="./kwc-blockly-incr.html">
+<link rel="import" href="./kwc-blockly-wrapper.html">
+<dom-module id="kwc-blockly-array-length">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            kwc-blockly-wrapper {
+                --kwc-blockly-wrapper-caret-color: var(--color-black);
+            }
+            kwc-blockly-incr {
+                margin-top: 10px;
+                background: #464C51;
+                font-size: 14px;
+            }
+        </style>
+        <kwc-blockly-wrapper title="List" no-close-button on-close="_close">
+            <div slot="content">
+                <div class="controls">
+                    <label for="params">Items</label>
+                    <kwc-blockly-incr value="{{value}}" min="1"></kwc-blockly-incr>
+                </div>
+            </div>
+        </kwc-blockly-wrapper>
+    </template>
+    <script>
+        Polymer({
+            is:'kwc-blockly-array-length',
+            properties: {
+                value: {
+                    type: Number,
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>

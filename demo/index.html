@@ -11,6 +11,10 @@
 
         <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
         <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <script src="../blockly_built/blockly_compressed.js"></script>
+        <script src="../blockly_built/blocks_compressed.js"></script>
+        <script src="../blockly_built/msg/js/en.js"></script>
+        <script src="../blockly_built/javascript_compressed.js"></script>
         <link rel="import" href="../kwc-blockly.html">
 
         <custom-style>
@@ -25,14 +29,27 @@
 
     <body>
         <div class="vertical-section-container">
-            <h3>Basic kwc-blockly demo</h3>
+            <h3>Basic kwc-blockly demo (incl. enhanced fields)</h3>
             <demo-snippet>
                 <template>
                     <kwc-blockly id="demo1"></kwc-blockly>
                     <script>
                         let basic = document.getElementById('demo1');
-                        basic.loadBlocks('<xml><block type="math_number"></block></xml>');
+                        basic.addEventListener('blockly-ready', () => {
+                            basic.loadBlocks(`<xml>
+                                                    <block type="colour_picker" colour="#88c440" x="100" y="200"></block>
+                                                    <block type="lists_create_with" colour="#88c440" x="200" y="200"></block>
+                                                    <block type="controls_if" colour="#88c440" x="400" y="200"></block>
+                                                    <block type="function_definition" colour="#88c440" x="550" y="200"></block>
+                                                </xml>`);
+                        });
                     </script>
+                </template>
+            </demo-snippet>
+            <h3>kwc-blockly with default blocks</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly default-blocks='<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="controls_if" x="229" y="214" colour="#f75846"><value name="IF0"><block type="logic_compare" colour="#f75846"><field name="OP">GT</field><value name="A"><block type="math_number" colour="#ffc100"><field name="NUM">5</field></block></value><value name="B"><block type="math_number" colour="#ffc100"><field name="NUM">0</field></block></value></block></value></block></xml>'></kwc-blockly>
                 </template>
             </demo-snippet>
             <h3>kwc-blockly with toolbox</h3>

@@ -12,6 +12,14 @@
 <!--
 `kano-blockly`
 
+Before using this component you need to import blockly yourself, as you must choose which language and locale you want to work with:
+Files are located under the `blockly` directory. Example:
+
+    <script src="/bower_components/kwc-blockly/blockly/blockly_compressed.js"></script>
+    <script src="/bower_components/kwc-blockly/blockly/blocks_compressed.js"></script>
+    <script src="/bower_components/kwc-blockly/blockly/msg/js/en.js"></script>
+    <script src="/bower_components/kwc-blockly/blockly/javascript_compressed.js"></script>
+
 Example:
     <kano-blockly></kano-blockly>
 
@@ -181,12 +189,12 @@ Example:
             });
             this._svg = this.$.svg;
             this._svg.addEventListener('mousewheel', this._onMouseWheel);
-            defs = Blockly.utils.createSvgElement('defs', {}, this.svg);
+            defs = Blockly.utils.createSvgElement('defs', {}, this._svg);
             options.gridPattern = Blockly.utils.createSvgElement('pattern', {'id': 'blocklyGridPattern' + String(Math.random()).substring(2), 'patternUnits': 'userSpaceOnUse'}, defs);
             // Load CSS.
             Blockly.Css.inject(options.hasCss, options.pathToMedia);
             this._setupDialogs();
-            this.workspace = this._createWorkspace(this.$.svg, options);
+            this.workspace = this._createWorkspace(this._svg, options);
             this.workspace.toolbox = this.$.toolbox;
             this.workspace.toolbox_ = this.$.toolbox;
             this._initWorkspace();
@@ -200,17 +208,18 @@ Example:
             this.$.omnibox.targetWorkspace = this.workspace;
             this.$.toolbox.targetWorkspace = this.workspace;
 
-            this.async(() => {
+            // Trick to enable shadow DOM like styling of xtag generated components
+            if (!Polymer.Settings.useNativeShadow) {
+                let elems = Polymer.dom(this.root).querySelectorAll('svg, div');
+
+                for (let i = 0; i < elems.length; i++) {
+                    this.toggleClass('kano-blockly', true, elems[i]);
+                }
+            }
+
+            Polymer.RenderStatus.afterNextRender(this, () => {
                 this.fire('blockly-ready');
                 this.resize();
-                // Trick to enable shadow DOM like styling of xtag generated components
-                if (!Polymer.Settings.useNativeShadow) {
-                    let elems = Polymer.dom(this.root).querySelectorAll('svg, div');
-
-                    for (let i = 0; i < elems.length; i++) {
-                        this.toggleClass('kano-blockly', true, elems[i]);
-                    }
-                }
             });
 
             // TODO Removing this is possibly controversial.
@@ -230,7 +239,7 @@ Example:
                 metrics = workspace.getMetrics(),
                 x = e.deltaX * workspace.scale,
                 y = e.deltaY * workspace.scale;
-
+                
             x = (workspace.scrollbar.hScroll.handlePosition_ / workspace.scrollbar.hScroll.ratio_) + x;
             y = (workspace.scrollbar.vScroll.handlePosition_ / workspace.scrollbar.vScroll.ratio_) + y;
 
@@ -592,7 +601,9 @@ Example:
             this.clearWorkspace();
             try {
                 Blockly.Xml.domToWorkspace(xml, this.workspace);
-            } catch (e) {} // Ignore loading errors
+            } catch (e) {
+                console.log(e);
+            } // Ignore loading errors
             this._checkDefaultBlocks();
         },
         loadBlocks () {

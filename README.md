@@ -17,6 +17,22 @@
 Clone this repository.
 Run `bower i`
 
+## Usage
+
+Blockly is installed under `blockly_built`, You will have to import the blockly library yourself as you can choose the compressed or uncompressed version and you can also choose the generators and language you want to use.
+
+Create a HTML file to import the javascript from `blockly_built`, as it will deduplicate the import of these scripts:
+
+```html
+<script src="/bower_components/kwc-blockly/blockly_built/blockly_compressed.js"></script>
+<script src="/bower_components/kwc-blockly/blockly_built/blocks_compressed.js"></script>
+<script src="/bower_components/kwc-blockly/blockly_built/msg/js/en.js"></script>
+<script src="/bower_components/kwc-blockly/blockly_built/javascript_compressed.js"></script>
+<link rel="import" href="/bower_components/kwc-blockly/kwc-blockly.html">
+```
+
+Then use this file to import `<kwc-blockly>` Wherever you want to use it
+
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
@@ -37,4 +53,9 @@ Your application is already set up to be tested via [web-component-tester](https
 
 ### Building blockly
 
-The script `build_blockly.sh` will pull down the latest version of blockly and build it with the patches included in `blockly_patches`, meaning files in this folder will replace the sources from blockly before building it. As we have a custom implmentation of the toolbox, this is used to empty the Toolbox class and reduce the size of the blockly we use, but if in the future, more things get stripped down, of features are not needed, this patching system can be used.
+`blockly` and the `closure-library` from Google are submodules of this repository. This way, we keep a reference to the sources, and apply our changes on top of it.
+
+To rebuild with patches applied, just run the `build_blockly.sh` script. It will copy the blockly sources, apply the patches from `blockly_patches`, rebuild blockly and export this into the `blockly_built` folder.
+
+To update to a newer version of blockly, run `git submodule update --remote` to grab the latest changes from blockly and then rebuild with `build_blockly.sh`. This can and will most likely BREAK things as the patches rely on blockly's internal API to enhance it. Getting a newer version can lead to some work to adapt the changes.
+
