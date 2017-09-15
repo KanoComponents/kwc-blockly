@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./import.html">
 <link rel="import" href="./kwc-blockly-style.html">
 
 <dom-module id="kwc-blockly-flyout">
@@ -65,7 +66,9 @@
                     this._blockDB = {};
                 },
                 attached () {
-                    Polymer.dom(this.root).appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
+                    if (Blockly.Css.styleSheet_) {
+                        Polymer.dom(this.root).appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
+                    }
                     this._render();
                 },
                 getWorkspace () {
@@ -128,6 +131,9 @@
                     }
                 },
                 _render () {
+                    if (!this.targetWorkspace) {
+                        return;
+                    }
                     this._createWorkspace();
                     this.ws.scale = this.targetWorkspace.scale;
                     this.ws.parentWorkspace = this.targetWorkspace;
