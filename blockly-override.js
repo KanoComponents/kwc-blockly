@@ -481,7 +481,8 @@ Blockly.FieldDropdown.prototype.fromQuery = function (qs) {
 };
 
 Blockly.FieldVariable.prototype.getAPIText = function (qs, workspace) {
-    let variables = workspace.variableList.slice(0);
+    let variableList = Blockly.Variables.allUsedVariables(workspace),
+        variables = variableList.slice(0);
     if (qs.split(' ').some(piece => Blockly.stringMatch('variable', piece))) {
         return `<variable>`;
     }
@@ -494,7 +495,8 @@ Blockly.FieldVariable.prototype.getAPIText = function (qs, workspace) {
 };
 
 Blockly.FieldVariable.prototype.matches = function (qs, workspace) {
-    let variables = workspace.variableList.slice(0);
+    let variableList = Blockly.Variables.allUsedVariables(workspace),
+        variables = variableList.slice(0);
     if (qs.split(' ').some(piece => Blockly.stringMatch('variable', piece))) {
         return `<variable>`;
     }
@@ -505,7 +507,8 @@ Blockly.FieldVariable.prototype.matches = function (qs, workspace) {
 };
 
 Blockly.FieldVariable.prototype.fromQuery = function (qs, workspace) {
-    let variables = workspace.variableList.slice(0);
+    let variableList = Blockly.Variables.allUsedVariables(workspace),
+        variables = variableList.slice(0);
     // As soon as we find an option containing a piece of the query string
     for (let i = 0; i < variables.length; i++) {
         if (qs.split(' ').some(piece => Blockly.stringMatch(variables[i], piece))) {
