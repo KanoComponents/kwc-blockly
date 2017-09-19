@@ -1,5 +1,11 @@
 /* globals Blockly, goog */
 
+// Set the default palette to the material from the color picker
+Blockly.FieldColour.COLOURS = KwcColorPickerPalette.Material.colors;
+Blockly.FieldColour.COLUMNS = KwcColorPickerPalette.Material.rowSize;
+
+Blockly.FieldColour.HEX_REGEXP = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
 if (location.search.match('lookup=true')) {
     Blockly.SEARCH_PLUS_ENABLED = true;
 }
@@ -534,7 +540,7 @@ Blockly.FieldNumber.prototype.fromQuery = function (qs) {
 };
 
 Blockly.FieldColour.prototype.getAPIText = function (qs) {
-    let colors = Blockly.FieldColour.COLOUR_NAMES,
+    let colors = Blockly.FieldColour.COLOURS,
         highestScore = 0,
         highestColor,
         score;
@@ -552,7 +558,7 @@ Blockly.FieldColour.prototype.getAPIText = function (qs) {
 };
 
 Blockly.FieldColour.prototype.matches = function (s) {
-    let colors = Blockly.FieldColour.COLOUR_NAMES,
+    let colors = Blockly.FieldColour.COLOURS,
         highestScore = 0,
         highestColor,
         score;
@@ -570,7 +576,7 @@ Blockly.FieldColour.prototype.matches = function (s) {
 };
 
 Blockly.FieldColour.prototype.fromQuery = function (qs) {
-    let colors = Blockly.FieldColour.COLOUR_NAMES,
+    let colors = Blockly.FieldColour.COLOURS,
         highestScore = 0,
         highestColor,
         score;
@@ -585,7 +591,7 @@ Blockly.FieldColour.prototype.fromQuery = function (qs) {
             highestColor = colors[i];
         }
     }
-    this.setValue(FIELD_COLORS[highestColor]);
+    this.setValue(highestColor);
 };
 
 Blockly.Input.prototype.toAPIString = function (qs, workspace) {

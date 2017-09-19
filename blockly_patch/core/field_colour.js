@@ -124,16 +124,16 @@ Blockly.FieldColour.prototype.getText = function () {
 };
 
 /**
-* An array of colour strings for the palette.
-* See bottom of this page for the default:
-* http://docs.closure-library.googlecode.com/git/closure_goog_ui_colorpicker.js.source.html
-* @type {!Array.<string>}
-*/
+ * An array of colour strings for the palette.
+ * See bottom of this page for the default:
+ * http://docs.closure-library.googlecode.com/git/closure_goog_ui_colorpicker.js.source.html
+ * @type {!Array.<string>}
+ */
 Blockly.FieldColour.COLOURS = goog.ui.ColorPicker.SIMPLE_GRID_COLORS;
 
 /**
-* Number of columns in the palette.
-*/
+ * Number of columns in the palette.
+ */
 Blockly.FieldColour.COLUMNS = 7;
 
 /**
@@ -163,24 +163,24 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
 
     var div = Blockly.WidgetDiv.DIV;
 
-    var customEl = document.createElement('kwc-color-picker');
-    customEl.updateStyles({
+    this.customEl = document.createElement('kwc-color-picker');
+    this.customEl.updateStyles({
         '--kwc-color-picker-size': '22px',
         '--kwc-color-picker-margin': '0px'
     });
-    customEl.colors = KwcColorPickerPalette.Material.colors;
-    customEl.rowSize = KwcColorPickerPalette.Material.rowSize;
-    customEl.style.background = '#282F34';
-    customEl.style.padding = '12px';
-    customEl.style.boxSizing = 'border-box';
-    customEl.style.borderRadius = '6px';
-    customEl.value = this.getValue();
+    this.customEl.colors = this.colours_ || Blockly.FieldColour.COLOURS;
+    this.customEl.rowSize = this.columns_ || Blockly.FieldColour.COLUMNS;
+    this.customEl.style.background = '#282F34';
+    this.customEl.style.padding = '12px';
+    this.customEl.style.boxSizing = 'border-box';
+    this.customEl.style.borderRadius = '6px';
+    this.customEl.value = this.getValue();
 
-    customEl.addEventListener('value-changed', (e) => {
+    this.customEl.addEventListener('value-changed', (e) => {
         this.setValue(e.detail.value);
     });
 
-    div.appendChild(customEl);
+    div.appendChild(this.customEl);
 
     let isUnder = this.position();
     if ('animate' in HTMLElement.prototype) {
@@ -192,7 +192,7 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
                 duration: 100,
                 easing: 'ease-out'
             }).onfinish = function () {
-                customEl.resize();
+                this.customEl.resize();
             };
     }
 };
