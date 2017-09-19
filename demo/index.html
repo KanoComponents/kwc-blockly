@@ -23,6 +23,10 @@
                     width: 800px;
                     height: 500px;
                 }
+                body>div {
+                    max-width: 840px;
+                    margin: 0 auto;
+                }
             </style>
         </custom-style>
     </head>
@@ -35,12 +39,15 @@
                     <kwc-blockly id="demo1"></kwc-blockly>
                     <script>
                         let basic = document.getElementById('demo1');
+                        ['colour_picker', 'lists_create_with', 'controls_if', 'function_definition'].forEach(blockId => {
+                            Blockly.Blocks[blockId].customColor = '#88c440';
+                        });
                         basic.addEventListener('blockly-ready', () => {
                             basic.loadBlocks(`<xml>
-                                                    <block type="colour_picker" colour="#88c440" x="100" y="200"></block>
-                                                    <block type="lists_create_with" colour="#88c440" x="200" y="200"></block>
-                                                    <block type="controls_if" colour="#88c440" x="400" y="200"></block>
-                                                    <block type="function_definition" colour="#88c440" x="550" y="200"></block>
+                                                    <block type="colour_picker" x="100" y="200"></block>
+                                                    <block type="lists_create_with" x="200" y="200"></block>
+                                                    <block type="controls_if" x="400" y="200"></block>
+                                                    <block type="function_definition" x="550" y="200"></block>
                                                 </xml>`);
                         });
                     </script>
@@ -58,21 +65,27 @@
                     <kwc-blockly id="demo2"></kwc-blockly>
                     <script>
                         let withToolbox = document.getElementById('demo2');
-                        Blockly.Blocks.variables_get.getColour = function () {
-                            return '#3f51b5';
-                        };
+                        Blockly.Blocks.variables_get.customColor
+                            = Blockly.Blocks.variables_set.customColor
+                            = '#3f51b5';
+                        Blockly.Blocks.math_number.customColor = '#00bcd4';
                         withToolbox.toolbox = [{
                             id: 'math',
                             name: 'Math',
-                            colour: 'red',
+                            colour: '#00bcd4',
                             blocks: [
-                                { id: 'math_number', colour: '#ff0000' },
-                                { id: 'math_arithmetic' }
+                                { id: 'math_number' },
+                                {
+                                    id: 'math_arithmetic',
+                                    shadow: {
+                                        'A': '<shadow type="math_number"></shadow>'
+                                    }
+                                }
                             ]
                         }, {
                             id: 'variables',
                             name: 'Variables',
-                            colour: '#673ab7',
+                            colour: '#3f51b5',
                             blocks: [
                                 { id: 'variables_set' },
                                 { id: 'variables_get' },

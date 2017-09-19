@@ -115,9 +115,6 @@
                         if (block.shadow) {
                             content = Object.keys(block.shadow).map(field => `<value name="${field}">${block.shadow[field]}</value>`);
                         }
-                        if (block.colour) {
-                            extraArgs.push(`colour="${block.colour}"`)
-                        }
                         return `<block type="${block.id}" ${extraArgs.join(' ')}>${content}</block>`;
                     }).join('');
 
