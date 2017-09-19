@@ -54,7 +54,8 @@
                     id = 'test_block',
                     workspace = element.getWorkspace(),
                     block, svgRoot, svgPath;
-                element.loadBlocks(`<xml><block id="${id}" type="math_number" colour="${color}"></block></xml>`);
+                Blockly.Blocks.math_number.customColor = color;
+                element.loadBlocks(`<xml><block id="${id}" type="math_number"></block></xml>`);
                 block = workspace.getBlockById(id);
                 svgRoot = block.getSvgRoot();
                 svgPath = svgRoot.querySelector('.blocklyPath');
