@@ -154,6 +154,8 @@ Example:
                     return this.resolveUrl('./blockly_built/media/');
                 }
             },
+            getMetrics: Function,
+            setMetrics: Function,
             _target: Object,
             _svg: Object
         },
@@ -190,6 +192,8 @@ Example:
                     scaleSpeed: 1.2
                 }
             });
+            options.getMetrics = this.getMetrics;
+            options.setMetrics = this.setMetrics;
             this._svg = this.$.svg;
             this._svg.addEventListener('mousewheel', this._onMouseWheel);
             defs = Blockly.utils.createSvgElement('defs', {}, this._svg);

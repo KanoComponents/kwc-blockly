@@ -219,8 +219,9 @@ Example:
                 e = { type: Blockly.Events.CLOSE_FLYOUT };
                 this.prevSelected = this.currentSelected;
                 this.currentSelected = undefined;
-                this.customStyle['--selected-color'] = null;
-                this.updateStyles();
+                this.updateStyles({
+                    '--selected-color': null
+                });
                 if (this.targetWorkspace) {
                     this.targetWorkspace.fireChangeListener(e);
                 }
@@ -308,8 +309,9 @@ Example:
                     this.currentSelected = index;
                     this.currentToolbox = category.blocks;
                     this.set(`toolbox.${this.currentSelected}.selected`, true);
-                    this.customStyle['--selected-color'] = category.colour;
-                    this.updateStyles();
+                    this.updateStyles({
+                        '--selected-color': category.colour
+                    });
                     this.targetWorkspace.fireChangeListener(e);
                     this.targetWorkspace.setResizesEnabled(false);
                     this.set('opened', true);
@@ -320,8 +322,9 @@ Example:
                     this.prevSelected = this.currentSelected;
                     this.currentSelected = undefined;
                     this.currentToolbox = undefined;
-                    this.customStyle['--selected-color'] = null;
-                    this.updateStyles();
+                    this.updateStyles({
+                        '--selected-color': null
+                    });
                     if (this.targetWorkspace) {
                         this.targetWorkspace.fireChangeListener(e);
                     }

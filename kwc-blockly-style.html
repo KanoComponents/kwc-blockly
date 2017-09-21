@@ -4,11 +4,20 @@
 <dom-module id="kwc-blockly-style">
     <template>
         <style>
-            svg.blocklyMainWorkspaceScrollbar, ::slotted(* svg.blocklyMainWorkspaceScrollbar) {
+            svg.blocklyMainWorkspaceScrollbar {
                 z-index: 0;
                 cursor: pointer;
             }
-            svg.blocklyMainWorkspaceScrollbar .blocklyScrollbarHandle,
+            ::slotted(* svg.blocklyMainWorkspaceScrollbar) {
+                z-index: 0;
+                cursor: pointer;
+            }
+            svg.blocklyMainWorkspaceScrollbar .blocklyScrollbarHandle {
+                fill: var(--kwc-blockly-scrollbars-color, #292f35);
+                rx: 3;
+                ry: 3;
+                opacity: 0.5;
+            }
             ::slotted(* svg.blocklyMainWorkspaceScrollbar .blocklyScrollbarHandle) {
                 fill: var(--kwc-blockly-scrollbars-color, #292f35);
                 rx: 3;
@@ -16,7 +25,12 @@
                 opacity: 0.5;
             }
             svg.blocklyMainWorkspaceScrollbar .blocklyScrollbarBackground:hover+.blocklyScrollbarHandle,
-            svg.blocklyMainWorkspaceScrollbar:hover .blocklyScrollbarHandle,
+            svg.blocklyMainWorkspaceScrollbar:hover .blocklyScrollbarHandle {
+                fill: var(--kwc-blockly-scrollbars-color, #292f35);
+                rx: 3;
+                ry: 3;
+                opacity: 1;
+            }
             ::slotted(* svg.blocklyMainWorkspaceScrollbar .blocklyScrollbarBackground:hover+.blocklyScrollbarHandle),
             ::slotted(* svg.blocklyMainWorkspaceScrollbar:hover .blocklyScrollbarHandle) {
                 fill: var(--kwc-blockly-scrollbars-color, #292f35);
@@ -24,64 +38,114 @@
                 ry: 3;
                 opacity: 1;
             }
-            .blocklyConfigInput>rect, ::slotted(* .blocklyConfigInput>rect) {
+            .blocklyConfigInput>rect {
                 fill: rgba(0, 0, 0, 0.35);
                 cursor: pointer;
             }
-            .blocklyConfigInput>rect:hover, ::slotted(* .blocklyConfigInput>rect:hover) {
+            ::slotted(* .blocklyConfigInput>rect) {
+                fill: rgba(0, 0, 0, 0.35);
+                cursor: pointer;
+            }
+            .blocklyConfigInput>rect:hover {
                 fill: rgba(0, 0, 0, 0.75);
             }
-            .blocklyConfigInput>circle, ::slotted(* .blocklyConfigInput>circle) {
+            ::slotted(* .blocklyConfigInput>rect:hover) {
+                fill: rgba(0, 0, 0, 0.75);
+            }
+            .blocklyConfigInput>circle {
                 fill: rgba(255, 255, 255, 0.75);
                 cursor: pointer;
             }
-            .blocklyConfigInput:hover>circle, ::slotted(* .blocklyConfigInput:hover>circle) {
+            ::slotted(* .blocklyConfigInput>circle) {
+                fill: rgba(255, 255, 255, 0.75);
+                cursor: pointer;
+            }
+            .blocklyConfigInput:hover>circle {
                 fill: white;
             }
-            .blocklyTrash, ::slotted(* .blocklyTrash),
-            .blocklyZoom, ::slotted(* .blocklyZoom) {
+            ::slotted(* .blocklyConfigInput:hover>circle) {
                 fill: white;
             }
-            .blocklyZoom .button, ::slotted(* .blocklyZoom .button) {
+            .blocklyTrash,
+            .blocklyZoom {
+                fill: white;
+            }
+            ::slotted(* .blocklyTrash),
+            ::slotted(* .blocklyZoom) {
+                fill: white;
+            }
+            .blocklyZoom .button {
                 opacity: 0.5;
                 cursor: pointer;
             }
-            .blocklyZoom .button:hover, ::slotted(* .blocklyZoom .button:hover) {
+            ::slotted(* .blocklyZoom .button) {
+                opacity: 0.5;
+                cursor: pointer;
+            }
+            .blocklyZoom .button:hover {
                 opacity: 1;
             }
-            g.smoothScroll, ::slotted(* g.smoothScroll) {
+            ::slotted(* .blocklyZoom .button:hover) {
+                opacity: 1;
+            }
+            g.smoothScroll {
+                transition: transform 200ms ease-out;
+            }
+            ::slotted(* g.smoothScroll) {
                 transition: transform 200ms ease-out;
             }
 
-            .blocklyTreeRoot>div[role="group"]>div:not([role="treeitem"]), ::slotted(* .blocklyTreeRoot>div[role="group"]>div:not([role="treeitem"])) {
+            .blocklyTreeRoot>div[role="group"]>div:not([role="treeitem"]) {
+                display: none;
+            }
+            ::slotted(* .blocklyTreeRoot>div[role="group"]>div:not([role="treeitem"])) {
                 display: none;
             }
 
-            .blocklyEditableText>rect, ::slotted(*.blocklyEditableText>rect) {
+            .blocklyEditableText>rect {
+                fill: white;
+                fill-opacity: 0.6;
+            }
+            ::slotted(*.blocklyEditableText>rect) {
                 fill: white;
                 fill-opacity: 0.6;
             }
 
-            .blocklyLookupField>text,
+            .blocklyLookupField>text {
+                font-family: monospace;
+                cursor: pointer;
+                fill: #223541;
+            }
             ::slotted(*.blocklyLookupField>text) {
                 font-family: monospace;
                 cursor: pointer;
                 fill: #223541;
             }
 
-            .blocklySearchOutput>text,
+            .blocklySearchOutput>text {
+                font-size: 28px;
+                transform: translateY(15px);
+                fill: #bbbbbb;
+            }
             ::slotted(*.blocklySearchOutput>text) {
                 font-size: 28px;
                 transform: translateY(15px);
                 fill: #bbbbbb;
             }
 
-            .searchPlus,
+            .searchPlus {
+                cursor: pointer;
+            }
             ::slotted(* .searchPlus) {
                 cursor: pointer;
             }
 
-            .searchPlus rect,
+            .searchPlus rect {
+                fill: #bbbbbb;
+                stroke: #737373;
+                rx: 4;
+                ry: 4;
+            }
             ::slotted(* .searchPlus rect) {
                 fill: #bbbbbb;
                 stroke: #737373;
@@ -89,45 +153,86 @@
                 ry: 4;
             }
 
-            .searchPlus text,
+            .searchPlus text {
+                fill: #eaeaea;
+            }
             ::slotted(* .searchPlus text) {
                 fill: #eaeaea;
             }
 
             .blocklyPathDark,
-            .blocklyPathLight,
+            .blocklyPathLight {
+                fill: transparent !important;
+                stroke-width: 0px !important;
+            }
+
             ::slotted(* .blocklyPathDark),
             ::slotted(* .blocklyPathLight) {
                 fill: transparent !important;
                 stroke-width: 0px !important;
             }
-            .blocklySelected > .blocklyPath, ::slotted(* .blocklySelected > .blocklyPath) {
+            .blocklySelected > .blocklyPath {
                 stroke-width: 1px !important;
                 stroke: rgba(0, 0, 0, 0.5) !important;
                 stroke-linejoin: round !important;
             }
-            .blocklyHighlightedConnectionPath, ::slotted(* .blocklyHighlightedConnectionPath) {
+            ::slotted(* .blocklySelected > .blocklyPath) {
+                stroke-width: 1px !important;
+                stroke: rgba(0, 0, 0, 0.5) !important;
+                stroke-linejoin: round !important;
+            }
+            .blocklyHighlightedConnectionPath {
                 stroke-width: 2px !important;
             }
-            text.blocklyText, ::slotted(* text.blocklyText) {
+            ::slotted(* .blocklyHighlightedConnectionPath) {
+                stroke-width: 2px !important;
+            }
+            text.blocklyText {
                 font-family: var(--font-body);
                 font-size: 1em;
                 fill: white;
             }
-            .blocklyEditableText:hover > rect, ::slotted(* .blocklyEditableText:hover > rect) {
+            ::slotted(* text.blocklyText) {
+                font-family: var(--font-body);
+                font-size: 1em;
+                fill: white;
+            }
+            .blocklyEditableText:hover > rect {
                 stroke-width: 1px !important;
             }
-            .blocklyEditableText .blocklyText, ::slotted(* .blocklyEditableText .blocklyText) {
+            ::slotted(* .blocklyEditableText:hover > rect) {
+                stroke-width: 1px !important;
+            }
+            .blocklyEditableText .blocklyText {
                 font-size: 1em !important;
             }
-            div.blocklyTreeRoot, ::slotted(* div.blocklyTreeRoot) {
+            ::slotted(* .blocklyEditableText .blocklyText) {
+                font-size: 1em !important;
+            }
+            div.blocklyTreeRoot {
                 padding: 0px;
             }
-            span.blocklyTreeLabel, ::slotted(* span.blocklyTreeLabel) {
+            ::slotted(* div.blocklyTreeRoot) {
+                padding: 0px;
+            }
+            span.blocklyTreeLabel {
                 font-family: bariol;
                 font-size: 14px;
             }
-            div.blocklyTreeRow, ::slotted(* div.blocklyTreeRow) {
+            ::slotted(* span.blocklyTreeLabel) {
+                font-family: bariol;
+                font-size: 14px;
+            }
+            div.blocklyTreeRow {
+                position: relative;
+                height: auto !important;
+                line-height: 20px !important;
+                padding: 9px 12px !important;
+                margin: 0px;
+                color: white;
+                font-size: 1em;
+            }
+            ::slotted(* div.blocklyTreeRow) {
                 position: relative;
                 height: auto !important;
                 line-height: 20px !important;
@@ -137,37 +242,39 @@
                 font-size: 1em;
             }
             div.blocklyTreeRow:hover,
-            span.blocklyTreeLabel:hover,
+            span.blocklyTreeLabel:hover {
+                cursor: pointer;
+            }
             ::slotted(* div.blocklyTreeRow:hover),
             ::slotted(* span.blocklyTreeLabel:hover) {
                 cursor: pointer;
             }
-            div.blocklyTriangle {
-                position: absolute;
-                left: 130px;
-                top: 0px;
-                display: none;
-                border: 12px solid transparent;
-                border-left: 0px;
-                border-right-width: 10px;
-                border-right-color: #E8E8E8;
-            }
-            span.blocklyTreeIcon, ::slotted(* span.blocklyTreeIcon) {
+            span.blocklyTreeIcon {
                 width: 0px;
             }
-            div.blocklyToolboxDiv, ::slotted(* div.blocklyToolboxDiv) {
-                background-color: transparent;
-                position: absolute;
+            ::slotted(* span.blocklyTreeIcon) {
+                width: 0px;
             }
-            div.goog-tree-item, ::slotted(* div.goog-tree-item) {
+            div.goog-tree-item {
                 border: 0px;
                 visibility: hidden;
             }
-            path.blocklyFlyoutBackground, ::slotted(* path.blocklyFlyoutBackground) {
+            ::slotted(* div.goog-tree-item) {
+                border: 0px;
+                visibility: hidden;
+            }
+            path.blocklyFlyoutBackground {
                 fill: #E8E8E8;
                 fill-opacity: 1;
             }
-            rect.blocklyMainBackground, ::slotted(* rect.blocklyMainBackground) {
+            ::slotted(* path.blocklyFlyoutBackground) {
+                fill: #E8E8E8;
+                fill-opacity: 1;
+            }
+            rect.blocklyMainBackground {
+                opacity: 0 !important;
+            }
+            ::slotted(* rect.blocklyMainBackground) {
                 opacity: 0 !important;
             }
             .initialDrag, ::slotted(.initialDrag) {

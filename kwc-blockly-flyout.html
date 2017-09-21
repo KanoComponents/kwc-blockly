@@ -32,7 +32,8 @@
                         observer: '_toolboxChanged'
                     },
                     targetWorkspace: {
-                        type: Object
+                        type: Object,
+                        observer: '_targetWorkspaceChanged'
                     },
                     align: {
                         type: String,
@@ -69,6 +70,9 @@
                     if (Blockly.Css.styleSheet_) {
                         Polymer.dom(this.root).appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
                     }
+                    this._render();
+                },
+                _targetWorkspaceChanged () {
                     this._render();
                 },
                 getWorkspace () {
