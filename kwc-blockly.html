@@ -226,6 +226,8 @@ Example:
 
             Polymer.RenderStatus.afterNextRender(this, () => {
                 this.fire('blockly-ready');
+                this.load(this.snapshot);
+                this._defaultBlocksChanged();
                 this.resize();
             });
 
@@ -292,7 +294,10 @@ Example:
         },
         _createWorkspace (svg, options) {
             options.parentWorkspace = null;
-            var mainWorkspace = new Blockly.WorkspaceSvg(options);
+            const workspaceContainer = this.$.workspace;
+            const blockSurface = new Blockly.BlockDragSurfaceSvg(workspaceContainer);
+            const wsSurface = new Blockly.WorkspaceDragSurfaceSvg(workspaceContainer);
+            const mainWorkspace = new Blockly.WorkspaceSvg(options, blockSurface, wsSurface);
             mainWorkspace.scale = options.zoomOptions.startScale;
             svg.appendChild(mainWorkspace.createDom('blocklyMainBackground'));
             // A null translation will also apply the correct initial scale.
@@ -597,9 +602,9 @@ Example:
             return Promise.resolve(snapshot);
         },
         load (snapshot = {}) {
-            // Defer the load until the workspace exists
+            this.set('snapshot', snapshot);
             if (!this.workspace) {
-                return this.addEventListener('blockly-ready', this.load.bind(this, snapshot));
+                return;
             }
             this._loadBlocks(snapshot.blocks);
         },
@@ -625,7 +630,7 @@ Example:
         _defaultBlocksChanged () {
             // Defer the load until the workspace exists
             if (!this.workspace) {
-                return this.addEventListener('blockly-ready', this._defaultBlocksChanged.bind(this));
+                return;
             }
             this._checkDefaultBlocks();
         },
