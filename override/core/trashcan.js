@@ -114,8 +114,11 @@ Blockly.Trashcan.prototype.position = function() {
  * Flip the lid shut.
  * Called externally after a drag.
  */
-Blockly.Trashcan.prototype.close = function () {
+Blockly.Trashcan.prototype.close = function (animate) {
     this.setOpen_(false);
+    if (!animate) {
+        return;
+    }
     this.rotationGroup.animate({
         transform: [
             'rotate(0deg)',

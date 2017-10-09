@@ -22,6 +22,12 @@
                 kwc-blockly {
                     width: 800px;
                     height: 500px;
+                    --kwc-blockly-toolbox: {
+                        border-right: 1px solid grey;
+                    };
+                    --kwc-blockly-flyout: {
+                        border-right: 1px solid grey;
+                    };
                 }
                 body>div {
                     max-width: 840px;
@@ -57,6 +63,21 @@
             <demo-snippet>
                 <template>
                     <kwc-blockly default-blocks='<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="controls_if" x="229" y="214" colour="#f75846"><value name="IF0"><block type="logic_compare" colour="#f75846"><field name="OP">GT</field><value name="A"><block type="math_number" colour="#ffc100"><field name="NUM">5</field></block></value><value name="B"><block type="math_number" colour="#ffc100"><field name="NUM">0</field></block></value></block></value></block></xml>'></kwc-blockly>
+                </template>
+            </demo-snippet>
+            <h3>kwc-blockly with flyout only</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly id="demo-flyout" no-toolbox></kwc-blockly>
+                    <script>
+                        let demoFlyout = document.getElementById('demo-flyout');
+                        demoFlyout.addEventListener('blockly-ready', () => {
+                            demoFlyout.flyout = [
+                                { id: 'colour_picker' },
+                                { id: 'math_number' }
+                            ];
+                        });
+                    </script>
                 </template>
             </demo-snippet>
             <h3>kwc-blockly with toolbox</h3>

@@ -60,6 +60,12 @@
                         value: 200
                     }
                 },
+                get width_ () {
+                    return this.width;
+                },
+                get height_ () {
+                    return this.height;
+                },
                 ready () {
                     this._listeners = [];
                     this._separators = [];
@@ -392,7 +398,33 @@
                     while (this.$.svg.firstChild) {
                         this.$.svg.removeChild(this.$.svg.firstChild);
                     }
-                }
+                },
+                /**
+                 * Blockly compatibility methods
+                 */
+                getWidth () {
+                    return this.width;
+                },
+                getHeight () {
+                    return this.height;
+                },
+                position () {},
+                getClientRect () {
+                    if (!this.$.svg) {
+                        return null;
+                    }
+
+                    const flyoutRect = this.getBoundingClientRect();
+                    // BIG_NUM is offscreen padding so that blocks dragged beyond the shown flyout
+                    // area are still deleted.  Must be larger than the largest screen size,
+                    // but be smaller than half Number.MAX_SAFE_INTEGER (not available on IE).
+                    const BIG_NUM = 1000000000;
+                    const x = flyoutRect.left;
+                    const width = flyoutRect.width;
+
+                    return new goog.math.Rect(x - BIG_NUM, -BIG_NUM, BIG_NUM + width, BIG_NUM * 2);
+                },
+                reflow () {}
             });
 
         })();

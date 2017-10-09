@@ -7,6 +7,7 @@
 <link rel="import" href="./import.html">
 <link rel="import" href="./kwc-blockly-omnibox.html">
 <link rel="import" href="./kwc-blockly-toolbox.html">
+<link rel="import" href="./kwc-blockly-flyout.html">
 <link rel="import" href="./kwc-blockly-style.html">
 
 <!--
@@ -48,20 +49,25 @@ Example:
                 bottom: 0px;
                 left: 0px;
                 right: 0px;
-                @apply --layout-horizontal;
                 background-color: var(--kwc-blockly-background, #414a51);
             }
-            #toolbox {
+            #toolbox, #flyout {
                 position: absolute;
                 left: 0;
                 top: 0;
                 height: 100%;
                 box-sizing: border-box;
+            }
+            #flyout {
+                @apply --kwc-blockly-flyout;
+                background: var(--kwc-blockly-background, #414a51);
+            }
+            #toolbox {
                 --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
             }
             #svg {
-                @apply --layout-flex;
                 height: 100%;
+                width: 100%;
             }
             .container {
                 padding: 16px 8px 8px 8px;
@@ -87,11 +93,15 @@ Example:
             kwc-blockly-omnibox {
                 max-width: 80%;
             }
+            [hidden] {
+                display: none !important;
+            }
         </style>
         <div id="workspace" class="injectionDiv">
-            <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="{{noToolbox}}"></kwc-blockly-toolbox>
             <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
+        <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="{{noToolbox}}"></kwc-blockly-toolbox>
+        <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
         <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
             <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
         </div>
@@ -120,6 +130,11 @@ Example:
                 type: Array,
                 value: () => []
             },
+            flyout: {
+                type: Array,
+                value: null,
+                observer: '_flyoutChanged'
+            },
             code: {
                 type: String,
                 notify: true
@@ -146,7 +161,8 @@ Example:
             },
             noToolbox: {
                 type: Boolean,
-                value: false
+                value: false,
+                observer: '_noToolboxChanged'
             },
             media: {
                 type: String,
@@ -202,8 +218,9 @@ Example:
             Blockly.Css.inject(options.hasCss, options.pathToMedia);
             this._setupDialogs();
             this.workspace = this._createWorkspace(this._svg, options);
-            this.workspace.toolbox = this.$.toolbox;
-            this.workspace.toolbox_ = this.$.toolbox;
+            // Recompute flyout and toolbox now that the worlkspace exist
+            this._noToolboxChanged();
+            this._flyoutChanged();
             this._initWorkspace();
             this.workspace.markFocused();
             Blockly.bindEvent_(this.$.svg, 'focus', this.workspace, this.workspace.markFocused);
@@ -214,6 +231,7 @@ Example:
 
             this.$.omnibox.targetWorkspace = this.workspace;
             this.$.toolbox.targetWorkspace = this.workspace;
+            this.$.flyout.targetWorkspace = this.workspace;
 
             // Trick to enable shadow DOM like styling of xtag generated components
             if (!Polymer.Settings.useNativeShadow) {
@@ -226,7 +244,9 @@ Example:
 
             Polymer.RenderStatus.afterNextRender(this, () => {
                 this.fire('blockly-ready');
-                this.load(this.snapshot);
+                if (!!this.snapshot && !!this.snapshot.blocks) {
+                    this.load(this.snapshot);
+                }
                 this._defaultBlocksChanged();
                 this.resize();
             });
@@ -242,6 +262,31 @@ Example:
             this.workspace.dispose();
             // document.body.style.overflow = undefined;
             document.removeEventListener('iron-overlay-opened', this._blurInput);
+        },
+        _flyoutChanged () {
+            if (!this.workspace) {
+                return;
+            }
+            if (this.noToolbox) {
+                this.workspace.flyout_ = this.$.flyout;
+            } else {
+                this.workspace.flyout_ = null;
+            }
+        },
+        _noToolboxChanged () {
+            if (!this.workspace) {
+                return;
+            }
+            if (this.noToolbox) {
+                this.workspace.toolbox = this.$.toolbox;
+                this.workspace.toolbox_ = this.$.toolbox;
+            } else {
+                this.workspace.toolbox = null;
+                this.workspace.toolbox_ = null;
+            }
+        },
+        _resizeFlyout (e) {
+            this.$.flyout.style.width = `${e.detail.width}px`;
         },
         _onMouseWheel (e) {
             let workspace = this.workspace,
