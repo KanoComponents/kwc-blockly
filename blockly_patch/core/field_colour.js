@@ -181,7 +181,8 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
     });
 
     div.appendChild(this.customEl);
-
+    // As kwc-color-picker will render at next frame, we force a flush
+    Polymer.dom.flush();
     let isUnder = this.position();
     if ('animate' in HTMLElement.prototype) {
         div.style.transformOrigin = isUnder ? '0 bottom' : '0 0';
@@ -191,46 +192,18 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
         }, {
                 duration: 100,
                 easing: 'ease-out'
-            }).onfinish = function () {
+            }).onfinish = () => {
                 this.customEl.resize();
             };
     }
 };
 
 Blockly.FieldColour.prototype.position = function () {
-    // Position the palette to line up with the field.
-    // Record windowSize and scrollOffset before adding the palette.
-    var windowSize = goog.dom.getViewportSize();
-    var scrollOffset = goog.style.getViewportPageOffset(document);
-    var xy = this.getAbsoluteXY_();
-    var borderBBox = this.getScaledBBox_();
-    var div = Blockly.WidgetDiv.DIV;
-    var size = { width: 442, height: 266 };
-    var isUnder = true;
-
-    // Flip the palette vertically if off the bottom.
-    if (xy.y + size.height + borderBBox.height >= windowSize.height + scrollOffset.y) {
-        xy.y -= size.height - 1;
-    } else {
-        xy.y += borderBBox.height - 1;
-        isUnder = false;
-    }
-    if (this.sourceBlock_.RTL) {
-        xy.x += borderBBox.width;
-        xy.x -= size.width;
-        // Don't go offscreen left.
-        if (xy.x < scrollOffset.x) {
-            xy.x = scrollOffset.x;
-        }
-    } else {
-        // Don't go offscreen right.
-        if (xy.x > windowSize.width + scrollOffset.x - size.width) {
-            xy.x = windowSize.width + scrollOffset.x - size.width;
-        }
-    }
-    Blockly.WidgetDiv.position(xy.x, xy.y, windowSize, scrollOffset, this.sourceBlock_.RTL);
-    div.style.height = size.height + 'px';
-    return isUnder;
+    var viewportBBox = Blockly.utils.getViewportBBox();
+    var anchorBBox = this.getScaledBBox_();
+    var paletteSize = goog.style.getSize(this.customEl);
+    Blockly.WidgetDiv.positionWithAnchor(viewportBBox, anchorBBox, paletteSize, this.sourceBlock_.RTL);
+    return anchorBBox.bottom + paletteSize.height >= viewportBBox.bottom;
 };
 
 /**

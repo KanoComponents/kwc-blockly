@@ -185,8 +185,9 @@
 
                     this.blocks.forEach(block => {
                         hw = block.getHeightWidth();
-                        if (hw.width > maxWidth) {
-                            maxWidth = hw.width;
+                        const width = hw.width * this.ws.scale;
+                        if (width > maxWidth) {
+                            maxWidth = width;
                         }
                     });
 

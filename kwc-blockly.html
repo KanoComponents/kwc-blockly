@@ -100,7 +100,7 @@ Example:
         <div id="workspace" class="injectionDiv">
             <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
-        <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="{{noToolbox}}"></kwc-blockly-toolbox>
+        <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
         <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
         <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
             <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
@@ -263,11 +263,14 @@ Example:
             // document.body.style.overflow = undefined;
             document.removeEventListener('iron-overlay-opened', this._blurInput);
         },
+        _shouldHideToolbox (noToolbox, toolbox) {
+            return this.noToolbox || !this.toolbox;
+        },
         _flyoutChanged () {
             if (!this.workspace) {
                 return;
             }
-            if (this.noToolbox) {
+            if (!!this.flyout) {
                 this.workspace.flyout_ = this.$.flyout;
             } else {
                 this.workspace.flyout_ = null;
@@ -277,7 +280,7 @@ Example:
             if (!this.workspace) {
                 return;
             }
-            if (this.noToolbox) {
+            if (!this.noToolbox) {
                 this.workspace.toolbox = this.$.toolbox;
                 this.workspace.toolbox_ = this.$.toolbox;
             } else {

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+        <title>kwc-blockly demo</title>
+
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <script src="../blockly_built/blockly_compressed.js"></script>
+        <script src="../blockly_built/blocks_compressed.js"></script>
+        <script src="../blockly_built/msg/js/en.js"></script>
+        <script src="../blockly_built/javascript_compressed.js"></script>
+        <link rel="import" href="../kwc-blockly.html">
+
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+                kwc-blockly {
+                    width: 800px;
+                    height: 500px;
+                    --kwc-blockly-toolbox: {
+                        border-right: 1px solid grey;
+                    };
+                    --kwc-blockly-flyout: {
+                        border-right: 1px solid grey;
+                    };
+                }
+                body>div {
+                    max-width: 840px;
+                    margin: 0 auto;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <div class="vertical-section-container">
+            <h3>kwc-blockly with big blocks</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly id="demo2" scale="1.5"></kwc-blockly>
+                    <script>
+                        let withToolbox = document.getElementById('demo2');
+                        Blockly.Blocks.variables_get.customColor
+                            = Blockly.Blocks.variables_set.customColor
+                            = '#3f51b5';
+                        Blockly.Blocks.math_number.customColor = '#00bcd4';
+                        withToolbox.toolbox = [{
+                            id: 'math',
+                            name: 'Math',
+                            colour: '#00bcd4',
+                            blocks: [
+                                { id: 'math_constrain' },
+                                {
+                                    id: 'math_arithmetic',
+                                    shadow: {
+                                        'A': '<shadow type="math_number"></shadow>'
+                                    }
+                                }
+                            ]
+                        }, {
+                            id: 'variables',
+                            name: 'Variables',
+                            colour: '#3f51b5',
+                            blocks: [
+                                { id: 'variables_set' },
+                                { id: 'variables_get' },
+                            ]
+                        }, {
+                            id: 'color',
+                            name: 'Color',
+                            colour: '#673ab7',
+                            blocks: [
+                                { id: 'colour_picker' }
+                            ]
+                        }]
+                    </script>
+                </template>
+            </demo-snippet>
+        </div>
+    </body>
+
+</html>
