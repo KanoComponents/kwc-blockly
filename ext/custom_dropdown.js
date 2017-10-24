@@ -24,7 +24,7 @@ Blockly.FieldCustomDropdown = function(menuGenerator, labels, opt_validator) {
  * @return {!goog.ui.Menu} The populated dropdown menu.
  * @private
  */
-Blockly.FieldDropdown.prototype.createMenu_ = function() {
+Blockly.FieldCustomDropdown.prototype.createMenu_ = function() {
     var menu = new goog.ui.Menu();
     menu.setRightToLeft(this.sourceBlock_.RTL);
     var options = this.getOptions();
