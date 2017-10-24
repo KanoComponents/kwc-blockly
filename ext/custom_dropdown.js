@@ -11,63 +11,39 @@
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldCustomDropdown = function(menuGenerator, opt_validator) {
-    let options = menuGenerator.map(item => {
-        return [item.label, item.value];
-    });
-    this.textLabels = menuGenerator.reduce((acc, item) => {
-      acc[Blockly.utils.replaceMessageReferences(item.label)] = Blockly.utils.replaceMessageReferences(item.textLabel);
-      return acc;
-    }, {});
-  
+Blockly.FieldCustomDropdown = function(menuGenerator, labels, opt_validator) {
+    this.labels = labels
     // Call parent's constructor.
-    Blockly.FieldCustomDropdown.superClass_.constructor.call(this, options, opt_validator);
+    Blockly.FieldCustomDropdown.superClass_.constructor.call(this, menuGenerator, opt_validator);
   };
   goog.inherits(Blockly.FieldCustomDropdown, Blockly.FieldDropdown);
   
-  /**
-   * Set the text in this field.  Trigger a rerender of the source block.
-   * @param {*} newText New text.
-   */
-  Blockly.FieldCustomDropdown.prototype.setText = function(newText) {
-      let text = this.textLabels[newText];
-      if (!text) {
-          return;
+/**
+ * Create and populate the menu and menu items for this dropdown, based on
+ * the options list.
+ * @return {!goog.ui.Menu} The populated dropdown menu.
+ * @private
+ */
+Blockly.FieldDropdown.prototype.createMenu_ = function() {
+    var menu = new goog.ui.Menu();
+    menu.setRightToLeft(this.sourceBlock_.RTL);
+    var options = this.getOptions();
+    for (var i = 0; i < options.length; i++) {
+        var value = options[i][1];   // Language-neutral value.
+      var content = this.labels[value]; // Human-readable text or image.
+      if (typeof content == 'object') {
+        // An image, not text.
+        var image = new Image(content['width'], content['height']);
+        image.src = content['src'];
+        image.alt = content['alt'] || '';
+        content = image;
       }
-      Blockly.FieldCustomDropdown.superClass_.setText.call(this, text);
-  };
-  
-  /**
-   * Get the text from this field.
-   * @return {string} Current text.
-   */
-  Blockly.FieldCustomDropdown.prototype.getText = function() {
-      let labels = Object.keys(this.textLabels);
-      for (let i = 0; i < labels.length; i++) {
-          if (this.text_ === this.textLabels[labels[i]]) {
-              return labels[i];
-          }
-      }
-  };
-  
-  /**
-   * Install this dropdown on a block.
-   */
-  Blockly.FieldCustomDropdown.prototype.init = function() {
-    if (this.fieldGroup_) {
-      // Dropdown has already been initialized once.
-      return;
+      var menuItem = new goog.ui.MenuItem(content);
+      menuItem.setRightToLeft(this.sourceBlock_.RTL);
+      menuItem.setValue(value);
+      menuItem.setCheckable(true);
+      menu.addChild(menuItem, true);
+      menuItem.setChecked(value == this.value_);
     }
-    // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
-    this.arrow_ = Blockly.utils.createSvgElement('tspan', {}, null);
-    this.arrow_.appendChild(document.createTextNode(this.sourceBlock_.RTL ?
-        Blockly.FieldDropdown.ARROW_CHAR + ' ' :
-        ' ' + Blockly.FieldDropdown.ARROW_CHAR));
-  
-    Blockly.FieldDropdown.superClass_.init.call(this);
-    // Force a reset of the text to add the arrow.
-    var text = this.getText();
-    this.text_ = null;
-    this.setText(text);
-  }
-  
+    return menu;
+  };
