@@ -30,7 +30,7 @@ Blockly.FieldDropdown.prototype.createMenu_ = function() {
     var options = this.getOptions();
     for (var i = 0; i < options.length; i++) {
         var value = options[i][1];   // Language-neutral value.
-      var content = this.labels[value]; // Human-readable text or image.
+      var content = Blockly.utils.replaceMessageReferences(this.labels[value]); // Human-readable text or image.
       if (typeof content == 'object') {
         // An image, not text.
         var image = new Image(content['width'], content['height']);
