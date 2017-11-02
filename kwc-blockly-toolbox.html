@@ -159,6 +159,16 @@ Example:
                     value: false
                 }
             },
+            get flyout_ () {
+                return this.$.flyout;
+            },
+            attached () {
+                this._onResize = this._onResize.bind(this);
+                window.addEventListener('resize', this._onResize);
+            },
+            _onResize () {
+                this._updateMetrics();
+            },
             _isSeparator(type) {
                 return type === 'separator';
             },
@@ -175,16 +185,18 @@ Example:
                     }
                 });
             },
-            _toolboxDomChanged (e) {
+            _updateMetrics () {
                 this._metrics = this.getBoundingClientRect();
-                if (!this.targetWorkspace) {
-                    return;
+            },
+            _toolboxDomChanged () {
+                if (this.targetWorkspace) {
+                    this.targetWorkspace.resize();
                 }
-                this.targetWorkspace.resize();
+                this._updateMetrics();
             },
             getMetrics () {
                 if (!this._metrics) {
-                    this._metrics = this.getBoundingClientRect();
+                    this._updateMetrics();
                 }
                 return this._metrics;
             },
@@ -353,7 +365,12 @@ Example:
                 this.prevSelected = null;
                 this.forceRender = true;
             },
-            dispose () {}
+            dispose () {},
+            clearSelection () {},
+            get HtmlDiv () {
+                return this;
+            },
+            refreshSelection () {}
         });
     </script>
 </dom-module>

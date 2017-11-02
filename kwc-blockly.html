@@ -51,7 +51,7 @@ Example:
                 right: 0px;
                 background-color: var(--kwc-blockly-background, #414a51);
             }
-            #toolbox, #flyout {
+            .toolbox-container, #flyout {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -62,7 +62,12 @@ Example:
                 @apply --kwc-blockly-flyout;
                 background: var(--kwc-blockly-background, #414a51);
             }
+            .toolbox-container {
+                @apply --layout-vertical;
+                background: var(--kwc-blockly-background, #414a51);
+            }
             #toolbox {
+                @apply --layout-flex;
                 --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
             }
             #svg {
@@ -100,7 +105,11 @@ Example:
         <div id="workspace" class="injectionDiv">
             <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
-        <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
+        <div class="toolbox-container">
+            <slot name="above-toolbox"></slot>
+            <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
+            <slot name="under-toolbox"></slot>
+        </div>
         <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
         <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
             <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
@@ -179,7 +188,7 @@ Example:
             'toolbox.scroll': '_onToolboxScroll'
         },
         ready () {
-            this.codeRelatedEvents = [Blockly.Events.CREATE, Blockly.Events.MOVE, Blockly.Events.CHANGE];
+            this.codeRelatedEvents = [Blockly.Events.CREATE, Blockly.Events.MOVE, Blockly.Events.CHANGE, 'value'];
             this._blurInput = this._blurInput.bind(this);
             this._onMouseWheel = this._onMouseWheel.bind(this);
         },
@@ -243,12 +252,12 @@ Example:
             }
 
             Polymer.RenderStatus.afterNextRender(this, () => {
+                this.resize();
                 this.fire('blockly-ready');
-                if (!!this.snapshot && !!this.snapshot.blocks) {
-                    this.load(this.snapshot);
+                if (!!this.blocks) {
+                    this.loadBlocks(this.blocks);
                 }
                 this._defaultBlocksChanged();
-                this.resize();
             });
 
             // TODO Removing this is possibly controversial.
@@ -646,11 +655,11 @@ Example:
                     javascript,
                     blocks
                 };
-            this.set('snapshot', snapshot);
+            this.set('blocks', blocks);
             return Promise.resolve(snapshot);
         },
         load (snapshot = {}) {
-            this.set('snapshot', snapshot);
+            this.set('blocks', snapshot.blocks);
             if (!this.workspace) {
                 return;
             }
