@@ -34,6 +34,7 @@ Example:
                 @apply --kwc-blockly-toolbox;
                 /* Promote layer as a prime element */
                 transform: translateZ(0);
+                position: relative;
             }
             :host([hidden]) {
                 display: none !important;
@@ -51,6 +52,7 @@ Example:
                 cursor: pointer;
                 padding: 2px 32px 3px 12px;
                 transition: border-color linear 100ms;
+                height: 32px;
             }
             button.category>* {
                 display: inline-block;
@@ -78,8 +80,7 @@ Example:
                 }
             }
             .category-label {
-                line-height: 24px;
-                margin: 7px 0 6px;
+                margin: 3px 0 3px;
             }
             #flyout {
                 position: absolute;
@@ -288,7 +289,7 @@ Example:
                         for (let i = 0; i < buttons.length; i++) {
                             if (over) {
                                 buttons[i].animate({
-                                    transform: [`translate(0px, -${size.height}px`, 'translate(0px, 0px)']
+                                    transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)']
                                 }, {
                                     duration
                                 });
