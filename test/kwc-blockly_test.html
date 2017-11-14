@@ -136,6 +136,24 @@
 
                 assert.equal(block.itemCount_, 7);
             });
+
+            test('loads the mutation into the UI', function () {
+                var element = fixture('basic'),
+                    id = 'test_id',
+                    workspace = element.getWorkspace(),
+                    block, svgRoot, fieldSvg, input, prevItems;
+                element.loadBlocks(`<xml><block type="lists_create_with" id="${id}"><mutation items="7"></mutation></block></xml>`);
+                block = workspace.getBlockById(id);
+                svgRoot = block.getSvgRoot();
+                
+                fieldSvg = svgRoot.querySelector('.blocklyConfigInput rect');
+                
+                MockInteractions.tap(fieldSvg);
+                
+                input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
+                assert.equal(block.itemCount_, 7);
+                assert.equal(input.get('value'), 7);
+            });
         });
     </script>
 </body>
