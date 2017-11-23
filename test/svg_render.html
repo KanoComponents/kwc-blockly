@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>kwc-blockly test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+    <script src="../blockly_built/blockly_compressed.js"></script>
+    <script src="../blockly_built/blocks_compressed.js"></script>
+    <script src="../blockly_built/msg/js/en.js"></script>
+    <script src="../blockly_built/javascript_compressed.js"></script>
+    <link rel="import" href="../kwc-blockly.html">
+    <style>
+        kwc-blockly {
+            width: 800px;
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <test-fixture id="basic">
+        <template>
+            <kwc-blockly></kwc-blockly>
+        </template>
+    </test-fixture>
+
+    <script>
+
+        Blockly.Blocks['svg_render_01'] = {
+            init: function () {
+                var json = {
+                    id: 'svg_render_01',
+                    colour: COLOR,
+                    message0: `%1 %2`,
+                    args0: [
+                    {
+                        type: "input_dummy"
+                    },
+                    {
+                        type: "input_statement",
+                        name: "DO"
+                    }],
+                    previousStatement: null,
+                    nextStatement: null
+                };
+                this.jsonInit(json);
+            }
+        };
+
+        suite('kwc-blockly', function () {
+            test('Loads the color of blocks', function () {
+                var element = fixture('basic'),
+                    topId = 'top_block',
+                    bottomId = 'bottom_block';
+                element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><next><block id="${bottomId}" type="svg_render_01"></block></next></xml>`);
+                const workspace = element.getWorkspace();
+                const topBlock = workspace.getBlockById(topId);
+                const bottomBlock = workspace.getBlockById(bottomId);
+                const bottomRoot = bottomBlock.getSvgRoot();
+                const topRoot = topBlock.getSvgRoot();
+                const bottomTransform = bottomRoot.getAttribute('transform');
+                assert.equal(bottomTransform, 'translate(0,88)');
+            });
+
+            test('Loads the color of blocks', function () {
+                var element = fixture('basic'),
+                    topId = 'top_block',
+                    bottomId = 'bottom_block';
+                element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><value name="DO"><block id="${bottomId}" type="svg_render_01"></block></value></xml>`);
+                const workspace = element.getWorkspace();
+                const topBlock = workspace.getBlockById(topId);
+                const bottomBlock = workspace.getBlockById(bottomId);
+                const bottomRoot = bottomBlock.getSvgRoot();
+                const topRoot = topBlock.getSvgRoot();
+                const bottomTransform = bottomRoot.getAttribute('transform');
+                assert.equal(bottomTransform, 'translate(6,36)');
+            });
+        });
+    </script>
+</body>
+
+</html>

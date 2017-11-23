@@ -302,6 +302,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ =
   /* eslint-disable indent */
   this.height += cursorY + 1;  // Add one for the shadow.
   steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
+  cursorY += Blockly.BlockSvg.CORNER_RADIUS;
   if (this.nextConnection) {
     steps.push('H', (Blockly.BlockSvg.NOTCH_WIDTH + (this.RTL ? 0.5 : - 0.5)) +
         ' ' + Blockly.BlockSvg.NOTCH_PATH_RIGHT);
@@ -734,6 +735,9 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
       connectionX = this.RTL ? -cursorX : cursorX + 1;
       input.connection.setOffsetInBlock(connectionX, cursorY + 1);
 
+      // 2 corners were added to the path, but the connection offset needs to be computed without them
+      cursorY += Blockly.BlockSvg.CORNER_RADIUS * 2;
+
       if (input.connection.isConnected()) {
         this.width = Math.max(this.width, inputRows.statementEdge +
             input.connection.targetBlock().getHeightWidth().width);
@@ -748,7 +752,6 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
         }
         cursorY += Blockly.BlockSvg.SEP_SPACE_Y;
       }
-      cursorY += Blockly.BlockSvg.STATEMENT_SPACING;
     }
     cursorY += row.height;
   }
