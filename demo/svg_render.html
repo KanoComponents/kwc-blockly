@@ -50,7 +50,7 @@
                                 var json = {
                                     id: 'svg_render_01',
                                     colour: COLOR,
-                                    message0: `%1 %2`,
+                                    message0: `Block type 1 %1 %2`,
                                     args0: [
                                     {
                                         type: "input_dummy"
@@ -65,7 +65,65 @@
                                 this.jsonInit(json);
                             }
                         };
-                        element.loadBlocks(`<xml><block type="svg_render_01"><value name="DO"><block type="svg_render_01"></block></value><next><block type="svg_render_01"></block></next></xml>`);
+                        Blockly.Blocks['svg_render_02'] = {
+                            init: function () {
+                                var json = {
+                                    id: 'svg_render_02',
+                                    message0: 'Block type 2',
+                                    colour: COLOR,
+                                    nextStatement: null
+                                };
+                                this.jsonInit(json);
+                            }
+                        };
+                        Blockly.Blocks['svg_render_03'] = {
+                            init: function () {
+                                var json = {
+                                    id: 'svg_render_03',
+                                    message0: 'Block type 3',
+                                    colour: COLOR,
+                                    previousStatement: null,
+                                    nextStatement: null
+                                };
+                                this.jsonInit(json);
+                            }
+                        };
+                        Blockly.Blocks['svg_render_04'] = {
+                            init: function () {
+                                var json = {
+                                    id: 'svg_render_04',
+                                    message0: 'Block type 4 %1',
+                                    args0: [{
+                                        type: 'input_value',
+                                        name: 'INPUT0'
+                                    }],
+                                    colour: COLOR,
+                                    previousStatement: null,
+                                    nextStatement: null
+                                };
+                                this.jsonInit(json);
+                            }
+                        };
+                        element.loadBlocks(
+`
+<xml>
+    <block type="svg_render_01">
+        <value name="DO">
+            <block type="svg_render_01"></block>
+        </value>
+        <next>
+            <block type="svg_render_01"></block>
+        </next>
+    </block>
+    <block type="svg_render_02" x="200" y="0">
+        <next>
+            <block type="svg_render_03"></block>
+        </next>
+    </block>
+    <block type="svg_render_04" x="400" y="0"></block>
+</xml>
+`
+);
                     </script>
                 </template>
             </demo-snippet>
