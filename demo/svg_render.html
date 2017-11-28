@@ -120,6 +120,25 @@
                                 this.jsonInit(json);
                             }
                         };
+                        Blockly.Blocks['svg_render_06'] = {
+                            init: function () {
+                                var json = {
+                                    id: 'svg_render_05',
+                                    message0: 'Block type 4 %1 %2',
+                                    args0: [{
+                                        type: 'input_value',
+                                        name: 'INPUT0'
+                                    }, {
+                                        type: 'input_value',
+                                        name: 'INPUT1'
+                                    }],
+                                    colour: COLOR,
+                                    previousStatement: null,
+                                    nextStatement: null
+                                };
+                                this.jsonInit(json);
+                            }
+                        };
                         element.loadBlocks(
 `
 <xml>
@@ -141,6 +160,14 @@
         <next>
             <block type="svg_render_05"></block>
         </next>
+    </block>
+    <block type="svg_render_06" x="0" y="400">
+        <value name="INPUT0">
+            <shadow type="math_arithmetic"></shadow>
+        </value>
+        <value name="INPUT1">
+            <shadow type="math_arithmetic"></shadow>
+        </value>
     </block>
 </xml>
 `
