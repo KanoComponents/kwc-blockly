@@ -565,13 +565,6 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
           highlightSteps.push('v', v - 1);
       }
       // END
-        
-      //steps.push('H', cursorX);
-      //highlightSteps.push('H', cursorX - 0.5);
-      //steps.push('v', row.height);
-      //if (this.RTL) {
-        //highlightSteps.push('v', row.height - 1);
-      //}
     } else if (row.type == Blockly.INPUT_VALUE) {
       // External input.
       var input = row[0];
@@ -625,20 +618,27 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
             input.connection.targetBlock().getHeightWidth().width -
             Blockly.BlockSvg.TAB_WIDTH + 1);
       }
+      // Last row, bottom will add a rounded corner
+      if (y === inputRows.length - 1) {
+        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
+      }
     } else if (row.type == Blockly.DUMMY_INPUT) {
       // External naked field.
       var input = row[0];
       var fieldX = cursorX;
       var fieldY = cursorY;
       var height = row.height;
+      var nextRow = inputRows[y +1];
       // Do not groups as we remove twice when input is both first and last
+      // First row, add a rounded corner, make the height shorter to not extend the vertical line
       if (y === 0) {
-          steps.push(Blockly.BlockSvg.TOP_RIGHT_CORNER);
-          highlightSteps.push(Blockly.BlockSvg.TOP_RIGHT_CORNER_HIGHLIGHT);
-          height -= Blockly.BlockSvg.CORNER_RADIUS;
+        steps.push(Blockly.BlockSvg.TOP_RIGHT_CORNER);
+        highlightSteps.push(Blockly.BlockSvg.TOP_RIGHT_CORNER_HIGHLIGHT);
+        height -= Blockly.BlockSvg.CORNER_RADIUS;
       }
-      if (y === inputRows.length - 1) {
-          height -= Blockly.BlockSvg.CORNER_RADIUS;
+      // Last row or just before next statement, a corner will be added. Addapt the height
+      if (y === inputRows.length - 1 || nextRow.type === Blockly.NEXT_STATEMENT) {
+        height -= Blockly.BlockSvg.CORNER_RADIUS;
       }
       if (input.align != Blockly.ALIGN_LEFT) {
         var fieldRightX = inputRows.rightEdge - input.fieldWidth -
@@ -653,13 +653,13 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
         }
       }
       this.renderFields_(input.fieldRow, fieldX, fieldY);
-      var nextRow = inputRows[y + 1];
-      if (nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
-          height -= Blockly.BlockSvg.CORNER_RADIUS;
-      }
       steps.push('v', height);
       if (this.RTL) {
         highlightSteps.push('v', height - 1);
+      }
+      // Last row, bottom will add a rounded corner
+      if (y === inputRows.length - 1) {
+        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
       }
     } else if (row.type == Blockly.NEXT_STATEMENT) {
       // Nested statement.
