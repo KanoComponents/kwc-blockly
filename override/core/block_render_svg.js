@@ -301,8 +301,6 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ =
     function(steps, highlightSteps, cursorY) {
   /* eslint-disable indent */
   this.height += cursorY + 1;  // Add one for the shadow.
-  steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
-  cursorY += Blockly.BlockSvg.CORNER_RADIUS;
   if (this.nextConnection) {
     steps.push('H', (Blockly.BlockSvg.NOTCH_WIDTH + (this.RTL ? 0.5 : - 0.5)) +
         ' ' + Blockly.BlockSvg.NOTCH_PATH_RIGHT);
@@ -553,20 +551,16 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
         steps.push('H', cursorX);
         highlightSteps.push('H', cursorX - 0.5);
       }
-      if (y === inputRows.length - 1) {
-          v -= Blockly.BlockSvg.CORNER_RADIUS;
-      }
       var nextRow = inputRows[y + 1];
-      if (nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
+      if (y === inputRows.length - 1 || nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
           v -= Blockly.BlockSvg.CORNER_RADIUS;
       }
       steps.push('v', v);
       if (this.RTL) {
           highlightSteps.push('v', v - 1);
       }
-      // Last row, bottom will add a rounded corner
       if (y === inputRows.length - 1) {
-        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
+        steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
       }
     } else if (row.type == Blockly.INPUT_VALUE) {
       // External input.
@@ -593,11 +587,8 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
       steps.push('v', this.getPaddingY());
       steps.push(Blockly.BlockSvg.TAB_PATH_DOWN_BLOCK);
       steps.push('v', -this.getPaddingY());
-      if (y === inputRows.length - 1) {
-          v -= Blockly.BlockSvg.CORNER_RADIUS;
-      }
       var nextRow = inputRows[y + 1];
-      if (nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
+      if (y === inputRows.length - 1 || nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
           v -= Blockly.BlockSvg.CORNER_RADIUS;
       }
       steps.push('v', v);
@@ -621,9 +612,8 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
             input.connection.targetBlock().getHeightWidth().width -
             Blockly.BlockSvg.TAB_WIDTH + 1);
       }
-      // Last row, bottom will add a rounded corner
       if (y === inputRows.length - 1) {
-        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
+        steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
       }
     } else if (row.type == Blockly.DUMMY_INPUT) {
       // External naked field.
@@ -660,9 +650,8 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
       if (this.RTL) {
         highlightSteps.push('v', height - 1);
       }
-      // Last row, bottom will add a rounded corner
       if (y === inputRows.length - 1) {
-        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
+        steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
       }
     } else if (row.type == Blockly.NEXT_STATEMENT) {
       // Nested statement.
@@ -754,6 +743,10 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
           highlightSteps.push('v', Blockly.BlockSvg.SEP_SPACE_Y - 1);
         }
         cursorY += Blockly.BlockSvg.SEP_SPACE_Y;
+      }
+      if (y === inputRows.length - 1) {
+        steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
+        cursorY += Blockly.BlockSvg.CORNER_RADIUS;
       }
     }
     cursorY += row.height;
