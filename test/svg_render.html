@@ -93,6 +93,26 @@
                 this.jsonInit(json);
             }
         };
+<<<<<<< HEAD
+
+        Blockly.Blocks['svg_render_05'] = {
+            init: function () {
+                var json = {
+                    id: 'svg_render_05',
+                    message0: 'Block type 4 %1 Extra text',
+                    args0: [{
+                        type: 'input_value',
+                        name: 'INPUT0'
+                    }],
+                    colour: COLOR,
+                    previousStatement: null,
+                    nextStatement: null
+                };
+                this.jsonInit(json);
+            }
+        };
+=======
+>>>>>>> 0d10c5f84940e3ff20789cce6cfcbf22d2e8288a
 
         suite('kwc-blockly', function () {
             test('Loads the color of blocks', function () {
@@ -162,6 +182,28 @@
                 const bottomRoot = bottomBlock.getSvgRoot();
                 const bottomTransform = bottomRoot.getAttribute('transform');
                 assert.equal(bottomTransform, 'translate(0,35)');
+            });
+
+            test('Previous/Next statement with input and extra text', function () {
+                var element = fixture('basic'),
+                    topId = 'top_block',
+                    bottomId = 'bottom_block';
+                element.loadBlocks(
+`
+<xml>
+    <block type="svg_render_05" id="${topId}">
+        <next>
+            <block type="svg_render_05" id="${bottomId}"></block>
+        </next>
+    </block>
+</xml>
+`
+);
+                const workspace = element.getWorkspace();
+                const bottomBlock = workspace.getBlockById(bottomId);
+                const bottomRoot = bottomBlock.getSvgRoot();
+                const bottomTransform = bottomRoot.getAttribute('transform');
+                assert.equal(bottomTransform, 'translate(0,46)');
             });
         });
     </script>

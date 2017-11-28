@@ -564,7 +564,10 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
       if (this.RTL) {
           highlightSteps.push('v', v - 1);
       }
-      // END
+      // Last row, bottom will add a rounded corner
+      if (y === inputRows.length - 1) {
+        row.height -= Blockly.BlockSvg.CORNER_RADIUS;
+      }
     } else if (row.type == Blockly.INPUT_VALUE) {
       // External input.
       var input = row[0];
