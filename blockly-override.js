@@ -286,9 +286,9 @@ Blockly.removePhantomBlock = function (connection, targetBlock) {
         }], {
             duration: 300,
             easing: 'ease-in'
-        }).finished.then(() => {
+        }).onfinish = () => {
             root.parentNode.removeChild(root);
-        });
+        };
         Blockly.phantomBlock_ = null;
     }
 };
