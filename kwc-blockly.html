@@ -163,6 +163,9 @@ Example:
                 type: Number,
                 value: 0.9
             },
+            shadowLight: {
+                type: Number
+            },
             noTrashcan: {
                 type: Boolean,
                 value: false
@@ -359,6 +362,7 @@ Example:
             const wsSurface = new Blockly.WorkspaceDragSurfaceSvg(workspaceContainer);
             const mainWorkspace = new Blockly.WorkspaceSvg(options, blockSurface, wsSurface);
             mainWorkspace.scale = options.zoomOptions.startScale;
+            mainWorkspace.shadowLight = this.shadowLight;
             svg.appendChild(mainWorkspace.createDom('blocklyMainBackground'));
             // A null translation will also apply the correct initial scale.
             mainWorkspace.translate(0, 0);

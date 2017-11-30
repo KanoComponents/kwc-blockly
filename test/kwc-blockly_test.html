@@ -31,6 +31,12 @@
         </template>
     </test-fixture>
 
+    <test-fixture id="shadow-default">
+        <template>
+            <kwc-blockly></kwc-blockly>
+        </template>
+    </test-fixture>
+
     <script>
 
         function scroll(node, delta) {
@@ -71,6 +77,24 @@
                 prevTransform = canvas.getAttribute('transform');
                 scroll(workspace.getParentSvg(), { x: -45, y: 0 });
                 assert.notEqual(prevTransform, canvas.getAttribute('transform'));
+            });
+        });
+
+        suite('kwc-blockly shadow color', function () {
+            test('Uses 0.6 by default', function () {
+                var element = fixture('basic'),
+                    id = 'test01';
+                element.loadBlocks(
+`
+<xml>
+    <block id="${id}" type="math_arithmetic">
+        <value name="A">
+            <shadow type="math_number"></shadow>
+        </value>
+    </block>
+</xml>
+`
+);
             });
         });
         
