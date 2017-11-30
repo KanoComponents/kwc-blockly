@@ -194,7 +194,7 @@ Example:
             'toolbox.scroll': '_onToolboxScroll'
         },
         ready () {
-            this.codeRelatedEvents = [Blockly.Events.CREATE, Blockly.Events.MOVE, Blockly.Events.CHANGE, 'value'];
+            this.codeRelatedEvents = [Blockly.Events.CREATE, Blockly.Events.MOVE, Blockly.Events.CHANGE, 'value', 'connect'];
             this._blurInput = this._blurInput.bind(this);
             this._onMouseWheel = this._onMouseWheel.bind(this);
         },
