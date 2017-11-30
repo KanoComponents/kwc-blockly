@@ -219,6 +219,9 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
         breathingAnimation;
 
     if (Blockly.dragMode_ !== 0) {
+        if (!targetBlock.initialXY_) {
+            return;
+        }
         position.x = connection.x_ - xy.x - (targetConnection.x_ - targetBlock.initialXY_.x);
         position.y = connection.y_ - xy.y - (targetConnection.y_ - targetBlock.initialXY_.y);
     } else {
