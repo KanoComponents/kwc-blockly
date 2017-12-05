@@ -269,16 +269,17 @@ Example:
                         type: Blockly.Events.OPEN_FLYOUT,
                         categoryId: category.id
                     },
+                        categoryEl = this.$$(`#category-${category.id}`),
+                        rect = categoryEl.getBoundingClientRect(),
+                        buttons = Polymer.dom(this.root).querySelectorAll('button.category, .separator:not([hidden])'),
+                        buttonTop = categoryEl.offsetTop,
                         onSizeChanged;
                     onSizeChanged = (e) => {
                         let size = e && e.detail || this.prevSize,
-                            categoryEl = this.$$(`#category-${category.id}`),
-                            rect = categoryEl.getBoundingClientRect(),
-                            buttons = Polymer.dom(this.root).querySelectorAll('button.category, .separator:not([hidden])'),
                             over = false, duration;
                         this.prevSize = size;
                         this.$.flyout.removeEventListener('size-changed', onSizeChanged);
-                        this.transform(`translate(0px, ${categoryEl.offsetTop + rect.height}px)`, this.$.flyout);
+                        this.transform(`translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout);
                         categoryEl.style.paddingBottom = `${size.height}px`;
                         this.style.width = `${size.width + 35}px`;
                         this._scrollIfNeeded(categoryEl);
