@@ -189,10 +189,10 @@ Example:
                 this._metrics = this.getBoundingClientRect();
             },
             _toolboxDomChanged () {
+                this._updateMetrics();
                 if (this.targetWorkspace) {
                     this.targetWorkspace.resize();
                 }
-                this._updateMetrics();
             },
             getMetrics () {
                 if (!this._metrics) {
