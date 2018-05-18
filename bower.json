@@ -3,13 +3,13 @@
   "description": "Blockly based kano coding editor",
   "main": "kwc-blockly.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.9.0",
+    "polymer": "Polymer/polymer#^2.6.0",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
-    "web-components": "git@github.com:KanoComputing/web-components.git#master",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
     "kwc-color-picker": "KanoComponents/kwc-color-picker",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0"
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
+    "kwc-style": "KanoComponents/kwc-style#^2.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
