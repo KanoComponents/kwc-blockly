@@ -182,7 +182,7 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
 
     div.appendChild(this.customEl);
     // As kwc-color-picker will render at next frame, we force a flush
-    Polymer.dom.flush();
+    this.customEl.flush();
     let isUnder = this.position();
     if ('animate' in HTMLElement.prototype) {
         div.style.transformOrigin = isUnder ? '0 bottom' : '0 0';

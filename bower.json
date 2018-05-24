@@ -7,7 +7,7 @@
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
-    "kwc-color-picker": "KanoComponents/kwc-color-picker",
+    "kwc-color-picker": "KanoComponents/kwc-color-picker#^1.0.2",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
     "kwc-style": "KanoComponents/kwc-style#^2.0.0"
   },

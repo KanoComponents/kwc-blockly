@@ -44,17 +44,19 @@
                 <template>
                     <kwc-blockly id="demo1"></kwc-blockly>
                     <script>
-                        let basic = document.getElementById('demo1');
-                        ['colour_picker', 'lists_create_with', 'controls_if', 'function_definition'].forEach(blockId => {
-                            Blockly.Blocks[blockId].customColor = '#88c440';
-                        });
-                        basic.addEventListener('blockly-ready', () => {
-                            basic.loadBlocks(`<xml>
-                                                    <block type="colour_picker" x="100" y="200"></block>
-                                                    <block type="lists_create_with" x="200" y="200"></block>
-                                                    <block type="controls_if" x="400" y="200"></block>
-                                                    <block type="function_definition" x="550" y="200"></block>
-                                                </xml>`);
+                        document.addEventListener('WebComponentsReady', () => {
+                            let basic = document.getElementById('demo1');
+                            ['colour_picker', 'lists_create_with', 'controls_if', 'function_definition'].forEach(blockId => {
+                                Blockly.Blocks[blockId].customColor = '#88c440';
+                            });
+                            basic.addEventListener('blockly-ready', () => {
+                                basic.loadBlocks(`<xml>
+                                                        <block type="colour_picker" x="100" y="200"></block>
+                                                        <block type="lists_create_with" x="200" y="200"></block>
+                                                        <block type="controls_if" x="400" y="200"></block>
+                                                        <block type="function_definition" x="550" y="200"></block>
+                                                    </xml>`);
+                            });
                         });
                     </script>
                 </template>
