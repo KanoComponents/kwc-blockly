@@ -248,15 +248,6 @@ Example:
             this.$.toolbox.targetWorkspace = this.workspace;
             this.$.flyout.targetWorkspace = this.workspace;
 
-            // Trick to enable shadow DOM like styling of xtag generated components
-            if (!Polymer.Settings.useNativeShadow) {
-                let elems = Polymer.dom(this.root).querySelectorAll('svg, div');
-
-                for (let i = 0; i < elems.length; i++) {
-                    this.toggleClass('kano-blockly', true, elems[i]);
-                }
-            }
-
             Polymer.RenderStatus.afterNextRender(this, () => {
                 this.resize();
                 this.fire('blockly-ready');
