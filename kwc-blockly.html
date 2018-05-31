@@ -51,7 +51,7 @@ Example:
                 right: 0px;
                 background-color: var(--kwc-blockly-background, #414a51);
             }
-            .toolbox-container, #flyout {
+            .toolbox-container {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -66,7 +66,7 @@ Example:
                 @apply --layout-vertical;
                 background: var(--kwc-blockly-background, #414a51);
             }
-            #toolbox {
+            #toolbox, #flyout {
                 @apply --layout-flex;
                 --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
             }
@@ -110,10 +110,10 @@ Example:
         </div>
         <div class="toolbox-container">
             <slot name="above-toolbox"></slot>
+            <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
             <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close hidden$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
             <slot name="under-toolbox"></slot>
         </div>
-        <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
         <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
             <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
         </div>
@@ -194,7 +194,14 @@ Example:
             'toolbox.scroll': '_onToolboxScroll'
         },
         ready () {
-            this.codeRelatedEvents = [Blockly.Events.CREATE, Blockly.Events.MOVE, Blockly.Events.CHANGE, 'value', 'connect'];
+            this.codeRelatedEvents = [
+                Blockly.Events.CREATE,
+                Blockly.Events.MOVE,
+                Blockly.Events.CHANGE,
+                Blockly.Events.DELETE,
+                'value',
+                'connect',
+            ];
             this._blurInput = this._blurInput.bind(this);
             this._onMouseWheel = this._onMouseWheel.bind(this);
         },
@@ -613,15 +620,17 @@ Example:
         updateFunctions (e) {
             let toolbox;
             if (e.type === Blockly.Events.UPDATE_FUNCTIONS) {
-                for (let i = 0; i < this.toolbox.length; i++) {
-                    if (this.toolbox[i].id === 'functions') {
-                        toolbox = this.workspace.functionsRegistry.getToolbox();
-                        this.set(`toolbox.${i}.blocks`, toolbox);
-                        break;
+                if (this.toolbox) {
+                    for (let i = 0; i < this.toolbox.length; i++) {
+                        if (this.toolbox[i].id === 'functions') {
+                            toolbox = this.workspace.functionsRegistry.getToolbox();
+                            this.set(`toolbox.${i}.blocks`, toolbox);
+                            break;
+                        }
                     }
+                    // Force a render of the box in case the shapes of the blocks changed
+                    this.$.toolbox.render();
                 }
-                // Force a render of the box in case the shapes of the blocks changed
-                this.$.toolbox.render();
             }
         },
         /**
@@ -697,6 +706,9 @@ Example:
         },
         getToolbox () {
             return this.$.toolbox;
+        },
+        getFlyout () {
+            return this.workspace.flyout_;
         },
         _onToolboxScroll (e) {
             this.debounce('scrollEvent', () => {

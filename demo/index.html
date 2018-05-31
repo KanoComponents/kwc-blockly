@@ -70,7 +70,10 @@
             <h3>kwc-blockly with flyout only</h3>
             <demo-snippet>
                 <template>
-                    <kwc-blockly id="demo-flyout" no-toolbox></kwc-blockly>
+                    <kwc-blockly id="demo-flyout" no-toolbox>
+                        <button slot="above-toolbox">ABOVE</button>
+                        <button slot="under-toolbox">UNDER</button>
+                    </kwc-blockly>
                     <script>
                         let demoFlyout = document.getElementById('demo-flyout');
                         demoFlyout.addEventListener('blockly-ready', () => {
@@ -85,7 +88,10 @@
             <h3>kwc-blockly with toolbox</h3>
             <demo-snippet>
                 <template>
-                    <kwc-blockly id="demo2"></kwc-blockly>
+                    <kwc-blockly id="demo2">
+                        <button slot="above-toolbox">ABOVE</button>
+                        <button slot="under-toolbox">UNDER</button>
+                    </kwc-blockly>
                     <script>
                         let withToolbox = document.getElementById('demo2');
                         Blockly.Blocks.variables_get.customColor
