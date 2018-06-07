@@ -183,7 +183,8 @@ Example:
                 type: String,
                 value: function () {
                     return this.resolveUrl('./blockly_built/media/');
-                }
+                },
+                observer: '_mediaChanged',
             },
             getMetrics: Function,
             setMetrics: Function,
@@ -275,6 +276,19 @@ Example:
             this.workspace.dispose();
             // document.body.style.overflow = undefined;
             document.removeEventListener('iron-overlay-opened', this._blurInput);
+        },
+        _mediaChanged() {
+            if (!this.workspace) {
+                return;
+            }
+            const { options } = this.workspace;
+            options.pathToMedia = this.media;
+            const styleNode = Blockly.Css.styleSheet_.ownerNode;
+            styleNode.parentNode.removeChild(styleNode);
+            Blockly.Css.inject(options.hasCss, options.pathToMedia);
+            if (options.hasSounds) {
+                Blockly.inject.loadSounds_(options.pathToMedia, this.workspace);
+            }
         },
         _shouldHideToolbox (noToolbox, toolbox) {
             return this.noToolbox || !this.toolbox;
