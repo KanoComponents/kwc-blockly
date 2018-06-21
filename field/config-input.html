@@ -1,12 +1,17 @@
+<link rel="import" href="../blockly.html">
 <script>
-    Blockly.FieldConfig = function (value, opt_validator) {
+    /**
+     * @namespace KwcBlockly
+     */
+    window.KwcBlockly = window.KwcBlockly || {};
+    const FieldConfig = function (value, opt_validator) {
         this._width = 16;
         this._height = 16;
-        Blockly.FieldConfig.superClass_.constructor.call(this, value || 0, opt_validator);
+        FieldConfig.superClass_.constructor.call(this, value || 0, opt_validator);
     };
-    goog.inherits(Blockly.FieldConfig, Blockly.Field);
+    goog.inherits(FieldConfig, Blockly.Field);
 
-    Blockly.FieldConfig.prototype.init = function () {
+    FieldConfig.prototype.init = function () {
         if (this._container) {
             // Image has already been initialized once.
             return;
@@ -40,7 +45,7 @@
         Blockly.bindEvent_(this._container, 'mousedown', this, this._onMouseDown);
     };
 
-    Blockly.FieldConfig.prototype._onMouseDown = function (e) {
+    FieldConfig.prototype._onMouseDown = function (e) {
         if (Blockly.WidgetDiv.isVisible()) {
             Blockly.WidgetDiv.hide();
         } else if (!this.sourceBlock_.isInFlyout) {
@@ -50,40 +55,40 @@
         }
     };
 
-    Blockly.FieldConfig.prototype.getSvgRoot = function () {
+    FieldConfig.prototype.getSvgRoot = function () {
         return this._container;
     };
 
-    Blockly.FieldConfig.prototype.getSize = function () {
+    FieldConfig.prototype.getSize = function () {
         return {
             width: this._width + 4,
             height: this._height,
         };
     };
 
-    Blockly.FieldConfig.prototype.getAbsoluteXY_ = function () {
+    FieldConfig.prototype.getAbsoluteXY_ = function () {
         return goog.style.getPageOffset(this._container);
     };
 
-    Blockly.FieldConfig.prototype.getScaledBBox_ = function() {
+    FieldConfig.prototype.getScaledBBox_ = function() {
         let bbox = this._container.getBBox();
         return new goog.math.Size(bbox.width * this.sourceBlock_.workspace.scale, bbox.height * this.sourceBlock_.workspace.scale)
     };
 
-    Blockly.FieldConfig.prototype.dispose = function() {
+    FieldConfig.prototype.dispose = function() {
         if (this.customEl) {
             this.customEl = null;
         }
     };
 
-    Blockly.FieldConfig.prototype.showEditor_ = function () {
+    FieldConfig.prototype.showEditor_ = function () {
         Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, this.dispose.bind(this));
         var div = Blockly.WidgetDiv.DIV;
         
         this.customEl = document.createElement('div');
     };
 
-    Blockly.FieldConfig.prototype.position = function () {
+    FieldConfig.prototype.position = function () {
         var windowSize = goog.dom.getViewportSize();
         var scrollOffset = goog.style.getViewportPageOffset(document);
         var xy = goog.style.getPageOffset(this.sourceBlock_.svgGroup_);
@@ -108,7 +113,7 @@
         div.style.height = size.height + 'px';
     };
 
-    Blockly.FieldConfig.prototype.setValue = function (value) {
+    FieldConfig.prototype.setValue = function (value) {
         if (value === null) {
             // No change if null.
             return;
@@ -120,8 +125,10 @@
         this._value = value;
     };
 
-    Blockly.FieldConfig.prototype.getValue = function () {
+    FieldConfig.prototype.getValue = function () {
         return this._value;
     };
-
+    // Legacy Blockly field registration
+    window.Blockly['FieldConfig'] = FieldConfig;
+    window.KwcBlockly.FieldConfig = FieldConfig;
 </script>

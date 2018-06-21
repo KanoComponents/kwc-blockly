@@ -1,15 +1,16 @@
+<link rel="import" href="../blockly.html">
 <link rel="import" href="../input/kwc-blockly-if-stack.html">
 <script>
-    Blockly.FieldIfStack = function (value, opt_validator) {
+    FieldIfStack = function (value, opt_validator) {
         this._width = 16;
         this._height = 16;
-        Blockly.FieldIfStack.superClass_.constructor.call(this, value || 0, opt_validator);
+        FieldIfStack.superClass_.constructor.call(this, value || 0, opt_validator);
     };
-    goog.inherits(Blockly.FieldIfStack, Blockly.FieldConfig);
+    goog.inherits(FieldIfStack, Blockly.FieldConfig);
 
 
-    Blockly.FieldIfStack.prototype.showEditor_ = function () {
-        Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, Blockly.FieldIfStack.widgetDispose_);
+    FieldIfStack.prototype.showEditor_ = function () {
+        Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, FieldIfStack.widgetDispose_);
 
         var div = Blockly.WidgetDiv.DIV;
         
@@ -34,4 +35,6 @@
         }
     };
 
+    window.Blockly['FieldIfStack'] = FieldIfStack;
+    window.KwcBlockly.FieldIfStack = FieldIfStack;
 </script>

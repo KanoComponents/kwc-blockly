@@ -7,3 +7,5 @@ modulizer --out . \
 echo "window.goog = goog;window.Blockly=Blockly;" >> blockly_built/blockly_compressed.js
 sed -i "s|import '@kano/kwc-color-picker/palettes/material.js'|import { Material } from '@kano/kwc-color-picker/palettes/material.js'|g" import.js
 sed -i "s|KwcColorPickerPalette.Material|Material|g" import.js
+sed -i "1s;^;import './blobkly_built/blocks_compressed.js'\;\n;" blocks.js
+sed -i "1s;^;import './blobkly_built/blockly_compressed.js'\;\n;" import.js
