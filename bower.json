@@ -1,7 +1,11 @@
 {
   "name": "kwc-blockly",
   "description": "Blockly based kano coding editor",
-  "main": "kwc-blockly.html",
+  "main": [
+    "kwc-blockly.html",
+    "blocks.html",
+    "blockly.html"
+  ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.6.0",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^2.0.0",

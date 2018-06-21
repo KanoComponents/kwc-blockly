@@ -1,15 +1,20 @@
+<link rel="import" href="../blockly.html">
 <link rel="import" href="./config-input.html">
 <link rel="import" href="../input/kwc-blockly-array-length.html">
 <script>
-    Blockly.FieldArrayLength = function (value, opt_validator) {
+    /**
+     * @namespace KwcBlockly
+     */
+    window.KwcBlockly = window.KwcBlockly || {};
+    FieldArrayLength = function (value, opt_validator) {
         this._width = 16;
         this._height = 16;
-        Blockly.FieldArrayLength.superClass_.constructor.call(this, value || 0, opt_validator);
+        FieldArrayLength.superClass_.constructor.call(this, value || 0, opt_validator);
     };
-    goog.inherits(Blockly.FieldArrayLength, Blockly.FieldConfig);
+    goog.inherits(FieldArrayLength, KwcBlockly.FieldConfig);
 
-    Blockly.FieldArrayLength.prototype.showEditor_ = function () {
-        Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, Blockly.FieldArrayLength.widgetDispose_);
+    FieldArrayLength.prototype.showEditor_ = function () {
+        Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, FieldArrayLength.widgetDispose_);
 
         var div = Blockly.WidgetDiv.DIV;
         
@@ -32,4 +37,7 @@
             });
         }
     };
+    // Legacy Blockly field registration
+    window.Blockly['FieldArrayLength'] = FieldArrayLength;
+    window.KwcBlockly.FieldArrayLength = FieldArrayLength;
 </script>
