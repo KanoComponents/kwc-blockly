@@ -1,10 +1,9 @@
 <link rel="import" href="../../field/if-stack.html">
-<link rel="import" href="../../blocks.html">
 <script>
     Blockly.Blocks.controls_if = {
         init: function () {
     
-            this.stackField = new KwcBlockly.FieldIfStack({ elseIfs: 0, else: false }, (newValue) => {
+            this.stackField = new Blockly.FieldIfStack({ elseIfs: 0, else: false }, (newValue) => {
                 this.elseifCount_ = newValue.elseIfs;
                 this.elseCount_   = newValue.else;
                 this.updateShape_();

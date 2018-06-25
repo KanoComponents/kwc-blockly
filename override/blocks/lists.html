@@ -1,5 +1,4 @@
 <link rel="import" href="../../field/array-length.html">
-<link rel="import" href="../../blocks.html">
 <script>
     Blockly.Blocks['lists_create_with'] = {
         /**
@@ -50,7 +49,7 @@
                 if (!this.getInput('ADD' + i)) {
                     var input = this.appendValueInput('ADD' + i);
                     if (i == 0) {
-                        input.appendField(new KwcBlockly.FieldArrayLength(this.itemCount_, (newValue) => {
+                        input.appendField(new Blockly.FieldArrayLength(this.itemCount_, (newValue) => {
                             if (this.itemCount_ !== newValue) {
                                 this.itemCount_ = newValue;
                                 this.updateShape_();

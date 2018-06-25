@@ -4,7 +4,8 @@
   "main": [
     "kwc-blockly.html",
     "blocks.html",
-    "blockly.html"
+    "blockly.html",
+    "javascript.html"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.6.0",

@@ -1,14 +1,11 @@
-<link rel="import" href="../blockly.html">
 <script>
-    /* global Blockly, goog */
-    
-    Blockly.FieldLookup = function (text, c) {
+    const FieldLookup = function (text, c) {
         this._text = text;
         this._c = c || '';
         this.size_ = new goog.math.Size(0, Blockly.BlockSvg.MIN_BLOCK_Y);
     };
-    goog.inherits(Blockly.FieldLookup, Blockly.Field);
-    Blockly.FieldLookup.prototype.init = function () {
+    goog.inherits(FieldLookup, Blockly.Field);
+    FieldLookup.prototype.init = function () {
         if (this._container) {
             // Field has already been initialized once.
             return;
@@ -30,7 +27,7 @@
      * Saves the computed width in a property.
      * @private
      */
-    Blockly.FieldLookup.prototype.render_ = function() {
+    FieldLookup.prototype.render_ = function() {
       if (!this.visible_) {
         this.size_.width = 0;
         return;
@@ -44,7 +41,7 @@
       this.size_.width = width;
     };
     
-    Blockly.FieldLookup.prototype._onMouseDown = function (e) {
+    FieldLookup.prototype._onMouseDown = function (e) {
         if (Blockly.WidgetDiv.isVisible()) {
             Blockly.WidgetDiv.hide();
         } else if (!this.sourceBlock_.isInFlyout) {
@@ -53,10 +50,10 @@
             e.stopPropagation();
         }
     };
-    Blockly.FieldLookup.prototype.getSvgRoot = function () {
+    FieldLookup.prototype.getSvgRoot = function () {
         return this._container;
     };
-    Blockly.FieldLookup.prototype.showEditor_ = function () {
+    FieldLookup.prototype.showEditor_ = function () {
         var block = this.sourceBlock_;
         var xy = Blockly.getSvgXY_(block.svgGroup_, block.workspace);
         var connection = block.outputConnection ? block.outputConnection : block.previousConnection;
@@ -121,7 +118,7 @@
         }
     };
     
-    Blockly.FieldLookup.prototype.focus = function () {
+    FieldLookup.prototype.focus = function () {
         let onKeyDown = (e) => {
             window.removeEventListener('keydown', onKeyDown);
             if (e.keyCode === 13) {
@@ -131,4 +128,7 @@
         window.addEventListener('keydown', onKeyDown);
         this._container.classList.add('selected');
     };
+
+    // Legacy Blockly field registration
+    window.Blockly['FieldLookup'] = FieldLookup;
 </script>

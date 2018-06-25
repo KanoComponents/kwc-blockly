@@ -1,7 +1,5 @@
-<link rel="import" href="../../blockly.html">
 <script>
-  /* globals Blockly, goog */
-  Blockly.OriginalScrollbar = Blockly.Scrollbar;
+  const OriginalScrollbar = Blockly['Scrollbar'];
   /**
    * Class for a pure SVG scrollbar.
    * This technique offers a scrollbar that is guaranteed to work, but may not
@@ -27,10 +25,10 @@
     }
   };
   
-  goog.inherits(Blockly.Scrollbar, Blockly.OriginalScrollbar);
+  goog.inherits(Blockly.Scrollbar, OriginalScrollbar);
   
   Blockly.Scrollbar.scrollbarThickness = 12;
-  Blockly.Scrollbar.metricsAreEquivalent_ = Blockly.OriginalScrollbar.metricsAreEquivalent_;
+  Blockly.Scrollbar.metricsAreEquivalent_ = OriginalScrollbar.metricsAreEquivalent_;
   
   /**
    * Set the sliders of both scrollbars to be at a certain position.
