@@ -1,17 +1,12 @@
-<link rel="import" href="../blockly.html">
 <link rel="import" href="../input/kwc-blockly-function-definition.html">
 <link rel="import" href="./config-input.html">
 <script>
-    /**
-     * @namespace KwcBlockly
-     */
-    window.KwcBlockly = window.KwcBlockly || {};
-    FieldFunctionDefinition = function (value, opt_validator) {
+    const FieldFunctionDefinition = function (value, opt_validator) {
         this._width = 16;
         this._height = 16;
         FieldFunctionDefinition.superClass_.constructor.call(this, value || 0, opt_validator);
     };
-    goog.inherits(FieldFunctionDefinition, KwcBlockly.FieldConfig);
+    goog.inherits(FieldFunctionDefinition, Blockly.FieldConfig);
 
     FieldFunctionDefinition.prototype.showEditor_ = function () {
         Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, this.dispose.bind(this));
@@ -54,5 +49,4 @@
     
     // Legacy Blockly field registration
     window.Blockly['FieldFunctionDefinition'] = FieldFunctionDefinition;
-    window.KwcBlockly.FieldFunctionDefinition = FieldFunctionDefinition;
 </script>
