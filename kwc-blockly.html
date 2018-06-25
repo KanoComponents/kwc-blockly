@@ -285,6 +285,8 @@ Example:
             options.pathToMedia = this.media;
             const styleNode = Blockly.Css.styleSheet_.ownerNode;
             styleNode.parentNode.removeChild(styleNode);
+            // Blockly won't inject new stylesheet if it has a reference to a stylesheet
+            Blockly.Css.styleSheet_ = null;
             Blockly.Css.inject(options.hasCss, options.pathToMedia);
             if (options.hasSounds) {
                 Blockly.inject.loadSounds_(options.pathToMedia, this.workspace);
