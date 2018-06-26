@@ -9,6 +9,7 @@
 <link rel="import" href="./kwc-blockly-toolbox.html">
 <link rel="import" href="./kwc-blockly-flyout.html">
 <link rel="import" href="./kwc-blockly-style.html">
+<link rel="import" href="./lib/filters.html">
 
 <!--
 `kano-blockly`
@@ -236,7 +237,11 @@ Example:
             this._svg = this.$.svg;
             this._svg.addEventListener('mousewheel', this._onMouseWheel);
             defs = Blockly.utils.createSvgElement('defs', {}, this._svg);
-            options.gridPattern = Blockly.utils.createSvgElement('pattern', {'id': 'blocklyGridPattern' + String(Math.random()).substring(2), 'patternUnits': 'userSpaceOnUse'}, defs);
+            const filters = KwcBlockly.createFilters(Blockly, options);
+            options.embossFilterId = filters.embossFilter.id;
+            options.disabledPatternId = filters.disabledPattern.id;
+            options.gridPattern = filters.gridPattern;
+            this.$.svg.appendChild(filters.defs);
             // Load CSS.
             Blockly.Css.inject(options.hasCss, options.pathToMedia);
             this._setupDialogs();
