@@ -177,7 +177,11 @@ Blockly.FieldColour.prototype.showEditor_ = function () {
     this.customEl.value = this.getValue();
 
     this.customEl.addEventListener('value-changed', (e) => {
-        this.setValue(e.detail.value);
+        const value = this.getValue();
+        const normalized = this.customEl.normalizeHex(value);
+        if (this.customEl.normalizeHex(e.detail.value) !== normalized) {
+            this.setValue(e.detail.value);
+        }
     });
 
     div.appendChild(this.customEl);

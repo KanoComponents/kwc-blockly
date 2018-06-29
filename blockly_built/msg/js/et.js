@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Nimeta muutuja ümber ...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Muutuja „%1“ uus nimi:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "lisa muutuja %1 lõppu tekst %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Lisab teksti muutuja „%1“ väärtuse lõppu.";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "väikeste tähtedega";
@@ -351,7 +351,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.TEXT_INDEXOF_HELPURL = "https://github.com/google/blockly/wiki/Text#finding-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_FIRST = "esimese leitud tekstitüki";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_LAST = "viimase leitud tekstitüki";
-/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "in text %1 %2 %3";  // untranslated
+/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "tekstist %1 %2 %3 asukoht";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_TOOLTIP = "Tagastab esimesest tekstist esimese/viimase leitud teise teksti asukoha (indeksi). Kui teksti ei leita, tagastab %1.";
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_HELPURL = "https://github.com/google/blockly/wiki/Text#checking-for-empty-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_TITLE = "%1 on tühi";

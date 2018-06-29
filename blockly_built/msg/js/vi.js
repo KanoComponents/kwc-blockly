@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Thay tên biến...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Thay tên tất cả \"%1\" biến này thành:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "ở cuối %1 thêm văn bản %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Thêm một mảng văn bản vào biến \"%1\".";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "thành chữ thường";
