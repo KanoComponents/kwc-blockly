@@ -78,7 +78,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.IOS_ERROR = "Chyba";
 /** @export */ Blockly.Msg.IOS_OK = "OK";
 /** @export */ Blockly.Msg.IOS_PROCEDURES_ADD_INPUT = "+ Pridať vstup";
-/** @export */ Blockly.Msg.IOS_PROCEDURES_ALLOW_STATEMENTS = "Povoľujú príkazy";
+/** @export */ Blockly.Msg.IOS_PROCEDURES_ALLOW_STATEMENTS = "Allow statements";  // untranslated
 /** @export */ Blockly.Msg.IOS_PROCEDURES_DUPLICATE_INPUTS_ERROR = "Táto funkcia obsahuje duplikáty vstupov.";
 /** @export */ Blockly.Msg.IOS_PROCEDURES_INPUTS = "Vstupy";
 /** @export */ Blockly.Msg.IOS_VARIABLES_ADD_BUTTON = "Pridať";
@@ -310,13 +310,13 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.PROCEDURES_MUTATORARG_TOOLTIP = "Pridať vstup do funkcie.";
 /** @export */ Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TITLE = "vstupy";
 /** @export */ Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP = "Pridať, odstrániť alebo zmeniť poradie vstupov tejto funkcie.";
-/** @export */ Blockly.Msg.PROCEDURE_ALREADY_EXISTS = "Postup s názvom '%1' už existuje.";
+/** @export */ Blockly.Msg.PROCEDURE_ALREADY_EXISTS = "A procedure named '%1' already exists.";  // untranslated
 /** @export */ Blockly.Msg.REDO = "Znova";
 /** @export */ Blockly.Msg.REMOVE_COMMENT = "Odstrániť komentár";
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Premenovať premennú...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Premenovať všetky premenné '%1' na:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "k %1 pripojiť text %2";
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "do %1 pridaj text %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Pridaj určitý text do premennej '%1'.";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "na malé písmená";
@@ -330,7 +330,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.TEXT_CHARAT_LAST = "zisti posledné písmeno";
 /** @export */ Blockly.Msg.TEXT_CHARAT_RANDOM = "vyber náhodné písmeno";
 /** @export */ Blockly.Msg.TEXT_CHARAT_TAIL = "";  // untranslated
-/** @export */ Blockly.Msg.TEXT_CHARAT_TITLE = "v texte %1 %2";
+/** @export */ Blockly.Msg.TEXT_CHARAT_TITLE = "in text %1 %2";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHARAT_TOOLTIP = "Vráti písmeno na určenej pozícii.";
 /** @export */ Blockly.Msg.TEXT_COUNT_HELPURL = "https://github.com/google/blockly/wiki/Text#counting-substrings";  // untranslated
 /** @export */ Blockly.Msg.TEXT_COUNT_MESSAGE0 = "počet výskytov %1 v %2";

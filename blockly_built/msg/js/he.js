@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "שנה את שם המשתנה...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "שנה את שם כל '%1' המשתנים ל:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "אל %1 הוספת טקסט %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Append some text to variable '%1'.";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "לאותיות קטנות (עבור טקסט באנגלית)";

@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Redenumirea variabilei...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Redenumeşte toate variabilele '%1' în:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "la %1 Adăugaţi text %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Adăugaţi text la variabila '%1'.";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "la litere mici";
@@ -351,7 +351,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.TEXT_INDEXOF_HELPURL = "https://github.com/google/blockly/wiki/Text#finding-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_FIRST = "găseşte prima apariţie a textului";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_LAST = "găseşte ultima apariţie a textului";
-/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "in text %1 %2 %3";  // untranslated
+/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "în text %1 %2 %3";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_TOOLTIP = "Returnează indicele primei/ultimei apariţii din primul text în al doilea text.  Returnează %1 dacă textul nu este găsit.";
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_HELPURL = "https://github.com/google/blockly/wiki/Text#checking-for-empty-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_TITLE = "%1 este gol";

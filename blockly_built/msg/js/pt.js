@@ -39,7 +39,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.CONTROLS_FOREACH_TITLE = "para cada item %1 na lista %2";
 /** @export */ Blockly.Msg.CONTROLS_FOREACH_TOOLTIP = "Para cada item numa lista, define a variável \"%1\" para o item e então faz algumas instruções.";
 /** @export */ Blockly.Msg.CONTROLS_FOR_HELPURL = "https://github.com/google/blockly/wiki/Loops#count-with";  // untranslated
-/** @export */ Blockly.Msg.CONTROLS_FOR_TITLE = "contar com %1 de %2 até %3 de %3 em %4";
+/** @export */ Blockly.Msg.CONTROLS_FOR_TITLE = "contar com %1 de %2 até %3 por %4";
 /** @export */ Blockly.Msg.CONTROLS_FOR_TOOLTIP = "Faz com que a variável \"%1\" assuma os valores desde o número inicial até ao número final, contando de acordo com o intervalo especificado e executa os blocos especificados.";
 /** @export */ Blockly.Msg.CONTROLS_IF_ELSEIF_TOOLTIP = "Acrescente uma condição ao bloco se.";
 /** @export */ Blockly.Msg.CONTROLS_IF_ELSE_TOOLTIP = "Acrescente uma condição de excepação final para o bloco se.";
@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Renomear variável...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Renomear todas as variáveis '%1' para:";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "para %1 acrescentar texto %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "Acrescentar um pedaço de texto à variável \"%1\".";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "para minúsculas";
@@ -351,7 +351,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.TEXT_INDEXOF_HELPURL = "https://github.com/google/blockly/wiki/Text#finding-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_FIRST = "primeira ocorrência do texto";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_LAST = "última ocorrência do texto";
-/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "in text %1 %2 %3";  // untranslated
+/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "no texto %1 %2 %3";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_TOOLTIP = "Retorna a posição da primeira/última ocorrência do primeiro texto no segundo texto. Retorna %1 se o texto não for encontrado.";
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_HELPURL = "https://github.com/google/blockly/wiki/Text#checking-for-empty-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_TITLE = "%1 está vazio";

@@ -316,7 +316,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.RENAME_VARIABLE = "Ndrysho emrin variables...";
 /** @export */ Blockly.Msg.RENAME_VARIABLE_TITLE = "Ndrysho emrin e te gjitha '%1' variablave ne :";
 /** @export */ Blockly.Msg.TEXT_APPEND_HELPURL = "https://github.com/google/blockly/wiki/Text#text-modification";  // untranslated
-/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "to %1 append text %2";  // untranslated
+/** @export */ Blockly.Msg.TEXT_APPEND_TITLE = "ne %1 shto tekst %2";
 /** @export */ Blockly.Msg.TEXT_APPEND_TOOLTIP = "shto tekst tek varibla '%1'.";
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_HELPURL = "https://github.com/google/blockly/wiki/Text#adjusting-text-case";  // untranslated
 /** @export */ Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE = "me shkronja te vogla shtypi";
@@ -351,7 +351,7 @@ goog.require('Blockly.Msg');
 /** @export */ Blockly.Msg.TEXT_INDEXOF_HELPURL = "https://github.com/google/blockly/wiki/Text#finding-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_FIRST = "gjej rastisjen e pare te tekstit";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_OPERATOR_LAST = "gjej rastisjen e fundit te tekstit";
-/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "in text %1 %2 %3";  // untranslated
+/** @export */ Blockly.Msg.TEXT_INDEXOF_TITLE = "ne tekst %1 %2 %3";
 /** @export */ Blockly.Msg.TEXT_INDEXOF_TOOLTIP = "Pergjigjet me indeksin e pare/fundit te rastisjes se tekstit te pare ne tekstin e dyte. Pergjigjet me %1 ne qofte se teksti nuk u gjet.";
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_HELPURL = "https://github.com/google/blockly/wiki/Text#checking-for-empty-text";  // untranslated
 /** @export */ Blockly.Msg.TEXT_ISEMPTY_TITLE = "%1 eshte bosh";
