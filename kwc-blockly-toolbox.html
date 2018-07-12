@@ -158,6 +158,10 @@ Example:
                 autoClose: {
                     type: Boolean,
                     value: false
+                },
+                _canAnimate: {
+                    type: Boolean,
+                    value: 'animate' in HTMLElement.prototype
                 }
             },
             get flyout_ () {
@@ -289,7 +293,7 @@ Example:
                         duration = size.height / 3;
                         this.style.overflowY = 'hidden';
                         for (let i = 0; i < buttons.length; i++) {
-                            if (over && buttons[i].animate) {
+                            if (over && this._canAnimate) {
                                 buttons[i].animate({
                                     transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)']
                                 }, {
@@ -299,7 +303,7 @@ Example:
                                 over = true;
                             }
                         }
-                        if (this.$.mask.animate) {
+                        if (this._canAnimate) {
                             this.$.mask.animate({
                                 transform: ['translate(0px, 0px)', `translate(0px, ${size.height}px`]
                             }, {
