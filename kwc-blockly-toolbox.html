@@ -289,7 +289,7 @@ Example:
                         duration = size.height / 3;
                         this.style.overflowY = 'hidden';
                         for (let i = 0; i < buttons.length; i++) {
-                            if (over) {
+                            if (over && buttons[i].animate) {
                                 buttons[i].animate({
                                     transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)']
                                 }, {
@@ -299,15 +299,20 @@ Example:
                                 over = true;
                             }
                         }
-                        this.$.mask.animate({
-                            transform: ['translate(0px, 0px)', `translate(0px, ${size.height}px`]
-                        }, {
-                            duration,
-                            fill: 'forwards'
-                        }).onfinish = () => {
+                        if (this.$.mask.animate) {
+                            this.$.mask.animate({
+                                transform: ['translate(0px, 0px)', `translate(0px, ${size.height}px`]
+                            }, {
+                                duration,
+                                fill: 'forwards'
+                            }).onfinish = () => {
+                                this.style.overflowY = 'auto';
+                                this.$.mask.style.display = 'none';
+                            };
+                        } else {
                             this.style.overflowY = 'auto';
                             this.$.mask.style.display = 'none';
-                        };
+                        }
                     };
                     if (this.forceRender) {
                         this.currentToolbox = undefined;
