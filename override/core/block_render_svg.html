@@ -343,7 +343,7 @@
             '0.5,' + (cursorY - Blockly.BlockSvg.CORNER_RADIUS));
       }
     }
-  };/* eslint-enable indent */
+  };  /* eslint-enable indent */
 
   /**
    * Render the left edge of the block.
@@ -429,7 +429,7 @@
     steps.push('H', rightEdge - Blockly.BlockSvg.CORNER_RADIUS);
     highlightSteps.push('H', rightEdge - 0.5 - Blockly.BlockSvg.CORNER_RADIUS);
     this.width = rightEdge;
-  };/* eslint-enable indent */
+  };  /* eslint-enable indent */
 
   /**
    * Render the right edge of the block.
@@ -817,7 +817,7 @@
       input.renderHeight = this.getMinHeight(Blockly.BlockSvg.MIN_BLOCK_Y);
       // If large field Object used, resize block
       if (input.fieldRow[1] && input.fieldRow[1].size_.height > input.renderHeight) {
-          input.renderHeight = this.getMinHeight(Blockly.BlockSvg.MIN_LARGE_BLOCK_Y);
+        input.renderHeight = this.getMinHeight(Blockly.BlockSvg.MIN_LARGE_BLOCK_Y);
       }
       // The width is currently only needed for inline value inputs.
       if (isInline && input.type == Blockly.INPUT_VALUE) {
@@ -922,6 +922,7 @@
   /**
    * Render a list of fields starting at the specified location.
    * @param {!Array.<!Blockly.Field>} input Input with list of Field Rows
+   * @param {!Array.<!Blockly.Field>} fieldList List of fields.
    * @param {number} cursorX X-coordinate to start the fields.
    * @param {number} cursorY Y-coordinate to start the fields.
    * @return {number} X-coordinate of the end of the field row (plus a gap).
@@ -948,14 +949,14 @@
         if (field.renderWidth) {
           cursorX -= Blockly.BlockSvg.SEP_SPACE_X;
         }
-    } else if (input.renderHeight >= Blockly.BlockSvg.MIN_LARGE_BLOCK_Y && t === 0) {
-          root.setAttribute('transform',
-              'translate(' + (cursorX + field.renderSep) + ',' + (cursorY + 10) + ')');
-          if (field.renderWidth) {
-            cursorX += field.renderSep + field.renderWidth +
-                Blockly.BlockSvg.SEP_SPACE_X;
-          }
-      }else {
+      } else if (input.renderHeight >= Blockly.BlockSvg.MIN_LARGE_BLOCK_Y && t === 0) {
+        root.setAttribute('transform',
+            'translate(' + (cursorX + field.renderSep) + ',' + (cursorY + 10) + ')');
+        if (field.renderWidth) {
+          cursorX += field.renderSep + field.renderWidth +
+              Blockly.BlockSvg.SEP_SPACE_X;
+        }
+      } else {
         root.setAttribute('transform',
             'translate(' + (cursorX + field.renderSep) + ',' + cursorY + ')');
         if (field.renderWidth) {
@@ -963,10 +964,9 @@
               Blockly.BlockSvg.SEP_SPACE_X;
         }
       }
-
     }
     return this.RTL ? -cursorX : cursorX;
-  };/* eslint-enable indent */
+  };  /* eslint-enable indent */
 
   Blockly.Block.prototype.setPaddingX = function (x) {
       return this.paddingX_ = x;
@@ -991,6 +991,5 @@
   Blockly.BlockSvg.prototype.getTabPathUp = function () {
       return 'V ' + (Blockly.BlockSvg.TAB_HEIGHT - 4 + this.getPaddingY()) + ' c -' + Blockly.BlockSvg.TAB_WIDTH + ',0 -' + Blockly.BlockSvg.TAB_WIDTH + ',-8 0,-8';
   };
-
 
 </script>
