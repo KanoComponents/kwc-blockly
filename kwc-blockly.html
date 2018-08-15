@@ -74,6 +74,7 @@ Example:
             #svg {
                 height: 100%;
                 width: 100%;
+                display: block;
             }
             #svg:focus {
                 outline: none;
@@ -330,7 +331,7 @@ Example:
                 metrics = workspace.getMetrics(),
                 x = e.deltaX * workspace.scale,
                 y = e.deltaY * workspace.scale;
-                
+
             x = (workspace.scrollbar.hScroll.handlePosition_ / workspace.scrollbar.hScroll.ratio_) + x;
             y = (workspace.scrollbar.vScroll.handlePosition_ / workspace.scrollbar.vScroll.ratio_) + y;
 
