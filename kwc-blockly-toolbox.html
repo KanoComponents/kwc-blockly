@@ -257,6 +257,9 @@ Example:
                     target = e.target,
                     index = e.model.get('index');
 
+                e.stopPropagation();
+                e.preventDefault();
+                
                 if (category.type === 'separator') {
                     return;
                 }
