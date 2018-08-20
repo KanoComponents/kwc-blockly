@@ -58,6 +58,10 @@
                     minWidth: {
                         type: Number,
                         value: 200
+                    },
+                    maxWidth: {
+                        type: Number,
+                        value: Infinity
                     }
                 },
                 get width_ () {
@@ -193,7 +197,7 @@
 
                     this.maxBlockWidth = maxWidth;
 
-                    maxWidth = Math.max(maxWidth + this.paddingLeft + 20, this.minWidth + Blockly.BlockSvg.TAB_WIDTH);
+                    maxWidth = Math.min(this.maxWidth, Math.max(maxWidth + this.paddingLeft + 20, this.minWidth + Blockly.BlockSvg.TAB_WIDTH));
 
                     canvas = this.ws.getCanvas();
                     if (!canvas) {
