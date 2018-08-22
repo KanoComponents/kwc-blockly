@@ -11,17 +11,9 @@
     <script src="../../web-component-tester/browser.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
 
-    <script src="../blockly_built/blockly_compressed.js"></script>
-    <script src="../blockly_built/blocks_compressed.js"></script>
-    <script src="../blockly_built/msg/js/en.js"></script>
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>    <script src="../../../@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>script src="../blockly_built/msg/js/en.js"></script>
     <script src="../blockly_built/javascript_compressed.js"></script>
-    <link rel="import" href="../kwc-blockly.html">
-    <style>
-        kwc-blockly {
-            width: 800px;
-            height: 600px;
-        }
-    </style>
+    <script src="../blockly_built/blockly_compressed.js"></script>script src="../blockly_built/blocks_compressed.js"></script>ript>javascript_compressed.js"></script> </style>
 </head>
 
 <body>
@@ -37,219 +29,223 @@
             init: function () {
                 var json = {
                     id: 'svg_render_01',
-                    colour: COLOR,
-                    message0: `Block type 1 %1 %2`,
-                    args0: [
-                    {
-                        type: "input_dummy"
-                    },
-                    {
-                        type: "input_statement",
-                        name: "DO"
-                    }],
-                    previousStatement: null,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
-        };
-        Blockly.Blocks['svg_render_02'] = {
-            init: function () {
-                var json = {
-                    id: 'svg_render_02',
-                    message0: 'Block type 2',
-                    colour: COLOR,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
-        };
-        Blockly.Blocks['svg_render_03'] = {
-            init: function () {
-                var json = {
-                    id: 'svg_render_03',
-                    message0: 'Block type 3',
-                    colour: COLOR,
-                    previousStatement: null,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
-        };
+    <script type="module">
+import '../kwc-blockly.js';
 
-        Blockly.Blocks['svg_render_04'] = {
-            init: function () {
-                var json = {
-                    id: 'svg_render_04',
-                    message0: 'Block type 4 %1',
-                    args0: [{
-                        type: 'input_value',
-                        name: 'INPUT0'
-                    }],
-                    colour: COLOR,
-                    previousStatement: null,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
+Blockly.Blocks['svg_render_01'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_01',
+            colour: COLOR,
+            message0: `Block type 1 %1 %2`,
+            args0: [
+            {
+                type: "input_dummy"
+            },
+            {
+                type: "input_statement",
+                name: "DO"
+            }],
+            previousStatement: null,
+            nextStatement: null
         };
-
-        Blockly.Blocks['svg_render_05'] = {
-            init: function () {
-                var json = {
-                    id: 'svg_render_05',
-                    message0: 'Block type 4 %1 Extra text',
-                    args0: [{
-                        type: 'input_value',
-                        name: 'INPUT0'
-                    }],
-                    colour: COLOR,
-                    previousStatement: null,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
+        this.jsonInit(json);
+    }
+};
+Blockly.Blocks['svg_render_02'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_02',
+            message0: 'Block type 2',
+            colour: COLOR,
+            nextStatement: null
         };
-
-        Blockly.Blocks['svg_render_06'] = {
-            init: function () {
-                var json = {
-                    id: 'svg_render_05',
-                    message0: 'Block type 4 %1 %2',
-                    args0: [{
-                        type: 'input_value',
-                        name: 'INPUT0'
-                    }, {
-                        type: 'input_value',
-                        name: 'INPUT1'
-                    }],
-                    colour: COLOR,
-                    previousStatement: null,
-                    nextStatement: null
-                };
-                this.jsonInit(json);
-            }
+        this.jsonInit(json);
+    }
+};
+Blockly.Blocks['svg_render_03'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_03',
+            message0: 'Block type 3',
+            colour: COLOR,
+            previousStatement: null,
+            nextStatement: null
         };
+        this.jsonInit(json);
+    }
+};
 
-        suite('kwc-blockly', function () {
-            test('Loads the color of blocks', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><next><block id="${bottomId}" type="svg_render_01"></block></next></xml>`);
-                const workspace = element.getWorkspace();
-                const bottomBlock = workspace.getBlockById(bottomId);
-                const bottomRoot = bottomBlock.getSvgRoot();
-                const bottomTransform = bottomRoot.getAttribute('transform');
-                assert.equal(bottomTransform, 'translate(0,88)');
-            });
+Blockly.Blocks['svg_render_04'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_04',
+            message0: 'Block type 4 %1',
+            args0: [{
+                type: 'input_value',
+                name: 'INPUT0'
+            }],
+            colour: COLOR,
+            previousStatement: null,
+            nextStatement: null
+        };
+        this.jsonInit(json);
+    }
+};
 
-            test('Loads the color of blocks', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><value name="DO"><block id="${bottomId}" type="svg_render_01"></block></value></xml>`);
-                const workspace = element.getWorkspace();
-                const bottomBlock = workspace.getBlockById(bottomId);
-                const bottomRoot = bottomBlock.getSvgRoot();
-                const bottomTransform = bottomRoot.getAttribute('transform');
-                assert.equal(bottomTransform, 'translate(6,36)');
-            });
+Blockly.Blocks['svg_render_05'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_05',
+            message0: 'Block type 4 %1 Extra text',
+            args0: [{
+                type: 'input_value',
+                name: 'INPUT0'
+            }],
+            colour: COLOR,
+            previousStatement: null,
+            nextStatement: null
+        };
+        this.jsonInit(json);
+    }
+};
 
-            test('Previous/Next statement', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(
+Blockly.Blocks['svg_render_06'] = {
+    init: function () {
+        var json = {
+            id: 'svg_render_05',
+            message0: 'Block type 4 %1 %2',
+            args0: [{
+                type: 'input_value',
+                name: 'INPUT0'
+            }, {
+                type: 'input_value',
+                name: 'INPUT1'
+            }],
+            colour: COLOR,
+            previousStatement: null,
+            nextStatement: null
+        };
+        this.jsonInit(json);
+    }
+};
+
+suite('kwc-blockly', function () {
+    test('Loads the color of blocks', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><next><block id="${bottomId}" type="svg_render_01"></block></next></xml>`);
+        const workspace = element.getWorkspace();
+        const bottomBlock = workspace.getBlockById(bottomId);
+        const bottomRoot = bottomBlock.getSvgRoot();
+        const bottomTransform = bottomRoot.getAttribute('transform');
+        assert.equal(bottomTransform, 'translate(0,88)');
+    });
+
+    test('Loads the color of blocks', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(`<xml><block id="${topId}" type="svg_render_01"><value name="DO"><block id="${bottomId}" type="svg_render_01"></block></value></xml>`);
+        const workspace = element.getWorkspace();
+        const bottomBlock = workspace.getBlockById(bottomId);
+        const bottomRoot = bottomBlock.getSvgRoot();
+        const bottomTransform = bottomRoot.getAttribute('transform');
+        assert.equal(bottomTransform, 'translate(6,36)');
+    });
+
+    test('Previous/Next statement', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(
 `
 <xml>
-    <block type="svg_render_02" id="${topId}">
-        <next>
-            <block type="svg_render_03" id="${bottomId}"></block>
-        </next>
-    </block>
+<block type="svg_render_02" id="${topId}">
+<next>
+    <block type="svg_render_03" id="${bottomId}"></block>
+</next>
+</block>
 </xml>
 `
 );
-                const workspace = element.getWorkspace();
-                const topBlock = workspace.getBlockById(topId);
-                const bottomBlock = workspace.getBlockById(bottomId);
-                const bottomRoot = bottomBlock.getSvgRoot();
-                const bottomTransform = bottomRoot.getAttribute('transform');
-                assert.equal(bottomTransform, 'translate(0,35)');
-            });
+        const workspace = element.getWorkspace();
+        const topBlock = workspace.getBlockById(topId);
+        const bottomBlock = workspace.getBlockById(bottomId);
+        const bottomRoot = bottomBlock.getSvgRoot();
+        const bottomTransform = bottomRoot.getAttribute('transform');
+        assert.equal(bottomTransform, 'translate(0,35)');
+    });
 
-            test('Previous/Next statement with input', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(
+    test('Previous/Next statement with input', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(
 `
 <xml>
-    <block type="svg_render_04" id="${topId}">
-        <next>
-            <block type="svg_render_03" id="${bottomId}"></block>
-        </next>
-    </block>
+<block type="svg_render_04" id="${topId}">
+<next>
+    <block type="svg_render_03" id="${bottomId}"></block>
+</next>
+</block>
 </xml>
 `
 );
-                const workspace = element.getWorkspace();
-                const bottomBlock = workspace.getBlockById(bottomId);
-                const bottomRoot = bottomBlock.getSvgRoot();
-                const bottomTransform = bottomRoot.getAttribute('transform');
-                assert.equal(bottomTransform, 'translate(0,35)');
-            });
+        const workspace = element.getWorkspace();
+        const bottomBlock = workspace.getBlockById(bottomId);
+        const bottomRoot = bottomBlock.getSvgRoot();
+        const bottomTransform = bottomRoot.getAttribute('transform');
+        assert.equal(bottomTransform, 'translate(0,35)');
+    });
 
-            test('Previous/Next statement with input and extra text', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(
+    test('Previous/Next statement with input and extra text', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(
 `
 <xml>
-    <block type="svg_render_05" id="${topId}">
-        <next>
-            <block type="svg_render_05" id="${bottomId}"></block>
-        </next>
-    </block>
+<block type="svg_render_05" id="${topId}">
+<next>
+    <block type="svg_render_05" id="${bottomId}"></block>
+</next>
+</block>
 </xml>
 `
 );
-                const workspace = element.getWorkspace();
-                const bottomBlock = workspace.getBlockById(bottomId);
-                const bottomRoot = bottomBlock.getSvgRoot();
-                const bottomTransform = bottomRoot.getAttribute('transform');
-                assert.equal(bottomTransform, 'translate(0,46)');
-            });
+        const workspace = element.getWorkspace();
+        const bottomBlock = workspace.getBlockById(bottomId);
+        const bottomRoot = bottomBlock.getSvgRoot();
+        const bottomTransform = bottomRoot.getAttribute('transform');
+        assert.equal(bottomTransform, 'translate(0,46)');
+    });
 
-            test('Inline inputs report the right height', function () {
-                var element = fixture('basic'),
-                    topId = 'top_block',
-                    bottomId = 'bottom_block';
-                element.loadBlocks(
+    test('Inline inputs report the right height', function () {
+        var element = fixture('basic'),
+            topId = 'top_block',
+            bottomId = 'bottom_block';
+        element.loadBlocks(
 `
 <xml>
-    <block type="svg_render_06" x="0" y="400" id="${topId}">
-        <value name="INPUT0">
-            <shadow type="math_arithmetic"></shadow>
-        </value>
-        <value name="INPUT1">
-            <shadow type="math_arithmetic"></shadow>
-        </value>
-    </block>
+<block type="svg_render_06" x="0" y="400" id="${topId}">
+<value name="INPUT0">
+    <shadow type="math_arithmetic"></shadow>
+</value>
+<value name="INPUT1">
+    <shadow type="math_arithmetic"></shadow>
+</value>
+</block>
 </xml>
 `
 );
-                const workspace = element.getWorkspace();
-                const topBlock = workspace.getBlockById(topId);
-                const topRoot = topBlock.getSvgRoot();
-                const topPath = topRoot.querySelector('.blocklyPath');
-                const topD = topPath.getAttribute('d')
-                assert.equal(topD, 'm 0, 4 A 4,4 0 0,1 4, 0 H 15 h 1 a 3, 3 0 0, 0 11,0 h 3 H 111.18741607666016 a 4,4 0 0,1 4, 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 26 v 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 21 a 4,4 0 0,1 -4, 4 H 29.5 h -3 a 3, 3.5 0 0, 1 -9,0 h -3 H 4 a 4,4 0 0,1 -4,-4 z\n');
-            });
-        });
-    </script>
-</body>
-
-</html>
+        const workspace = element.getWorkspace();
+        const topBlock = workspace.getBlockById(topId);
+        const topRoot = topBlock.getSvgRoot();
+        const topPath = topRoot.querySelector('.blocklyPath');
+        const topD = topPath.getAttribute('d')
+        assert.equal(topD, 'm 0, 4 A 4,4 0 0,1 4, 0 H 15 h 1 a 3, 3 0 0, 0 11,0 h 3 H 111.18741607666016 a 4,4 0 0,1 4, 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 26 v 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 21 a 4,4 0 0,1 -4, 4 H 29.5 h -3 a 3, 3.5 0 0, 1 -9,0 h -3 H 4 a 4,4 0 0,1 -4,-4 z\n');
+    });
+});
+</script>

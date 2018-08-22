@@ -9,15 +9,28 @@
 
         <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+        <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>-snippet.js"></script>
         <script src="../blockly_built/blockly_compressed.js"></script>
         <script src="../blockly_built/blocks_compressed.js"></script>
         <script src="../blockly_built/msg/js/en.js"></script>
         <script src="../blockly_built/javascript_compressed.js"></script>
-        <link rel="import" href="../kwc-blockly.html">
+        <script src="../blockly_built/blockly_compressed.js"></script>   <script src="../blockly_built/blocks_compressed.js"></script>cript_compressed.js"></script>
+                kwc-blockly {
+                    width: 800px;
+                    height: 500px;
+        <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
 
-        <custom-style>
+$_documentContainer.innerHTML = `<custom-style>
             <style is="custom-style" include="demo-pages-shared-styles">
                 kwc-blockly {
                     width: 800px;
@@ -34,11 +47,18 @@
                     margin: 0 auto;
                 }
             </style>
-        </custom-style>
-    </head>
+        </custom-style>`;
 
-    <body>
-        <div class="vertical-section-container">
+document.body.appendChild($_documentContainer.content);
+</script>ckly that renders properly</h3>
+            <demo-snippet>
+                <template>
+                    <kwc-blockly id="demo"></kwc-blockly>
+                    <script>
+        <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<div class="vertical-section-container">
             <h3>kwc-blockly that renders properly</h3>
             <demo-snippet>
                 <template>
@@ -50,7 +70,7 @@
                                 var json = {
                                     id: 'svg_render_01',
                                     colour: COLOR,
-                                    message0: `Block type 1 %1 %2`,
+                                    message0: \`Block type 1 %1 %2\`,
                                     args0: [
                                     {
                                         type: "input_dummy"
@@ -140,7 +160,7 @@
                             }
                         };
                         element.loadBlocks(
-`
+\`
 <xml>
     <block type="svg_render_01">
         <value name="DO">
@@ -170,12 +190,12 @@
         </value>
     </block>
 </xml>
-`
+\`
 );
-                    </script>
+                    &lt;/script>
                 </template>
             </demo-snippet>
-        </div>
-    </body>
+        </div>`;
 
-</html>
+document.body.appendChild($_documentContainer.content);
+</script>
