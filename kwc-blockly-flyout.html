@@ -61,7 +61,8 @@
                     },
                     maxWidth: {
                         type: Number,
-                        value: Infinity
+                        value: Infinity,
+                        observer: '_maxWidthChanged'
                     }
                 },
                 get width_ () {
@@ -160,6 +161,9 @@
                 },
                 getBlockByType (type) {
                     return this._blockDB[type];
+                },
+                _maxWidthChanged() {
+                    this._render();
                 },
                 render () {
                     this._renderBlocks();
