@@ -7,17 +7,28 @@
 
         <title>kwc-blockly demo</title>
 
-        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
         <script src="../blockly_built/blockly_compressed.js"></script>
         <script src="../blockly_built/blocks_compressed.js"></script>
         <script src="../blockly_built/msg/js/en.js"></script>
         <script src="../blockly_built/javascript_compressed.js"></script>
-        <link rel="import" href="../kwc-blockly.html">
+        <script type="module" src="../kwc-blockly.js"></script>
 
-        <custom-style>
+        <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
             <style is="custom-style" include="demo-pages-shared-styles">
                 kwc-blockly {
                     width: 800px;
@@ -34,11 +45,17 @@
                     margin: 0 auto;
                 }
             </style>
-        </custom-style>
+        </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
     </head>
 
     <body>
-        <div class="vertical-section-container">
+        <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<div class="vertical-section-container">
             <h3>kwc-blockly with big blocks</h3>
             <demo-snippet>
                 <template>
@@ -78,10 +95,10 @@
                                 { id: 'colour_picker' }
                             ]
                         }]
-                    </script>
+                    &lt;/script>
                 </template>
             </demo-snippet>
-        </div>
-    </body>
+        </div>`;
 
-</html>
+document.body.appendChild($_documentContainer.content);
+</script>

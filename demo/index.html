@@ -7,18 +7,29 @@
 
         <title>kwc-blockly demo</title>
 
-        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-        <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-        <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
         <script src="../blockly_built/blockly_compressed.js"></script>
         <script src="../blockly_built/blocks_compressed.js"></script>
         <script src="../blockly_built/msg/js/en.js"></script>
         <script src="../blockly_built/javascript_compressed.js"></script>
-        <link rel="import" href="../kwc-blockly.html">
-        <link rel="import" href="../blocks.html">
+        <script type="module" src="../kwc-blockly.js"></script>
+        <script type="module" src="../blocks.js"></script>
 
-        <custom-style>
+        <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
             <style is="custom-style" include="demo-pages-shared-styles">
                 kwc-blockly {
                     width: 800px;
@@ -35,11 +46,17 @@
                     margin: 0 auto;
                 }
             </style>
-        </custom-style>
+        </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
     </head>
 
     <body>
-        <div class="vertical-section-container">
+        <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<div class="vertical-section-container">
             <h3>Basic kwc-blockly demo (incl. enhanced fields)</h3>
             <demo-snippet>
                 <template>
@@ -51,27 +68,27 @@
                                 Blockly.Blocks[blockId].customColor = '#88c440';
                             });
                             basic.addEventListener('blockly-ready', () => {
-                                basic.loadBlocks(`<xml>
+                                basic.loadBlocks(\`<xml>
                                                         <block type="colour_picker" x="100" y="200"></block>
                                                         <block type="lists_create_with" x="200" y="200"></block>
                                                         <block type="controls_if" x="400" y="200"></block>
                                                         <block type="function_definition" x="550" y="200"></block>
-                                                    </xml>`);
+                                                    </xml>\`);
                             });
                         });
-                    </script>
+                    &lt;/script>
                 </template>
             </demo-snippet>
             <h3>kwc-blockly with default blocks</h3>
             <demo-snippet>
                 <template>
-                    <kwc-blockly default-blocks='<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="controls_if" x="229" y="214" colour="#f75846"><value name="IF0"><block type="logic_compare" colour="#f75846"><field name="OP">GT</field><value name="A"><block type="math_number" colour="#ffc100"><field name="NUM">5</field></block></value><value name="B"><block type="math_number" colour="#ffc100"><field name="NUM">0</field></block></value></block></value></block></xml>'></kwc-blockly>
+                    <kwc-blockly default-blocks="<xml xmlns=&quot;http://www.w3.org/1999/xhtml&quot;><variables></variables><block type=&quot;controls_if&quot; x=&quot;229&quot; y=&quot;214&quot; colour=&quot;#f75846&quot;><value name=&quot;IF0&quot;><block type=&quot;logic_compare&quot; colour=&quot;#f75846&quot;><field name=&quot;OP&quot;>GT</field><value name=&quot;A&quot;><block type=&quot;math_number&quot; colour=&quot;#ffc100&quot;><field name=&quot;NUM&quot;>5</field></block></value><value name=&quot;B&quot;><block type=&quot;math_number&quot; colour=&quot;#ffc100&quot;><field name=&quot;NUM&quot;>0</field></block></value></block></value></block></xml>"></kwc-blockly>
                 </template>
             </demo-snippet>
             <h3>kwc-blockly with flyout only</h3>
             <demo-snippet>
                 <template>
-                    <kwc-blockly id="demo-flyout" no-toolbox>
+                    <kwc-blockly id="demo-flyout" no-toolbox="">
                         <button slot="above-toolbox">ABOVE</button>
                         <button slot="under-toolbox">UNDER</button>
                     </kwc-blockly>
@@ -83,7 +100,7 @@
                                 { id: 'math_number' }
                             ];
                         });
-                    </script>
+                    &lt;/script>
                 </template>
             </demo-snippet>
             <h3>kwc-blockly with toolbox</h3>
@@ -128,10 +145,10 @@
                                 { id: 'colour_picker' }
                             ]
                         }]
-                    </script>
+                    &lt;/script>
                 </template>
             </demo-snippet>
-        </div>
-    </body>
+        </div>`;
 
-</html>
+document.body.appendChild($_documentContainer.content);
+</script>
