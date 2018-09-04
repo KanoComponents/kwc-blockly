@@ -80,6 +80,20 @@ Polymer({
                 @apply --layout-flex;
                 --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
             }
+            #flyout.flyout-mode {
+                position: relative
+            }
+            #flyout.flyout-mode:after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: -20px;
+                bottom: 0;
+                width: 15px;
+                background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            }
             #svg {
                 height: 100%;
                 width: 100%;
