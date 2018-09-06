@@ -1,5 +1,7 @@
 import { Material } from '@kano/kwc-color-picker/palettes/material.js';
 
+
+var animationSupported = 'animate' in HTMLElement.prototype;
 // Set the default palette to the material from the color picker
 Blockly.FieldColour.COLOURS = Material.colors;
 Blockly.FieldColour.COLUMNS = Material.rowSize;
@@ -243,28 +245,38 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
     Blockly.removePhantomBlock();
 
     sourceBlock.svgGroup_.appendChild(phantomSvgGroup);
+    if (animationSupported) {
+        phantomSvgGroup.animate([{
+            opacity: 0
+        }, {
+            opacity: 1
+        }], {
+            duration: 400,
+            easing: 'ease-out'
+        });
+        breathingAnimation = phantomSvgGroup.animate([{
+            opacity: 0.7
+        }, {
+            opacity: 1
+        }, {
+            opacity: 0.7
+        }], {
+            delay: 400,
+            duration: 1200,
+            easing: 'ease-in-out',
+            iterations: Infinity
+        });
+    } else {
+        phantomSvgGroup.style.opacity = 1;
+        breathingAnimation = function () {
+            phantomSvgGroup.style.opacity = 1;
+        }
+        breathingAnimation.cancel = function () {
+            return null;
+        }
+    }
 
-    phantomSvgGroup.animate([{
-        opacity: 0
-    }, {
-        opacity: 1
-    }], {
-        duration: 400,
-        easing: 'ease-out'
-    });
 
-    breathingAnimation = phantomSvgGroup.animate([{
-        opacity: 0.7
-    }, {
-        opacity: 1
-    }, {
-        opacity: 0.7
-    }], {
-        delay: 400,
-        duration: 1200,
-        easing: 'ease-in-out',
-        iterations: Infinity
-    });
 
     Blockly.phantomBlock_ = {
         svgRoot: phantomSvgGroup,
@@ -281,18 +293,23 @@ Blockly.removePhantomBlock = function (connection, targetBlock) {
         Blockly.phantomBlock_.animation.cancel();
         root.style.transformOrigin = 'center center';
         root.style.transformBox = 'fill-box';
-        root.animate([{
-            transform: `${translate} scale(1)`,
-            opacity: 1
-        }, {
-            transform: `${translate} scale(4)`,
-            opacity: 0
-        }], {
-            duration: 300,
-            easing: 'ease-in'
-        }).onfinish = () => {
+        if (animationSupported) {
+            root.animate([{
+                transform: `${translate} scale(1)`,
+                opacity: 1
+            }, {
+                transform: `${translate} scale(4)`,
+                opacity: 0
+            }], {
+                duration: 300,
+                easing: 'ease-in'
+            }).onfinish = () => {
+                root.parentNode.removeChild(root);
+            };
+        } else {
+            root.style.opacity = 0;
             root.parentNode.removeChild(root);
-        };
+        }
         Blockly.phantomBlock_ = null;
     }
 };
