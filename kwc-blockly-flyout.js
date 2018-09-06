@@ -15,6 +15,11 @@ Polymer({
                 display: block;
                 overflow-y: auto;
             }
+            .injectionDiv {
+                position: relative;
+                height: 100%;
+                overflow: auto;
+            }
             svg {
                 width: 0px;
             }
