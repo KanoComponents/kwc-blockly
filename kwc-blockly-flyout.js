@@ -288,7 +288,9 @@ Polymer({
       this._removeBlockListeners();
 
       oldBlocks.forEach(block => {
-          if (!block.rendered) return;
+          if (!block.rendered) {
+              return
+          };
           block.flyoutRect_.parentNode.removeChild(block.flyoutRect_);
           this._recycleRect(block.flyoutRect_);
           if (block.workspace === this.ws) {
