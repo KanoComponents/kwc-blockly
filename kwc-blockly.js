@@ -390,7 +390,7 @@ Polymer({
   _setupDialogs () {
       Blockly.prompt = (message, defaultValue, callback) => {
           this._openDialog(message, defaultValue, { inputSelect: true }).then(answer => {
-              if (!answer.length) {
+              if (!answer || !answer.length) {
                   return callback(null);
               }
               callback(answer);
