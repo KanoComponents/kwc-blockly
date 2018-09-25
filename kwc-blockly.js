@@ -303,6 +303,7 @@ Polymer({
   },
 
   detached () {
+      this._teardownDialogs();
       this._svg.removeEventListener('mousewheel', this._onMouseWheel);
       this.workspace.dispose();
       // document.body.style.overflow = undefined;
@@ -388,6 +389,7 @@ Polymer({
   },
 
   _setupDialogs () {
+      Blockly._originalPrompt = Blockly.prompt; 
       Blockly.prompt = (message, defaultValue, callback) => {
           this._openDialog(message, defaultValue, { inputSelect: true }).then(answer => {
               if (!answer || !answer.length) {
@@ -396,12 +398,20 @@ Polymer({
               callback(answer);
           });
       };
+      Blockly._originalConfirm = Blockly.confirm; 
       Blockly.confirm = (message, callback) => {
           this._openDialog(message, defaultValue, { noInput: true }).then(callback);
       };
+      Blockly._originalAlert = Blockly.alert; 
       Blockly.alert = (message, callback) => {
           this._openDialog(message, defaultValue, { noInput: true, noCancel: true }).then(callback);
       };
+  },
+
+  _teardownDialogs () {
+      Blockly.prompt = Blockly._originalPrompt; 
+      Blockly.confirm = Blockly._originalConfirm; 
+      Blockly.alert = Blockly._originalAlert; 
   },
 
   _preventSubmit (e) {
