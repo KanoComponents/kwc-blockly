@@ -308,6 +308,10 @@ Polymer({
       this.workspace.dispose();
       // document.body.style.overflow = undefined;
       document.removeEventListener('iron-overlay-opened', this._blurInput);
+      this.toolbox = null;
+      this.toolbox_ = null;
+      this.workspace.toolbox = null;
+      this.workspace.toolbox_ = null;
   },
 
   _mediaChanged() {
