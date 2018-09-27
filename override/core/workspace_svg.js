@@ -48,7 +48,8 @@ Blockly.WorkspaceSvg.prototype.scrollBlockIntoView = function (block, animate) {
     if (Blockly.selected && Blockly.selected.workspace._gesture) {
         wasDragging = Blockly.selected;
     }
-    this.scrollbar.set(xy.x * this.scale - metrics.contentLeft - metrics.viewWidth  * 0.2,
+    // Reduce scrollbar x by 350 to account for over panning on smaller screened devices
+    this.scrollbar.set((xy.x - 350) * this.scale - metrics.contentLeft - metrics.viewWidth  * 0.2,
                         xy.y * this.scale - metrics.contentTop  - metrics.viewHeight * 0.3);
     // Apply the translation to the block if it was being dragged
     if (wasDragging) {
