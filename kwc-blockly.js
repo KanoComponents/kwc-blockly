@@ -600,6 +600,8 @@ Polymer({
   _dialogKeydown (e) {
       if (e.keyCode === 13) {
           this.dialog.element.close();
+      } else if (e.keyCode === 8) {
+          e.stopPropagation();
       }
   },
 
