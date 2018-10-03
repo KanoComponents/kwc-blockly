@@ -1,5 +1,6 @@
 import './config-input.js';
 import '../input/kwc-blockly-if-stack.js';
+
 const FieldIfStack = function (value, opt_validator) {
     this._width = 16;
     this._height = 16;
@@ -10,8 +11,8 @@ goog.inherits(FieldIfStack, Blockly.FieldConfig);
 FieldIfStack.prototype.showEditor_ = function () {
     Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, FieldIfStack.widgetDispose_);
 
-    var div = Blockly.WidgetDiv.DIV;
-    
+    const div = Blockly.WidgetDiv.DIV;
+
     this.customEl = document.createElement('kwc-blockly-if-stack');
     this.customEl.value = this.getValue();
 
@@ -25,12 +26,12 @@ FieldIfStack.prototype.showEditor_ = function () {
 
     if ('animate' in HTMLElement.prototype) {
         div.animate({
-            opacity: [0, 1]
+            opacity: [0, 1],
         }, {
             duration: 100,
-            easing: 'ease-out'
+            easing: 'ease-out',
         });
     }
 };
 
-window.Blockly['FieldIfStack'] = FieldIfStack;
+window.Blockly.FieldIfStack = FieldIfStack;

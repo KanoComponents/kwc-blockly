@@ -30,8 +30,9 @@ import './kwc-blockly-flyout.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 display: block;
@@ -139,280 +140,284 @@ Polymer({
         </template>
 `,
 
-  is: 'kwc-blockly-toolbox',
+    is: 'kwc-blockly-toolbox',
 
-  properties: {
-      targetWorkspace: {
-          type: Object,
-          observer: '_targetWorkspaceChanged'
-      },
-      toolbox: {
-          type: Array
-      },
-      currentToolbox: {
-          type: Array
-      },
-      opened: {
-          type: Boolean,
-          value: false,
-          notify: true,
-          reflectToAttribute: true
-      },
-      autoClose: {
-          type: Boolean,
-          value: false
-      },
-      _canAnimate: {
-          type: Boolean,
-          value: 'animate' in HTMLElement.prototype
-      }
-  },
+    properties: {
+        targetWorkspace: {
+            type: Object,
+            observer: '_targetWorkspaceChanged',
+        },
+        toolbox: {
+            type: Array,
+        },
+        currentToolbox: {
+            type: Array,
+        },
+        opened: {
+            type: Boolean,
+            value: false,
+            notify: true,
+            reflectToAttribute: true,
+        },
+        autoClose: {
+            type: Boolean,
+            value: false,
+        },
+        _canAnimate: {
+            type: Boolean,
+            value: 'animate' in HTMLElement.prototype,
+        },
+    },
 
-  get flyout_ () {
-      return this.$.flyout;
-  },
+    get flyout_() {
+        return this.$.flyout;
+    },
 
-  attached () {
-      this._onResize = this._onResize.bind(this);
-      window.addEventListener('resize', this._onResize);
-  },
+    attached() {
+        this._onResize = this._onResize.bind(this);
+        window.addEventListener('resize', this._onResize);
+    },
 
-  _onResize () {
-      this._updateMetrics();
-  },
+    _onResize() {
+        this._updateMetrics();
+    },
 
-  _isSeparator(type) {
-      return type === 'separator';
-  },
+    _isSeparator(type) {
+        return type === 'separator';
+    },
 
-  _computeColorStyle (color) {
-      return `background: ${color};`;
-  },
+    _computeColorStyle(color) {
+        return `background: ${color};`;
+    },
 
-  _computeSelectedClass (selected) {
-      return selected ? 'selected' : '';
-  },
+    _computeSelectedClass(selected) {
+        return selected ? 'selected' : '';
+    },
 
-  _onBlockCreated () {
-      this.debounce('onBlockCreated', () => {
-          if (this.autoClose) {
-              this.close();
-          }
-      });
-  },
+    _onBlockCreated() {
+        this.debounce('onBlockCreated', () => {
+            if (this.autoClose) {
+                this.close();
+            }
+        });
+    },
 
-  _updateMetrics () {
-      this._metrics = this.getBoundingClientRect();
-  },
+    _updateMetrics() {
+        this._metrics = this.getBoundingClientRect();
+    },
 
-  _toolboxDomChanged () {
-      this._updateMetrics();
-      if (this.targetWorkspace) {
-          this.targetWorkspace.resize();
-      }
-  },
+    _toolboxDomChanged() {
+        this._updateMetrics();
+        if (this.targetWorkspace) {
+            this.targetWorkspace.resize();
+        }
+    },
 
-  getMetrics () {
-      if (!this._metrics) {
-          this._updateMetrics();
-      }
-      return this._metrics;
-  },
+    getMetrics() {
+        if (!this._metrics) {
+            this._updateMetrics();
+        }
+        return this._metrics;
+    },
 
-  getWidth () {
-      return this.getMetrics().width;
-  },
+    getWidth() {
+        return this.getMetrics().width;
+    },
 
-  getHeight () {
-      return this.getMetrics().height;
-  },
+    getHeight() {
+        return this.getMetrics().height;
+    },
 
-  position () {},
-  addDeleteStyle () {},
-  removeDeleteStyle () {},
+    position() {},
+    addDeleteStyle() {},
+    removeDeleteStyle() {},
 
-  getClientRect () {
-      let rect = this.getMetrics();
-      return new goog.math.Rect(rect.left, rect.top, rect.width, rect.height);
-  },
+    getClientRect() {
+        const rect = this.getMetrics();
+        return new goog.math.Rect(rect.left, rect.top, rect.width, rect.height);
+    },
 
-  close () {
-      let category, categoryEl, e;
-      if (!this.opened) {
-          return;
-      }
-      category = this.toolbox[this.currentSelected];
-      if (category) {
-          categoryEl = this.$$(`#category-${category.id}`),
-          categoryEl.style.paddingBottom = '';
-      }
-      this.style.width = '';
-      this.$.flyout.style.display = 'none';
-      this.set(`toolbox.${this.currentSelected}.selected`, false);
-      e = { type: Blockly.Events.CLOSE_FLYOUT };
-      this.prevSelected = this.currentSelected;
-      this.currentSelected = undefined;
-      this.updateStyles({
-          '--selected-color': null
-      });
-      if (this.targetWorkspace) {
-          this.targetWorkspace.fireChangeListener(e);
-      }
-      this.targetWorkspace.setResizesEnabled(false);
-      this.set('opened', false);
-  },
+    close() {
+        let category,
+            categoryEl,
+            e;
+        if (!this.opened) {
+            return;
+        }
+        category = this.toolbox[this.currentSelected];
+        if (category) {
+            categoryEl = this.$$(`#category-${category.id}`),
+            categoryEl.style.paddingBottom = '';
+        }
+        this.style.width = '';
+        this.$.flyout.style.display = 'none';
+        this.set(`toolbox.${this.currentSelected}.selected`, false);
+        e = { type: Blockly.Events.CLOSE_FLYOUT };
+        this.prevSelected = this.currentSelected;
+        this.currentSelected = undefined;
+        this.updateStyles({
+            '--selected-color': null,
+        });
+        if (this.targetWorkspace) {
+            this.targetWorkspace.fireChangeListener(e);
+        }
+        this.targetWorkspace.setResizesEnabled(false);
+        this.set('opened', false);
+    },
 
-  _targetWorkspaceChanged (ws) {
-      if (!ws) {
-          return;
-      }
-      ws.getParentSvg().addEventListener('click', this._targetWorkspaceClicked.bind(this));
-  },
+    _targetWorkspaceChanged(ws) {
+        if (!ws) {
+            return;
+        }
+        ws.getParentSvg().addEventListener('click', this._targetWorkspaceClicked.bind(this));
+    },
 
-  _targetWorkspaceClicked () {
-      this.close();
-  },
+    _targetWorkspaceClicked() {
+        this.close();
+    },
 
-  _selectCategory (e) {
-      let category = e.model.get('category'),
-          target = e.target,
-          index = e.model.get('index');
+    _selectCategory(e) {
+        let category = e.model.get('category'),
+            target = e.target,
+            index = e.model.get('index');
 
-      e.stopPropagation();
-      e.preventDefault();
-      
-      if (category.type === 'separator') {
-          return;
-      }
+        e.stopPropagation();
+        e.preventDefault();
 
-      if (typeof this.currentSelected !== 'undefined') {
-          let categoryEl = this.$$(`#category-${this.toolbox[this.currentSelected].id}`);
-          categoryEl.style.paddingBottom = '';
-          this.style.width = '';
-          this.$.flyout.style.display = 'none';
-          this.set(`toolbox.${this.currentSelected}.selected`, false);
-      }
+        if (category.type === 'separator') {
+            return;
+        }
 
-      if (this.currentSelected !== index) {
-          let e = {
-              type: Blockly.Events.OPEN_FLYOUT,
-              categoryId: category.id
-          },
-              categoryEl = this.$$(`#category-${category.id}`),
-              rect = categoryEl.getBoundingClientRect(),
-              buttons = dom(this.root).querySelectorAll('button.category, .separator:not([hidden])'),
-              buttonTop = categoryEl.offsetTop,
-              onSizeChanged;
-          onSizeChanged = (e) => {
-              let size = e && e.detail || this.prevSize,
-                  over = false, duration;
-              this.prevSize = size;
-              this.$.flyout.removeEventListener('size-changed', onSizeChanged);
-              this.transform(`translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout);
-              categoryEl.style.paddingBottom = `${size.height}px`;
-              this.style.width = `${size.width + 35}px`;
-              this._scrollIfNeeded(categoryEl);
-              this.$.mask.style.display = 'block';
-              this.$.mask.style.top = `${rect.top + rect.height}px`;
-              duration = size.height / 3;
-              this.style.overflowY = 'hidden';
-              for (let i = 0; i < buttons.length; i++) {
-                  if (over && this._canAnimate) {
-                      buttons[i].animate({
-                          transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)']
-                      }, {
-                          duration
-                      });
-                  } else if (buttons[i] === categoryEl) {
-                      over = true;
-                  }
-              }
-              if (this._canAnimate) {
-                  this.$.mask.animate({
-                      transform: ['translate(0px, 0px)', `translate(0px, ${size.height}px`]
-                  }, {
-                      duration,
-                      fill: 'forwards'
-                  }).onfinish = () => {
-                      this.style.overflowY = 'auto';
-                      this.$.mask.style.display = 'none';
-                  };
-              } else {
-                  this.style.overflowY = 'auto';
-                  this.$.mask.style.display = 'none';
-              }
-          };
-          if (this.forceRender) {
-              this.currentToolbox = undefined;
-              this.prevSelected = undefined;
-              this.forceRender = false;
-          }
-          if (this.prevSelected !== index) {
-              this.$.flyout.addEventListener('size-changed', onSizeChanged);
-          } else {
-              this.async(onSizeChanged);
-          }
-          this.$.flyout.style.display = 'block';
-          this.currentSelected = index;
-          this.currentToolbox = category.blocks;
-          this.set(`toolbox.${this.currentSelected}.selected`, true);
-          this.updateStyles({
-              '--selected-color': category.colour
-          });
-          this.targetWorkspace.fireChangeListener(e);
-          this.targetWorkspace.setResizesEnabled(false);
-          this.set('opened', true);
-      } else {
-          let e = {
-              type: Blockly.Events.CLOSE_FLYOUT
-          };
-          this.prevSelected = this.currentSelected;
-          this.currentSelected = undefined;
-          this.currentToolbox = undefined;
-          this.updateStyles({
-              '--selected-color': null
-          });
-          if (this.targetWorkspace) {
-              this.targetWorkspace.fireChangeListener(e);
-          }
-          this.targetWorkspace.setResizesEnabled(true);
-          this.set('opened', false);
-      }
-  },
+        if (typeof this.currentSelected !== 'undefined') {
+            const categoryEl = this.$$(`#category-${this.toolbox[this.currentSelected].id}`);
+            categoryEl.style.paddingBottom = '';
+            this.style.width = '';
+            this.$.flyout.style.display = 'none';
+            this.set(`toolbox.${this.currentSelected}.selected`, false);
+        }
 
-  _scrollIfNeeded (toEl) {
-      let flyout = this.$.flyout,
-          flyoutRect, rect;
-          rect = this.getBoundingClientRect();
-          flyoutRect = flyout.getBoundingClientRect();
-          if (flyoutRect.top + flyoutRect.height > rect.top + rect.height) {
-              toEl.scrollIntoView({block: 'start', behavior: 'smooth'});
-          }
-  },
+        if (this.currentSelected !== index) {
+            let e = {
+                    type: Blockly.Events.OPEN_FLYOUT,
+                    categoryId: category.id,
+                },
+                categoryEl = this.$$(`#category-${category.id}`),
+                rect = categoryEl.getBoundingClientRect(),
+                buttons = dom(this.root).querySelectorAll('button.category, .separator:not([hidden])'),
+                buttonTop = categoryEl.offsetTop,
+                onSizeChanged;
+            onSizeChanged = (e) => {
+                let size = e && e.detail || this.prevSize,
+                    over = false,
+                    duration;
+                this.prevSize = size;
+                this.$.flyout.removeEventListener('size-changed', onSizeChanged);
+                this.transform(`translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout);
+                categoryEl.style.paddingBottom = `${size.height}px`;
+                this.style.width = `${size.width + 35}px`;
+                this._scrollIfNeeded(categoryEl);
+                this.$.mask.style.display = 'block';
+                this.$.mask.style.top = `${rect.top + rect.height}px`;
+                duration = size.height / 3;
+                this.style.overflowY = 'hidden';
+                for (let i = 0; i < buttons.length; i++) {
+                    if (over && this._canAnimate) {
+                        buttons[i].animate({
+                            transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)'],
+                        }, {
+                            duration,
+                        });
+                    } else if (buttons[i] === categoryEl) {
+                        over = true;
+                    }
+                }
+                if (this._canAnimate) {
+                    this.$.mask.animate({
+                        transform: ['translate(0px, 0px)', `translate(0px, ${size.height}px`],
+                    }, {
+                        duration,
+                        fill: 'forwards',
+                    }).onfinish = () => {
+                        this.style.overflowY = 'auto';
+                        this.$.mask.style.display = 'none';
+                    };
+                } else {
+                    this.style.overflowY = 'auto';
+                    this.$.mask.style.display = 'none';
+                }
+            };
+            if (this.forceRender) {
+                this.currentToolbox = undefined;
+                this.prevSelected = undefined;
+                this.forceRender = false;
+            }
+            if (this.prevSelected !== index) {
+                this.$.flyout.addEventListener('size-changed', onSizeChanged);
+            } else {
+                this.async(onSizeChanged);
+            }
+            this.$.flyout.style.display = 'block';
+            this.currentSelected = index;
+            this.currentToolbox = category.blocks;
+            this.set(`toolbox.${this.currentSelected}.selected`, true);
+            this.updateStyles({
+                '--selected-color': category.colour,
+            });
+            this.targetWorkspace.fireChangeListener(e);
+            this.targetWorkspace.setResizesEnabled(false);
+            this.set('opened', true);
+        } else {
+            const e = {
+                type: Blockly.Events.CLOSE_FLYOUT,
+            };
+            this.prevSelected = this.currentSelected;
+            this.currentSelected = undefined;
+            this.currentToolbox = undefined;
+            this.updateStyles({
+                '--selected-color': null,
+            });
+            if (this.targetWorkspace) {
+                this.targetWorkspace.fireChangeListener(e);
+            }
+            this.targetWorkspace.setResizesEnabled(true);
+            this.set('opened', false);
+        }
+    },
 
-  getCategoryElement (id) {
-      return this.$$(`#category-${id}`);
-  },
+    _scrollIfNeeded(toEl) {
+        let flyout = this.$.flyout,
+            flyoutRect,
+            rect;
+        rect = this.getBoundingClientRect();
+        flyoutRect = flyout.getBoundingClientRect();
+        if (flyoutRect.top + flyoutRect.height > rect.top + rect.height) {
+            toEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+    },
 
-  getFlyoutBlock (type) {
-      let flyout = this.$$(`#flyout`);
-      if (flyout) {
-          return flyout.getBlockByType(type);
-      }
-  },
+    getCategoryElement(id) {
+        return this.$$(`#category-${id}`);
+    },
 
-  render () {
-      // Ensures the next opened flyout will be re-rendered
-      this.prevSelected = null;
-      this.forceRender = true;
-  },
+    getFlyoutBlock(type) {
+        const flyout = this.$$('#flyout');
+        if (flyout) {
+            return flyout.getBlockByType(type);
+        }
+    },
 
-  dispose () {},
-  clearSelection () {},
+    render() {
+        // Ensures the next opened flyout will be re-rendered
+        this.prevSelected = null;
+        this.forceRender = true;
+    },
 
-  get HtmlDiv () {
-      return this;
-  },
+    dispose() {},
+    clearSelection() {},
 
-  refreshSelection () {}
+    get HtmlDiv() {
+        return this;
+    },
+
+    refreshSelection() {},
 });

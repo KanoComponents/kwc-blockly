@@ -1,5 +1,6 @@
 import '../input/kwc-blockly-function-definition.js';
 import './config-input.js';
+
 const FieldFunctionDefinition = function (value, opt_validator) {
     this._width = 16;
     this._height = 16;
@@ -9,8 +10,8 @@ goog.inherits(FieldFunctionDefinition, Blockly.FieldConfig);
 
 FieldFunctionDefinition.prototype.showEditor_ = function () {
     Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, this.dispose.bind(this));
-    var div = Blockly.WidgetDiv.DIV;
-    
+    const div = Blockly.WidgetDiv.DIV;
+
     this.customEl = document.createElement('kwc-blockly-function-definition');
     this.customEl.set('targetWorkspace', this.sourceBlock_.workspace);
     this.customEl.set('toolbox', this.sourceBlock_.getToolbox());
@@ -29,10 +30,10 @@ FieldFunctionDefinition.prototype.showEditor_ = function () {
     this.position();
     if ('animate' in HTMLElement.prototype) {
         div.animate({
-            opacity: [0, 1]
+            opacity: [0, 1],
         }, {
             duration: 100,
-            easing: 'ease-out'
+            easing: 'ease-out',
         });
     }
 };
@@ -47,4 +48,4 @@ FieldFunctionDefinition.prototype.updateToolbox = function () {
 };
 
 // Legacy Blockly field registration
-window.Blockly['FieldFunctionDefinition'] = FieldFunctionDefinition;
+window.Blockly.FieldFunctionDefinition = FieldFunctionDefinition;

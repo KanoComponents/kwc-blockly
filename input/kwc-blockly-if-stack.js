@@ -1,26 +1,12 @@
-/**
-`kwc-blockly-if-stack`
-
-Example:
-    <kwc-blockly-if-stack></kwc-blockly-if-stack>
-
-@group Kano Elements
-@hero hero.svg
-@demo demo/kwc-blockly-if-stack.html
-*/
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
 import '@polymer/polymer/polymer-legacy.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
 import './kwc-blockly-wrapper.js';
 import './kwc-blockly-incr.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 display: block;
@@ -85,15 +71,13 @@ Polymer({
         </kwc-blockly-wrapper>
 `,
 
-  is:'kwc-blockly-if-stack',
+    is: 'kwc-blockly-if-stack',
 
-  properties: {
-      value: {
-          type: Object,
-          value: () => {
-              return { elseIfs: 0, else: false }
-          },
-          notify: true
-      }
-  }
+    properties: {
+        value: {
+            type: Object,
+            value: () => ({ elseIfs: 0, else: false }),
+            notify: true,
+        },
+    },
 });

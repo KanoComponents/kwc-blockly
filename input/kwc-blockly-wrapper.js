@@ -19,8 +19,9 @@ import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import '@kano/kwc-style/color.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 position: relative;
@@ -122,17 +123,17 @@ Polymer({
         </div>
 `,
 
-  is:'kwc-blockly-wrapper',
+    is: 'kwc-blockly-wrapper',
 
-  properties: {
-      title: String,
-      noCloseButton: {
-          type: Boolean,
-          value: false
-      }
-  },
+    properties: {
+        title: String,
+        noCloseButton: {
+            type: Boolean,
+            value: false,
+        },
+    },
 
-  _close () {
-      this.fire('close');
-  }
+    _close() {
+        this.fire('close');
+    },
 });

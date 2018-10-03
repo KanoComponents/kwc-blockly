@@ -18,8 +18,9 @@ import './kwc-blockly-incr.js';
 import './kwc-blockly-wrapper.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 display: block;
@@ -43,12 +44,12 @@ Polymer({
         </kwc-blockly-wrapper>
 `,
 
-  is:'kwc-blockly-array-length',
+    is: 'kwc-blockly-array-length',
 
-  properties: {
-      value: {
-          type: Number,
-          notify: true
-      }
-  }
+    properties: {
+        value: {
+            type: Number,
+            notify: true,
+        },
+    },
 });

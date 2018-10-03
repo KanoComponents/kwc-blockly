@@ -23,8 +23,9 @@ import './kwc-blockly-wrapper.js';
 import './kwc-blockly-incr.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 display: block;
@@ -103,34 +104,32 @@ Polymer({
         </kwc-blockly-wrapper>
 `,
 
-  is:'kwc-blockly-function-definition',
+    is: 'kwc-blockly-function-definition',
 
-  properties: {
-      value: {
-          type: Object,
-          value: () => {
-              return { parameters: 0, returns: false }
-          },
-          notify: true
-      },
-      targetWorkspace: Object,
-      toolbox: {
-          type: Array,
-          observer: '_toolboxChanged'
-      }
-  },
+    properties: {
+        value: {
+            type: Object,
+            value: () => ({ parameters: 0, returns: false }),
+            notify: true,
+        },
+        targetWorkspace: Object,
+        toolbox: {
+            type: Array,
+            observer: '_toolboxChanged',
+        },
+    },
 
-  _close () {
-      this.fire('close-tapped');
-  },
+    _close() {
+        this.fire('close-tapped');
+    },
 
-  _toolboxChanged () {
-      this.debounce('updateToolbox', () => {
-          this.renderToolbox();
-      }, 100);
-  },
+    _toolboxChanged() {
+        this.debounce('updateToolbox', () => {
+            this.renderToolbox();
+        }, 100);
+    },
 
-  renderToolbox () {
-      this._toolbox = this.toolbox;
-  }
+    renderToolbox() {
+        this._toolbox = this.toolbox;
+    },
 });

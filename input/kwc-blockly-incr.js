@@ -19,8 +19,9 @@ import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import '@kano/kwc-style/color.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
 Polymer({
-  _template: html`
+    _template: html`
         <style>
             :host {
                 display: inline-block;
@@ -58,34 +59,34 @@ Polymer({
         <button type="button" on-tap="_incr"><span>+</span></button>
 `,
 
-  is:'kwc-blockly-incr',
+    is: 'kwc-blockly-incr',
 
-  properties: {
-      value: {
-          type: Number,
-          value: 0,
-          notify: true
-      },
-      min: Number,
-      max: Number
-  },
+    properties: {
+        value: {
+            type: Number,
+            value: 0,
+            notify: true,
+        },
+        min: Number,
+        max: Number,
+    },
 
-  _decr () {
-      this.setBoundsParameters(this.value - 1);
-  },
+    _decr() {
+        this.setBoundsParameters(this.value - 1);
+    },
 
-  _incr () {
-      this.setBoundsParameters(this.value + 1);
-  },
+    _incr() {
+        this.setBoundsParameters(this.value + 1);
+    },
 
-  setBoundsParameters (v) {
-      let value = v;
-      if (typeof this.min !== 'undefined') {
-          value = Math.max(this.min, value);
-      }
-      if (typeof this.max !== 'undefined') {
-          value = Math.min(this.max, value);
-      }
-      this.set('value', value);
-  }
+    setBoundsParameters(v) {
+        let value = v;
+        if (typeof this.min !== 'undefined') {
+            value = Math.max(this.min, value);
+        }
+        if (typeof this.max !== 'undefined') {
+            value = Math.min(this.max, value);
+        }
+        this.set('value', value);
+    },
 });

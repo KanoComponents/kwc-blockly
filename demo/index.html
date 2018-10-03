@@ -6,149 +6,55 @@
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
         <title>kwc-blockly demo</title>
-
-        <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-
-        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
-        <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
-        <script src="../blockly_built/blockly_compressed.js"></script>
-        <script src="../blockly_built/blocks_compressed.js"></script>
-        <script src="../blockly_built/msg/js/en.js"></script>
-        <script src="../blockly_built/javascript_compressed.js"></script>
-        <script type="module" src="../kwc-blockly.js"></script>
-        <script type="module" src="../blocks.js"></script>
-
-        <!-- FIXME(polymer-modulizer):
-        These imperative modules that innerHTML your HTML are
-        a hacky way to be sure that any mixins in included style
-        modules are ready before any elements that reference them are
-        instantiated, otherwise the CSS @apply mixin polyfill won't be
-        able to expand the underlying CSS custom properties.
-        See: https://github.com/Polymer/polymer-modulizer/issues/154
-        -->
-    <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<custom-style>
-            <style is="custom-style" include="demo-pages-shared-styles">
-                kwc-blockly {
-                    width: 800px;
-                    height: 500px;
-                    --kwc-blockly-toolbox: {
-                        border-right: 1px solid grey;
-                    };
-                    --kwc-blockly-flyout: {
-                        border-right: 1px solid grey;
-                    };
-                }
-                body>div {
-                    max-width: 840px;
-                    margin: 0 auto;
-                }
-            </style>
-        </custom-style>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
+        <style>
+            kwc-blockly {
+                width: 800px;
+                height: 500px;
+            }
+            body>div {
+                max-width: 840px;
+                margin: 0 auto;
+            }
+        </style>
     </head>
 
     <body>
         <script type="module">
-const $_documentContainer = document.createElement('template');
+            import '../kwc-blockly.js';
+            import '../blocks.js';
 
-$_documentContainer.innerHTML = `<div class="vertical-section-container">
-            <h3>Basic kwc-blockly demo (incl. enhanced fields)</h3>
-            <demo-snippet>
-                <template>
-                    <kwc-blockly id="demo1"></kwc-blockly>
-                    <script>
-                        document.addEventListener('WebComponentsReady', () => {
-                            let basic = document.getElementById('demo1');
-                            ['colour_picker', 'lists_create_with', 'controls_if', 'function_definition'].forEach(blockId => {
-                                Blockly.Blocks[blockId].customColor = '#88c440';
-                            });
-                            basic.addEventListener('blockly-ready', () => {
-                                basic.loadBlocks(\`<xml>
-                                                        <block type="colour_picker" x="100" y="200"></block>
-                                                        <block type="lists_create_with" x="200" y="200"></block>
-                                                        <block type="controls_if" x="400" y="200"></block>
-                                                        <block type="function_definition" x="550" y="200"></block>
-                                                    </xml>\`);
-                            });
-                        });
-                    &lt;/script>
-                </template>
-            </demo-snippet>
-            <h3>kwc-blockly with default blocks</h3>
-            <demo-snippet>
-                <template>
-                    <kwc-blockly default-blocks="<xml xmlns=&quot;http://www.w3.org/1999/xhtml&quot;><variables></variables><block type=&quot;controls_if&quot; x=&quot;229&quot; y=&quot;214&quot; colour=&quot;#f75846&quot;><value name=&quot;IF0&quot;><block type=&quot;logic_compare&quot; colour=&quot;#f75846&quot;><field name=&quot;OP&quot;>GT</field><value name=&quot;A&quot;><block type=&quot;math_number&quot; colour=&quot;#ffc100&quot;><field name=&quot;NUM&quot;>5</field></block></value><value name=&quot;B&quot;><block type=&quot;math_number&quot; colour=&quot;#ffc100&quot;><field name=&quot;NUM&quot;>0</field></block></value></block></value></block></xml>"></kwc-blockly>
-                </template>
-            </demo-snippet>
-            <h3>kwc-blockly with flyout only</h3>
-            <demo-snippet>
-                <template>
-                    <kwc-blockly id="demo-flyout" no-toolbox="">
-                        <button slot="above-toolbox">ABOVE</button>
-                        <button slot="under-toolbox">UNDER</button>
-                    </kwc-blockly>
-                    <script>
-                        let demoFlyout = document.getElementById('demo-flyout');
-                        demoFlyout.addEventListener('blockly-ready', () => {
-                            demoFlyout.flyout = [
-                                { id: 'colour_picker' },
-                                { id: 'math_number' }
-                            ];
-                        });
-                    &lt;/script>
-                </template>
-            </demo-snippet>
-            <h3>kwc-blockly with toolbox</h3>
-            <demo-snippet>
-                <template>
-                    <kwc-blockly id="demo2">
-                        <button slot="above-toolbox">ABOVE</button>
-                        <button slot="under-toolbox">UNDER</button>
-                    </kwc-blockly>
-                    <script>
-                        let withToolbox = document.getElementById('demo2');
-                        Blockly.Blocks.variables_get.customColor
-                            = Blockly.Blocks.variables_set.customColor
-                            = '#3f51b5';
-                        Blockly.Blocks.math_number.customColor = '#00bcd4';
-                        withToolbox.toolbox = [{
-                            id: 'math',
-                            name: 'Math',
-                            colour: '#00bcd4',
-                            blocks: [
-                                { id: 'math_number' },
-                                {
-                                    id: 'math_arithmetic',
-                                    shadow: {
-                                        'A': '<shadow type="math_number"></shadow>'
-                                    }
-                                }
-                            ]
-                        }, {
-                            id: 'variables',
-                            name: 'Variables',
-                            colour: '#3f51b5',
-                            blocks: [
-                                { id: 'variables_set' },
-                                { id: 'variables_get' },
-                            ]
-                        }, {
-                            id: 'color',
-                            name: 'Color',
-                            colour: '#673ab7',
-                            blocks: [
-                                { id: 'colour_picker' }
-                            ]
-                        }]
-                    &lt;/script>
-                </template>
-            </demo-snippet>
-        </div>`;
+            const editor = document.createElement('kwc-blockly');
 
-document.body.appendChild($_documentContainer.content);
-</script>
+            editor.toolbox = [{
+                id: 'math',
+                name: 'Math',
+                colour: '#00bcd4',
+                blocks: [
+                    { id: 'math_constrain' },
+                    {
+                        id: 'math_arithmetic',
+                        shadow: {
+                            A: '<shadow type="math_number"></shadow>',
+                        },
+                    },
+                ],
+            }, {
+                id: 'variables',
+                name: 'Variables',
+                colour: '#3f51b5',
+                blocks: [
+                    { id: 'variables_set' },
+                    { id: 'variables_get' },
+                ],
+            }, {
+                id: 'color',
+                name: 'Color',
+                colour: '#673ab7',
+                blocks: [
+                    { id: 'colour_picker' },
+                ],
+            }];
+
+            document.body.appendChild(editor);
+        </script>
+    </body>

@@ -1,6 +1,7 @@
 import '@polymer/polymer/polymer-legacy.js';
 import '@kano/kwc-style/typography.js';
 import '@kano/kwc-style/button.js';
+
 const $_documentContainer = document.createElement('template');
 $_documentContainer.setAttribute('style', 'display: none;');
 

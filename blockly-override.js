@@ -1,7 +1,7 @@
 import { Material } from '@kano/kwc-color-picker/palettes/material.js';
 
 
-var animationSupported = 'animate' in HTMLElement.prototype;
+const animationSupported = 'animate' in HTMLElement.prototype;
 // Set the default palette to the material from the color picker
 Blockly.FieldColour.COLOURS = Material.colors;
 Blockly.FieldColour.COLUMNS = Material.rowSize;
@@ -26,34 +26,34 @@ if (window.CustomBlocklyMsg) {
  * @param {string|boolean|number|!Array<string>} value Value
  * for the state attribute.
  */
-goog.a11y.aria.setState = function(element, stateName, value) {
-if (goog.isArray(value)) {
-    value = value.join(' ');
-}
-var attrStateName = goog.a11y.aria.getAriaAttributeName_(stateName);
-if (!element) {
-    return;
-}
-if (value === '' || value == undefined) {
-    var defaultValueMap = goog.a11y.aria.datatables.getDefaultValuesMap();
-    // Work around for browsers that don't properly support ARIA.
-    // According to the ARIA W3C standard, user agents should allow
-    // setting empty value which results in setting the default value
-    // for the ARIA state if such exists. The exact text from the ARIA W3C
-    // standard (http://www.w3.org/TR/wai-aria/states_and_properties):
-    // "When a value is indicated as the default, the user agent
-    // MUST follow the behavior prescribed by this value when the state or
-    // property is empty or undefined."
-    // The defaultValueMap contains the default values for the ARIA states
-    // and has as a key the goog.a11y.aria.State constant for the state.
-    if (stateName in defaultValueMap) {
-    element.setAttribute(attrStateName, defaultValueMap[stateName]);
-    } else {
-    element.removeAttribute(attrStateName);
+goog.a11y.aria.setState = function (element, stateName, value) {
+    if (goog.isArray(value)) {
+        value = value.join(' ');
     }
-} else {
-    element.setAttribute(attrStateName, value);
-}
+    const attrStateName = goog.a11y.aria.getAriaAttributeName_(stateName);
+    if (!element) {
+        return;
+    }
+    if (value === '' || value == undefined) {
+        const defaultValueMap = goog.a11y.aria.datatables.getDefaultValuesMap();
+        // Work around for browsers that don't properly support ARIA.
+        // According to the ARIA W3C standard, user agents should allow
+        // setting empty value which results in setting the default value
+        // for the ARIA state if such exists. The exact text from the ARIA W3C
+        // standard (http://www.w3.org/TR/wai-aria/states_and_properties):
+        // "When a value is indicated as the default, the user agent
+        // MUST follow the behavior prescribed by this value when the state or
+        // property is empty or undefined."
+        // The defaultValueMap contains the default values for the ARIA states
+        // and has as a key the goog.a11y.aria.State constant for the state.
+        if (stateName in defaultValueMap) {
+            element.setAttribute(attrStateName, defaultValueMap[stateName]);
+        } else {
+            element.removeAttribute(attrStateName);
+        }
+    } else {
+        element.setAttribute(attrStateName, value);
+    }
 };
 
 
@@ -63,10 +63,10 @@ if (value === '' || value == undefined) {
  * @return {boolean} True if text input.
  * @private
  */
-Blockly.utils.isTargetInput = function(e) {
+Blockly.utils.isTargetInput = function (e) {
 // In a shadow DOM the first element of the path is more accurate
-var target = e.path ? e.path[0] : e.target;
-return target.type == 'textarea' || target.type == 'text' ||
+    const target = e.path ? e.path[0] : e.target;
+    return target.type == 'textarea' || target.type == 'text' ||
         target.type == 'number' || target.type == 'email' ||
         target.type == 'password' || target.type == 'search' ||
         target.type == 'tel' || target.type == 'url' ||
@@ -75,46 +75,44 @@ return target.type == 'textarea' || target.type == 'text' ||
 
 Blockly.Variables.variablesDB = {};
 
-Blockly.Variables.allUsedVariables = function(root) {
-var blocks;
-if (root instanceof Blockly.Block) {
+Blockly.Variables.allUsedVariables = function (root) {
+    let blocks;
+    if (root instanceof Blockly.Block) {
     // Root is Block.
-    blocks = root.getDescendants();
-} else if (root.getAllBlocks) {
+        blocks = root.getDescendants();
+    } else if (root.getAllBlocks) {
     // Root is Workspace.
-    blocks = root.getAllBlocks();
-} else {
-    throw 'Not Block or Workspace: ' + root;
-}
-var variableHash = Object.create(null);
-// Iterate through every block and add each variable to the hash.
-for (var x = 0; x < blocks.length; x++) {
-    var blockVariables = blocks[x].getVars();
-    if (blockVariables) {
-    for (var y = 0; y < blockVariables.length; y++) {
-        var varName = blockVariables[y];
-        // Variable name may be null if the block is only half-built.
-        if (varName) {
-        variableHash[varName.toLowerCase()] = varName;
+        blocks = root.getAllBlocks();
+    } else {
+        throw `Not Block or Workspace: ${root}`;
+    }
+    const variableHash = Object.create(null);
+    // Iterate through every block and add each variable to the hash.
+    for (let x = 0; x < blocks.length; x++) {
+        const blockVariables = blocks[x].getVars();
+        if (blockVariables) {
+            for (let y = 0; y < blockVariables.length; y++) {
+                const varName = blockVariables[y];
+                // Variable name may be null if the block is only half-built.
+                if (varName) {
+                    variableHash[varName.toLowerCase()] = varName;
+                }
+            }
         }
     }
+    // Flatten the hash into a list.
+    let variableList = [];
+    for (const name in variableHash) {
+        variableList.push(variableHash[name]);
     }
-}
-// Flatten the hash into a list.
-var variableList = [];
-for (var name in variableHash) {
-    variableList.push(variableHash[name]);
-}
-if (Blockly.Variables.variablesDB[root.id]) {
-    variableList = variableList.concat(Blockly.Variables.variablesDB[root.id]);
-}
-variableList = variableList.filter(function(value, index, self) {
-    return self.indexOf(value) === index;
-});
-return variableList;
+    if (Blockly.Variables.variablesDB[root.id]) {
+        variableList = variableList.concat(Blockly.Variables.variablesDB[root.id]);
+    }
+    variableList = variableList.filter((value, index, self) => self.indexOf(value) === index);
+    return variableList;
 };
 
-Blockly.Variables.addVariable = function(variable, root) {
+Blockly.Variables.addVariable = function (variable, root) {
     if (!Blockly.Variables.variablesDB[root.id]) {
         Blockly.Variables.variablesDB[root.id] = [];
     }
@@ -123,31 +121,31 @@ Blockly.Variables.addVariable = function(variable, root) {
     }
 };
 
-Blockly.getSvgXY_ = function(element, workspace) {
-var x = 0;
-var y = 0;
-var scale = 1;
-if (goog.dom.contains(workspace.getCanvas(), element) ||
+Blockly.getSvgXY_ = function (element, workspace) {
+    let x = 0;
+    let y = 0;
+    let scale = 1;
+    if (goog.dom.contains(workspace.getCanvas(), element) ||
     goog.dom.contains(workspace.getBubbleCanvas(), element)) {
     // Before the SVG canvas, scale the coordinates.
-    scale = workspace.scale;
-}
-do {
-    if (!element.getAttribute) {
-        break;
-    } 
-    // Loop through this block and every parent.
-    var xy = Blockly.utils.getRelativeXY(element);
-    if (element == workspace.getCanvas() ||
-        element == workspace.getBubbleCanvas()) {
-    // After the SVG canvas, don't scale the coordinates.
-    scale = 1;
+        scale = workspace.scale;
     }
-    x += xy.x * scale;
-    y += xy.y * scale;
-    element = element.parentNode;
-} while (element && element != workspace.getParentSvg());
-return new goog.math.Coordinate(x, y);
+    do {
+        if (!element.getAttribute) {
+            break;
+        }
+        // Loop through this block and every parent.
+        const xy = Blockly.utils.getRelativeXY(element);
+        if (element == workspace.getCanvas() ||
+        element == workspace.getBubbleCanvas()) {
+            // After the SVG canvas, don't scale the coordinates.
+            scale = 1;
+        }
+        x += xy.x * scale;
+        y += xy.y * scale;
+        element = element.parentNode;
+    } while (element && element != workspace.getParentSvg());
+    return new goog.math.Coordinate(x, y);
 };
 
 /**
@@ -155,59 +153,67 @@ return new goog.math.Coordinate(x, y);
  * @param {!Event} e Mouse up event.
  * @private
  */
-Blockly.Field.prototype.onMouseUp_ = function(e) {
-if ((goog.userAgent.IPHONE || goog.userAgent.IPAD) &&
+Blockly.Field.prototype.onMouseUp_ = function (e) {
+    if ((goog.userAgent.IPHONE || goog.userAgent.IPAD) &&
     !goog.userAgent.isVersionOrHigher('537.51.2') &&
     e.layerX !== 0 && e.layerY !== 0) {
     // Old iOS spawns a bogus event on the next touch after a 'prompt()' edit.
     // Unlike the real events, these have a layerX and layerY set.
-    return;
-} else if (Blockly.utils.isRightButton(e)) {
+
+    } else if (Blockly.utils.isRightButton(e)) {
     // Right-click.
-    return;
-} else if (this.sourceBlock_.workspace.isDragging() || this.sourceBlock_.isInFlyout) {
+
+    } else if (this.sourceBlock_.workspace.isDragging() || this.sourceBlock_.isInFlyout) {
     // Drag operation is concluding.  Don't open the editor.
-    return;
-} else if (this.sourceBlock_.isEditable()) {
+
+    } else if (this.sourceBlock_.isEditable()) {
     // Non-abstract sub-classes must define a showEditor_ method.
-    this.showEditor_();
+        this.showEditor_();
     // The field is handling the touch, but we also want the blockSvg onMouseUp
     // handler to fire, so we will leave the touch identifier as it is.
     // The next onMouseUp is responsible for nulling it out.
-}
+    }
 };
 
 /**
  * Install this field on a block.
  */
-Blockly.Field.prototype.init = function() {
-if (this.fieldGroup_) {
+Blockly.Field.prototype.init = function () {
+    if (this.fieldGroup_) {
     // Field has already been initialized once.
-    return;
-}
-// Build the DOM.
-this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-if (!this.visible_) {
-    this.fieldGroup_.style.display = 'none';
-}
-this.borderRect_ = Blockly.utils.createSvgElement('rect',
-    {'rx': 2,
-    'ry': 2,
-    'x': -Blockly.BlockSvg.SEP_SPACE_X / 2,
-    'y': 0,
-    'height': 16}, this.fieldGroup_, this.sourceBlock_.workspace);
-/** @type {!Element} */
-this.textElement_ = Blockly.utils.createSvgElement('text',
-    {'class': 'blocklyText', 'y': this.size_.height - 12.5},
-    this.fieldGroup_);
+        return;
+    }
+    // Build the DOM.
+    this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);
+    if (!this.visible_) {
+        this.fieldGroup_.style.display = 'none';
+    }
+    this.borderRect_ = Blockly.utils.createSvgElement(
+        'rect',
+        {
+            rx: 2,
+            ry: 2,
+            x: -Blockly.BlockSvg.SEP_SPACE_X / 2,
+            y: 0,
+            height: 16,
+        }, this.fieldGroup_, this.sourceBlock_.workspace,
+    );
+    /** @type {!Element} */
+    this.textElement_ = Blockly.utils.createSvgElement(
+        'text',
+        { class: 'blocklyText', y: this.size_.height - 12.5 },
+        this.fieldGroup_,
+    );
 
-this.updateEditable();
-this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
-this.mouseUpWrapper_ =
-    Blockly.bindEventWithChecks_(this.fieldGroup_, 'mouseup', this,
-    this.onMouseUp_);
-// Force a render.
-this.render_();
+    this.updateEditable();
+    this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
+    this.mouseUpWrapper_ =
+    Blockly.bindEventWithChecks_(
+        this.fieldGroup_, 'mouseup', this,
+        this.onMouseUp_,
+    );
+    // Force a render.
+    this.render_();
 };
 
 Blockly.setPhantomBlock = function (connection, targetBlock) {
@@ -247,41 +253,40 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
     sourceBlock.svgGroup_.appendChild(phantomSvgGroup);
     if (animationSupported) {
         phantomSvgGroup.animate([{
-            opacity: 0
+            opacity: 0,
         }, {
-            opacity: 1
+            opacity: 1,
         }], {
             duration: 400,
-            easing: 'ease-out'
+            easing: 'ease-out',
         });
         breathingAnimation = phantomSvgGroup.animate([{
-            opacity: 0.7
+            opacity: 0.7,
         }, {
-            opacity: 1
+            opacity: 1,
         }, {
-            opacity: 0.7
+            opacity: 0.7,
         }], {
             delay: 400,
             duration: 1200,
             easing: 'ease-in-out',
-            iterations: Infinity
+            iterations: Infinity,
         });
     } else {
         phantomSvgGroup.style.opacity = 1;
         breathingAnimation = function () {
             phantomSvgGroup.style.opacity = 1;
-        }
+        };
         breathingAnimation.cancel = function () {
             return null;
-        }
+        };
     }
-
 
 
     Blockly.phantomBlock_ = {
         svgRoot: phantomSvgGroup,
         position,
-        animation: breathingAnimation
+        animation: breathingAnimation,
     };
 };
 
@@ -296,13 +301,13 @@ Blockly.removePhantomBlock = function (connection, targetBlock) {
         if (animationSupported) {
             root.animate([{
                 transform: `${translate} scale(1)`,
-                opacity: 1
+                opacity: 1,
             }, {
                 transform: `${translate} scale(4)`,
-                opacity: 0
+                opacity: 0,
             }], {
                 duration: 300,
-                easing: 'ease-in'
+                easing: 'ease-in',
             }).onfinish = () => {
                 root.parentNode.removeChild(root);
             };
@@ -316,7 +321,7 @@ Blockly.removePhantomBlock = function (connection, targetBlock) {
 
 Blockly.Workspace.prototype.openOmnibox = function () {
     if (!this._omnibox) {
-        var svg = this.getParentSvg();
+        const svg = this.getParentSvg();
         this._omniboxContainer = document.createElement('div');
         this._omniboxContainer.style.position = 'fixed';
         this._omniboxContainer.style.top = 0;
@@ -324,7 +329,7 @@ Blockly.Workspace.prototype.openOmnibox = function () {
         this._omniboxContainer.style.width = '100%';
         this._omniboxContainer.style.height = '100%';
         this._omniboxContainer.addEventListener('mousedown', (e) => {
-            var target = e.path ? e.path[0] : e.target;
+            const target = e.path ? e.path[0] : e.target;
             if (target === this._omniboxContainer) {
                 this.closeOmnibox();
             }
@@ -352,10 +357,10 @@ Blockly.Workspace.prototype.closeOmnibox = function (doNotNotify) {
             this._omnibox.dispatchEvent(new CustomEvent('close'));
         }
     }
-}
+};
 
 Blockly.Block.prototype.renderSearchPlus_ = function () {
-    var inputList = this.inputList,
+    let inputList = this.inputList,
         connections;
 
     // Only add the listener once, trick to avoid overriding the constructor
@@ -368,7 +373,7 @@ Blockly.Block.prototype.renderSearchPlus_ = function () {
 
         // Grab all the input connections that are eligible for search plus buttons
         connections = inputList.filter(input => input.type === Blockly.INPUT_VALUE || input.type === Blockly.NEXT_STATEMENT)
-                                .map(input => input.connection);
+            .map(input => input.connection);
         // Create the buttons
         connections.forEach(connection => this.attachSearchToConnection_(connection));
         // Create a button for the nextConnection if exists and store the created block
@@ -399,7 +404,9 @@ Blockly.Block.prototype.renderSearchPlus_ = function () {
 Blockly.Block.prototype.attachSearchToConnection_ = function (connection) {
     // Do not attach if a block is already connected
     if (connection && !connection.targetConnection && this.workspace) {
-        let type, block, connectionName;
+        let type,
+            block,
+            connectionName;
         // Prevent this manipulation to trigger events
         Blockly.Events.disable();
         // Select the right type of search plus and connection for the current connection
@@ -429,7 +436,7 @@ Blockly._dataWorkspace = new Blockly.Workspace();
 Blockly._dataBlocks = {};
 
 Blockly.getDataBlock = function (block) {
-    let type = block.id;
+    const type = block.id;
     if (!Blockly._dataBlocks[type]) {
         Blockly._dataBlocks[type] = new Blockly.Block(Blockly._dataWorkspace, type);
         if (block.colour) {
@@ -444,7 +451,7 @@ Blockly.stringMatch = function (s, lookup) {
 };
 
 Blockly.stringMatchScore = function (s, lookup) {
-    let matches = s.toLowerCase().match(lookup.toLowerCase());
+    const matches = s.toLowerCase().match(lookup.toLowerCase());
     if (!matches) {
         return 0;
     }
@@ -453,8 +460,8 @@ Blockly.stringMatchScore = function (s, lookup) {
 
 Blockly.Block.prototype.matches = function (qs, workspace) {
     let score = 0;
-    this.inputList.forEach(input => {
-        input.fieldRow.forEach(field => {
+    this.inputList.forEach((input) => {
+        input.fieldRow.forEach((field) => {
             score += (field.matches(qs, workspace) ? 1 : 0);
         });
     });
@@ -465,8 +472,8 @@ Blockly.Block.prototype.fromQuery = function (qs, workspace) {
     if (!qs) {
         return;
     }
-    this.inputList.forEach(input => {
-        input.fieldRow.forEach(field => {
+    this.inputList.forEach((input) => {
+        input.fieldRow.forEach((field) => {
             field.fromQuery(qs, workspace);
         });
     });
@@ -483,54 +490,48 @@ Blockly.Field.prototype.matches = function (qs) {
 Blockly.Field.prototype.fromQuery = function () {};
 
 Blockly.FieldDropdown.prototype.getAPIText = function () {
-    let options = this.getOptions().map(options => options[0]);
+    const options = this.getOptions().map(options => options[0]);
     return `[${options.join('|')}]`;
 };
 
 Blockly.FieldDropdown.prototype.matches = function (qs) {
-    let options = this.getOptions().map(options => options[0]);
+    const options = this.getOptions().map(options => options[0]);
     // As soon as we find an option containing a piece of the query string
-    return options.some(option => {
-        return qs.split(' ').some(piece => Blockly.stringMatch(option, piece));
-    });
+    return options.some(option => qs.split(' ').some(piece => Blockly.stringMatch(option, piece)));
 };
 
 Blockly.FieldDropdown.prototype.fromQuery = function (qs) {
-    let options = this.getOptions();
+    const options = this.getOptions();
     // As soon as we find an option containing a piece of the query string
-    return options.some(option => {
-        return qs.split(' ').forEach(piece => {
-            if (Blockly.stringMatch(option[0], piece)) {
-                this.setValue(option[1]);
-            }
-        });
-    });
+    return options.some(option => qs.split(' ').forEach((piece) => {
+        if (Blockly.stringMatch(option[0], piece)) {
+            this.setValue(option[1]);
+        }
+    }));
 };
 
 Blockly.FieldVariable.prototype.getAPIText = function (qs, workspace) {
     let variableList = Blockly.Variables.allUsedVariables(workspace),
         variables = variableList.slice(0);
     if (qs.split(' ').some(piece => Blockly.stringMatch('variable', piece))) {
-        return `<variable>`;
+        return '<variable>';
     }
     for (let i = 0; i < variables.length; i++) {
         if (qs.split(' ').some(piece => Blockly.stringMatch(variables[i], piece))) {
             return `(${variables[i]})`;
         }
     }
-    return `<variable>`;
+    return '<variable>';
 };
 
 Blockly.FieldVariable.prototype.matches = function (qs, workspace) {
     let variableList = Blockly.Variables.allUsedVariables(workspace),
         variables = variableList.slice(0);
     if (qs.split(' ').some(piece => Blockly.stringMatch('variable', piece))) {
-        return `<variable>`;
+        return '<variable>';
     }
     // As soon as we find an option containing a piece of the query string
-    return variables.some(variable => {
-        return qs.split(' ').some(piece => Blockly.stringMatch(variable, piece));
-    });
+    return variables.some(variable => qs.split(' ').some(piece => Blockly.stringMatch(variable, piece)));
 };
 
 Blockly.FieldVariable.prototype.fromQuery = function (qs, workspace) {
@@ -554,7 +555,7 @@ Blockly.FieldNumber.prototype.matches = function (s) {
 };
 
 Blockly.FieldNumber.prototype.fromQuery = function (qs) {
-    let n = parseInt(qs, 10);
+    const n = parseInt(qs, 10);
     if (!isNaN(n)) {
         this.setValue(n);
     }
@@ -575,7 +576,7 @@ Blockly.FieldColour.prototype.getAPIText = function (qs) {
             highestColor = colors[i];
         }
     }
-    return highestColor ? highestColor : '<color>';
+    return highestColor || '<color>';
 };
 
 Blockly.FieldColour.prototype.matches = function (s) {
@@ -617,9 +618,7 @@ Blockly.FieldColour.prototype.fromQuery = function (qs) {
 
 Blockly.Input.prototype.toAPIString = function (qs, workspace) {
     let s = '';
-    s += this.fieldRow.map(field => {
-        return field.getAPIText(qs, workspace);
-    }).join(' ');
+    s += this.fieldRow.map(field => field.getAPIText(qs, workspace)).join(' ');
     // Deal with connection displays
     if (this.type === Blockly.INPUT_VALUE) {
         s += ' [ ]';
@@ -634,7 +633,7 @@ Blockly.Block.prototype.getFirstAvailableSearch = function () {
     for (let i = 0; i < this.inputList.length; i++) {
         input = this.inputList[i];
         if (input.connection && input.connection.targetConnection) {
-            let block = input.connection.targetConnection.sourceBlock_;
+            const block = input.connection.targetConnection.sourceBlock_;
             if (input.connection.type === Blockly.INPUT_VALUE && block.type === 'search_output'
                 || input.connection.type === Blockly.NEXT_STATEMENT && block.type === 'search_statement') {
                 return block;
@@ -644,29 +643,25 @@ Blockly.Block.prototype.getFirstAvailableSearch = function () {
 };
 
 Blockly.Block.prototype.toAPIString = function (qs, workspace) {
-    return this.inputList.map(input => {
-        return input.toAPIString(qs, workspace);
-    }).join(' ');
+    return this.inputList.map(input => input.toAPIString(qs, workspace)).join(' ');
 };
 
 Blockly.Workspace.prototype.search = function (qs) {
     let blocks = [];
     // lookup blocks in the toolbox
-    this.toolbox.toolbox.forEach(category => {
+    this.toolbox.toolbox.forEach((category) => {
         blocks = blocks.concat(category.blocks);
     });
     // Lookup all blocks registered
-    //blocks = Object.keys(Blockly.Blocks);
+    // blocks = Object.keys(Blockly.Blocks);
     return blocks
         .map(Blockly.getDataBlock)
-        .filter(block => {
-            return block.matches(qs, this) > 0;
-        });
+        .filter(block => block.matches(qs, this) > 0);
 };
 
 Blockly.Blocks.search_statement = {
-    init: function () {
-        let searchField = new Blockly.FieldLookup('Type: __________', 'blocklySearchStatement');
+    init() {
+        const searchField = new Blockly.FieldLookup('Type: __________', 'blocklySearchStatement');
         this.setColour('#bdbdbd');
         this.appendDummyInput('SEARCH')
             .appendField(searchField, 'SEARCH');
@@ -679,16 +674,16 @@ Blockly.Blocks.search_statement = {
                 this.dispose();
             }
         });
-    }
+    },
 };
 
 Blockly.Blocks.search_output = {
-    init: function () {
-        let searchField = new Blockly.FieldLookup('+', 'blocklySearchOutput');
+    init() {
+        const searchField = new Blockly.FieldLookup('+', 'blocklySearchOutput');
         this.setColour('#bdbdbd');
         this.appendDummyInput('SEARCH')
             .appendField(searchField, 'SEARCH');
         this.setOutput(true);
         this.setShadow(true);
-    }
+    },
 };
