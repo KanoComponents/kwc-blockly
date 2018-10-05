@@ -18,7 +18,7 @@ class KwcBlocklyFlyout extends PolymerElement {
                 .injectionDiv {
                     position: relative;
                     height: 100%;
-                    overflow: auto;
+                    overflow: auto !important;
                 }
                 svg {
                     width: 0px;

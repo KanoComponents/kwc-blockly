@@ -82,7 +82,8 @@ Polymer({
                 --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
             }
             #flyout.flyout-mode {
-                position: relative
+                position: relative;
+                padding-top: 20px;
             }
             #flyout.flyout-mode:after {
                 content: '';
