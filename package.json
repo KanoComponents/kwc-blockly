@@ -1,7 +1,7 @@
 {
   "description": "Blockly based kano coding editor",
   "name": "@kano/kwc-blockly",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scripts": {
     "checkstyle": "eslint ./*.js ./lib ./field ./input",
     "checkstyle-ci": "yarn checkstyle -f checkstyle -o eslint.xml"
@@ -23,12 +23,12 @@
     "@polymer/polymer": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
     "@kano/eslint-config": "^1.0.0",
     "@polymer/iron-component-page": "^3.0.0-pre.18",
     "@polymer/iron-demo-helpers": "^3.0.0-pre.18",
     "@polymer/iron-test-helpers": "^3.0.0-pre.18",
     "@webcomponents/webcomponentsjs": "^2.0.0",
+    "eslint": "^4.19.1",
     "wct-browser-legacy": "^0.0.1-pre.11"
   }
 }
