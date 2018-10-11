@@ -1,7 +1,7 @@
 {
   "description": "Blockly based kano coding editor",
   "name": "@kano/kwc-blockly",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "scripts": {
     "checkstyle": "eslint ./*.js ./lib ./field ./input",
     "checkstyle-ci": "yarn checkstyle -f checkstyle -o eslint.xml"
