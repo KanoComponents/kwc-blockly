@@ -11,9 +11,9 @@
     eslint-plugin-html "^4.0.2"
     eslint-plugin-import "^2.8.0"
 
-"@kano/kwc-color-picker@^3.0.0-beta.6":
-  version "3.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@kano/kwc-color-picker/-/kwc-color-picker-3.0.0-beta.6.tgz#a5360b199b355595cf35b945d88e35333697a5da"
+"@kano/kwc-color-picker@^3.0.0-beta.7":
+  version "3.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@kano/kwc-color-picker/-/kwc-color-picker-3.0.0-beta.7.tgz#ec8998c8f215d1a3f83052548549c4d30815b275"
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.18"
     "@polymer/iron-icon" "^3.0.0-pre.18"
