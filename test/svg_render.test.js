@@ -208,7 +208,7 @@ suite('kwc-blockly rendering', () => {
         const topBlock = workspace.getBlockById(topId);
         const topRoot = topBlock.getSvgRoot();
         const topPath = topRoot.querySelector('.blocklyPath');
-        const topD = topPath.getAttribute('d');
-        assert.equal(topD, 'm 0, 4 A 4,4 0 0,1 4, 0 H 15 h 1 a 3, 3 0 0, 0 11,0 h 3 H 119.15619659423828 a 4,4 0 0,1 4, 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 26 v 4 v 5 v 3 a 3,3 0 0,0 0,10 v 3 v -5 v 21 a 4,4 0 0,1 -4, 4 H 29.5 h -3 a 3, 3.5 0 0, 1 -9,0 h -3 H 4 a 4,4 0 0,1 -4,-4 z\n');
+        const topBBox = topPath.getBBox();
+        assert.equal(Math.floor(topBBox.height), 96);
     });
 });
