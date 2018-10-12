@@ -1,8 +1,19 @@
 #!groovy
 
+@Library('kanolib') _
+
 pipeline {
     agent {
         label 'ubuntu_18.04'
+    }
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'test-results.xml'
+            step([$class: 'CheckStylePublisher', pattern: 'eslint.xml'])
+        }
+        regression {
+            notify_culprits currentBuild.result
+        }
     }
     stages {
         // pulls down locally the sources for the component
@@ -24,8 +35,10 @@ pipeline {
         // Install the bower dependencies of the component
         stage('install dependencies') {
             steps {
-                script {
-                    sh "yarn"
+                sshagent(['read-only-github']) {
+                    script {
+                        sh "yarn"
+                    }
                 }
             }
         }
@@ -34,7 +47,14 @@ pipeline {
             steps {
                 script {
                     sh "yarn checkstyle-ci || exit 0"
-                    step([$class: 'CheckStylePublisher', pattern: 'eslint.xml'])
+                }
+            }
+        }
+        stage('test') {
+            steps {
+                script {
+                    install_chrome_dependencies()
+                    sh "yarn test-ci"
                 }
             }
         }
