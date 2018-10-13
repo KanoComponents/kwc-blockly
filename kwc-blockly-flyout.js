@@ -1,15 +1,13 @@
-import '@polymer/polymer/polymer-legacy.js';
-import './blockly.js';
-import './kwc-blockly-style.js';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import { Blockly, goog } from './blockly.js';
+import { blocklyStyle } from './kwc-blockly-style.js';
 
 const BLOCK_SPACING_Y = 12;
 
 class KwcBlocklyFlyout extends PolymerElement {
     static get template() {
         return html`
-            <style include="kwc-blockly-style"></style>
+            ${blocklyStyle}
             <style>
                 :host {
                     display: block;
@@ -119,15 +117,12 @@ class KwcBlocklyFlyout extends PolymerElement {
         this.svgGroup.appendChild(this.wsDom);
         this.$.svg.appendChild(this.svgGroup);
     }
-    _toolboxChanged(toolbox) {
-        let xmlString,
-            content,
-            xml,
-            extraArgs;
+    _toolboxChanged(toolbox = []) {
+        let xmlString;
+        let content;
+        let extraArgs;
 
-        toolbox = toolbox || [];
-
-        xmlString = toolbox.map((block) => {
+        xmlString = (toolbox || []).map((block) => {
             content = '';
             extraArgs = [];
             if (block.custom) {
@@ -141,7 +136,7 @@ class KwcBlocklyFlyout extends PolymerElement {
 
         xmlString = `<xml>${xmlString}</xml>`;
 
-        xml = Blockly.Xml.textToDom(xmlString);
+        const xml = Blockly.Xml.textToDom(xmlString);
         this.xmlList = xml.children;
 
         if (this.ws) {
@@ -175,16 +170,14 @@ class KwcBlocklyFlyout extends PolymerElement {
         this._renderBlocks();
     }
     _renderBlocks() {
-        let cursorX = this.paddingLeft + Blockly.BlockSvg.TAB_WIDTH,
-            cursorY = 0,
-            maxWidth = 0,
-            thisRect,
-            rect,
-            canvas,
-            allBlocks,
-            root,
-            sep,
-            hw;
+        let cursorX = this.paddingLeft + Blockly.BlockSvg.TAB_WIDTH;
+        let cursorY = 0;
+        let maxWidth = 0;
+        let rect;
+        let allBlocks;
+        let root;
+        let sep;
+        let hw;
 
         if (!this.xmlList) {
             return;
@@ -199,7 +192,7 @@ class KwcBlocklyFlyout extends PolymerElement {
         this.ws.scale = this.targetWorkspace.scale;
 
         this.blocks = [];
-        for (let i = 0; i < this.xmlList.length; i++) {
+        for (let i = 0; i < this.xmlList.length; i += 1) {
             this.blocks.push(Blockly.Xml.domToBlock(this.xmlList[i], this.ws));
         }
 
@@ -213,18 +206,21 @@ class KwcBlocklyFlyout extends PolymerElement {
 
         this.maxBlockWidth = maxWidth;
 
-        maxWidth = Math.min(this.maxWidth, Math.max(maxWidth + this.paddingLeft + 20, this.minWidth + Blockly.BlockSvg.TAB_WIDTH));
+        maxWidth = Math.min(
+            this.maxWidth,
+            Math.max(maxWidth + this.paddingLeft + 20, this.minWidth + Blockly.BlockSvg.TAB_WIDTH),
+        );
 
-        canvas = this.ws.getCanvas();
+        const canvas = this.ws.getCanvas();
         if (!canvas) {
             return;
         }
 
         canvas.setAttribute('transform', `scale(${this.ws.scale})`);
 
-        for (let i = 0; i < this.blocks.length; i++) {
-            let block = this.blocks[i],
-                hasOutputConnection = !!block.outputConnection;
+        for (let i = 0; i < this.blocks.length; i += 1) {
+            const block = this.blocks[i];
+            const hasOutputConnection = !!block.outputConnection;
             allBlocks = block.getDescendants();
             allBlocks.forEach((child) => {
                 child.isInFlyout = true;
@@ -337,7 +333,7 @@ class KwcBlocklyFlyout extends PolymerElement {
     createBlock(originBlock) {
         let block;
         if (originBlock.disabled) {
-            return;
+            return null;
         }
         Blockly.Events.disable();
         try {
@@ -370,17 +366,17 @@ class KwcBlocklyFlyout extends PolymerElement {
         const svgRootOld = originBlock.getSvgRoot();
         const svgRootOldPos = Blockly.utils.getRelativeXY(svgRootOld);
         if (!svgRootOld) {
-            throw 'originBlock is not rendered.';
+            throw new Error('originBlock is not rendered.');
         }
 
-        const targetWorkspace = this.targetWorkspace;
+        const { targetWorkspace } = this;
 
         // Create the new block by cloning the block in the flyout (via XML).
         const xml = Blockly.Xml.blockToDom(originBlock);
         const block = Blockly.Xml.domToBlock(xml, targetWorkspace);
         const svgRootNew = block.getSvgRoot();
         if (!svgRootNew) {
-            throw 'block is not rendered.';
+            throw new Error('block is not rendered.');
         }
         // Offset of the flyout itself
         const ownOffset = {
@@ -393,18 +389,8 @@ class KwcBlocklyFlyout extends PolymerElement {
             ownOffset.x = this.width - this.maxBlockWidth - connectionOffset;
         }
 
-        // Retrieve the absolute position of the target workspace
-        const targetWorkspaceRoot = targetWorkspace.getParentSvg();
-        const targetWorkspaceRect = targetWorkspaceRoot.getBoundingClientRect();
-
         // Retrieve the absolute position of the current workspace
         const workspaceRect = this._rect;
-
-        // Compute the offset between the two workspaces
-        const offset = {
-            x: workspaceRect.left - targetWorkspaceRect.left,
-            y: workspaceRect.top - targetWorkspaceRect.top,
-        };
 
         // Position in flyout
         const oldPos = {
@@ -415,7 +401,8 @@ class KwcBlocklyFlyout extends PolymerElement {
         // Retrieve the position of the newly created block
         const newBlockRect = svgRootNew.getBoundingClientRect();
         const newBlockPos = {
-            // Position the block at 0,0 relatively to the target workspace add the position of the origin block
+            // Position the block at 0,0 relatively to the target workspace
+            // add the position of the origin block
             // and cancel the applied scale
             x: (-newBlockRect.left + oldPos.x + workspaceRect.left) * (1 / targetWorkspace.scale),
             y: (-newBlockRect.top + oldPos.y + workspaceRect.top) * (1 / targetWorkspace.scale),
@@ -425,7 +412,8 @@ class KwcBlocklyFlyout extends PolymerElement {
         block.initialXY_ = newBlockPos;
         return block;
     }
-    detached() {
+    disconnectedCallback() {
+        super.disconnectedCallback();
         while (this.$.svg.firstChild) {
             this.$.svg.removeChild(this.$.svg.firstChild);
         }
@@ -451,7 +439,7 @@ class KwcBlocklyFlyout extends PolymerElement {
         // but be smaller than half Number.MAX_SAFE_INTEGER (not available on IE).
         const BIG_NUM = 1000000000;
         const x = flyoutRect.left;
-        const width = flyoutRect.width;
+        const { width } = flyoutRect;
 
         return new goog.math.Rect(x - BIG_NUM, -BIG_NUM, BIG_NUM + width, BIG_NUM * 2);
     }

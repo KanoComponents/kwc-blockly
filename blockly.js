@@ -155,6 +155,6 @@ export const {
     documentEventsBound_,
 } = window.Blockly;
 
-export const { Blockly } = window;
+export const { Blockly, goog } = window;
 
 export default Blockly;

@@ -17,22 +17,17 @@ Example:
 @group Kano Elements
 @hero hero.svg
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '@polymer/polymer/polymer-legacy.js';
-
-import './blockly.js';
-import '@polymer/iron-flex-layout/iron-flex-layout.js';
-import './kwc-blockly-flyout.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import { timeOut } from '@polymer/polymer/lib/utils/async.js';
+import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
+import '@polymer/iron-flex-layout/iron-flex-layout.js';
+import { Blockly, goog } from './blockly.js';
+import './kwc-blockly-flyout.js';
 
-Polymer({
-    _template: html`
+class KwcBlocklyToolbox extends PolymerElement {
+    static get template() {
+        return html`
         <style>
             :host {
                 display: block;
@@ -138,105 +133,95 @@ Polymer({
             </button>
             <div class="separator" hidden\$="[[!_isSeparator(category.type)]]"></div>
         </template>
-`,
-
-    is: 'kwc-blockly-toolbox',
-
-    properties: {
-        targetWorkspace: {
-            type: Object,
-            observer: '_targetWorkspaceChanged',
-        },
-        toolbox: {
-            type: Array,
-        },
-        currentToolbox: {
-            type: Array,
-        },
-        opened: {
-            type: Boolean,
-            value: false,
-            notify: true,
-            reflectToAttribute: true,
-        },
-        autoClose: {
-            type: Boolean,
-            value: false,
-        },
-        _canAnimate: {
-            type: Boolean,
-            value: 'animate' in HTMLElement.prototype,
-        },
-    },
-
+`;
+    }
+    static get properties() {
+        return {
+            targetWorkspace: {
+                type: Object,
+                observer: '_targetWorkspaceChanged',
+            },
+            toolbox: {
+                type: Array,
+            },
+            currentToolbox: {
+                type: Array,
+            },
+            opened: {
+                type: Boolean,
+                value: false,
+                notify: true,
+                reflectToAttribute: true,
+            },
+            autoClose: {
+                type: Boolean,
+                value: false,
+            },
+            _canAnimate: {
+                type: Boolean,
+                value: 'animate' in HTMLElement.prototype,
+            },
+        };
+    }
     get flyout_() {
         return this.$.flyout;
-    },
-
-    attached() {
+    }
+    connectedCallback() {
+        super.connectedCallback();
         this._onResize = this._onResize.bind(this);
         window.addEventListener('resize', this._onResize);
-    },
-
+    }
     _onResize() {
         this._updateMetrics();
-    },
-
+    }
     _isSeparator(type) {
         return type === 'separator';
-    },
-
+    }
     _computeColorStyle(color) {
         return `background: ${color};`;
-    },
-
+    }
     _computeSelectedClass(selected) {
         return selected ? 'selected' : '';
-    },
-
+    }
     _onBlockCreated() {
-        this.debounce('onBlockCreated', () => {
-            if (this.autoClose) {
-                this.close();
-            }
-        });
-    },
-
+        if (this.autoClose) {
+            this._createdDebouncer = Debouncer.debounce(
+                this._createdDebouncer,
+                timeOut.after(200),
+                () => {
+                    this.close();
+                },
+            );
+        }
+    }
     _updateMetrics() {
         this._metrics = this.getBoundingClientRect();
-    },
-
+    }
     _toolboxDomChanged() {
         this._updateMetrics();
         if (this.targetWorkspace) {
             this.targetWorkspace.resize();
         }
-    },
-
+    }
     getMetrics() {
         if (!this._metrics) {
             this._updateMetrics();
         }
         return this._metrics;
-    },
-
+    }
     getWidth() {
         return this.getMetrics().width;
-    },
-
+    }
     getHeight() {
         return this.getMetrics().height;
-    },
-
-    position() {},
-    addDeleteStyle() {},
-    removeDeleteStyle() {},
-
+    }
+    position() {}
+    addDeleteStyle() {}
+    removeDeleteStyle() {}
     getClientRect() {
         const rect = this.getMetrics();
         return new goog.math.Rect(rect.left, rect.top, rect.width, rect.height);
-    },
-
+    }
     close() {
         let category,
             categoryEl,
@@ -263,19 +248,16 @@ Polymer({
         }
         this.targetWorkspace.setResizesEnabled(false);
         this.set('opened', false);
-    },
-
+    }
     _targetWorkspaceChanged(ws) {
         if (!ws) {
             return;
         }
         ws.getParentSvg().addEventListener('click', this._targetWorkspaceClicked.bind(this));
-    },
-
+    }
     _targetWorkspaceClicked() {
         this.close();
-    },
-
+    }
     _selectCategory(e) {
         let category = e.model.get('category'),
             target = e.target,
@@ -382,42 +364,36 @@ Polymer({
             this.targetWorkspace.setResizesEnabled(true);
             this.set('opened', false);
         }
-    },
-
+    }
     _scrollIfNeeded(toEl) {
-        let flyout = this.$.flyout,
-            flyoutRect,
-            rect;
-        rect = this.getBoundingClientRect();
-        flyoutRect = flyout.getBoundingClientRect();
+        const { flyout } = this.$;
+        const rect = this.getBoundingClientRect();
+        const flyoutRect = flyout.getBoundingClientRect();
         if (flyoutRect.top + flyoutRect.height > rect.top + rect.height) {
             toEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
         }
-    },
-
+    }
     getCategoryElement(id) {
         return this.$$(`#category-${id}`);
-    },
-
+    }
     getFlyoutBlock(type) {
         const flyout = this.$$('#flyout');
         if (flyout) {
             return flyout.getBlockByType(type);
         }
-    },
-
+        return null;
+    }
     render() {
         // Ensures the next opened flyout will be re-rendered
         this.prevSelected = null;
         this.forceRender = true;
-    },
-
-    dispose() {},
-    clearSelection() {},
-
+    }
+    dispose() {}
+    clearSelection() {}
     get HtmlDiv() {
         return this;
-    },
+    }
+    refreshSelection() {}
+}
 
-    refreshSelection() {},
-});
+customElements.define('kwc-blockly-toolbox', KwcBlocklyToolbox);
