@@ -1,14 +1,6 @@
 /**
 `kano-blockly`
 
-Before using this component you need to import blockly yourself, as you must choose which language and locale you want to work with:
-Files are located under the `blockly` directory. Example:
-
-    <script src="/bower_components/kwc-blockly/blockly/blockly_compressed.js"></script>
-    <script src="/bower_components/kwc-blockly/blockly/blocks_compressed.js"></script>
-    <script src="/bower_components/kwc-blockly/blockly/msg/js/en.js"></script>
-    <script src="/bower_components/kwc-blockly/blockly/javascript_compressed.js"></script>
-
 Example:
     <kano-blockly></kano-blockly>
 
@@ -23,13 +15,6 @@ Example:
 @hero hero.svg
 @demo demo/index.html
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '@polymer/polymer/polymer-legacy.js';
-
 import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@kano/kwc-style/color.js';
@@ -44,13 +29,13 @@ import { Blockly } from './blockly.js';
 import './kwc-blockly-omnibox.js';
 import './kwc-blockly-toolbox.js';
 import './kwc-blockly-flyout.js';
-import './kwc-blockly-style.js';
 import { createFilters } from './lib/filters.js';
+import { blocklyStyle } from './kwc-blockly-style.js';
 
 class KwcBlockly extends PolymerElement {
     static get template() {
         return html`
-        <style include="kwc-blockly-style"></style>
+        ${blocklyStyle}
         <style>
             :host {
                 display: block;
@@ -111,14 +96,13 @@ class KwcBlockly extends PolymerElement {
             }
             .omnibox-wrapper {
                 position: absolute;
-                top: 0px;
+                top: 50%;
                 left: 0px;
+                transform: translateY(-50%);
                 width: 100%;
                 @apply --layout-vertical;
                 @apply --layout-center;
                 display: none;
-                /* 150px is half the max size of the flyout */
-                padding-top: calc(50% - 150px);
             }
             paper-dialog .buttons .confirm {
                 background: var(--color-grassland);

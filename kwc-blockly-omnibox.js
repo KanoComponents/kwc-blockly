@@ -1,12 +1,13 @@
-import '@polymer/polymer/polymer-legacy.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { timeOut } from '@polymer/polymer/lib/utils/async.js';
+import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
 import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import '@polymer/iron-a11y-keys/iron-a11y-keys.js';
 import '@polymer/paper-styles/shadow.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
-Polymer({
-    _template: html`
+class KwcBlocklyOmnibox extends PolymerElement {
+    static get template() {
+        return html`
         <style>
             :host {
                 display: block;
@@ -96,49 +97,49 @@ Polymer({
         <iron-a11y-keys target="[[_target]]" keys="down" on-keys-pressed="_onDownPressed"></iron-a11y-keys>
         <iron-a11y-keys target="[[_target]]" keys="up" on-keys-pressed="_onUpPressed"></iron-a11y-keys>
         <iron-a11y-keys target="[[_target]]" keys="enter" on-keys-pressed="_onEnterPressed"></iron-a11y-keys>
-`,
-
-    is: 'kwc-blockly-omnibox',
-
-    properties: {
-        query: {
-            type: String,
-            observer: '_queryChanged',
-        },
-        results: Array,
-        targetWorkspace: Object,
-        noDrag: {
-            type: Boolean,
-            value: false,
-        },
-        filter: {
-            type: Function,
-            observer: '_filterChanged',
-        },
-        qts: Number,
-        selected: Number,
-        _target: Object,
-    },
-
-    attached() {
+`;
+    }
+    static get properties() {
+        return {
+            query: {
+                type: String,
+                observer: '_queryChanged',
+            },
+            results: Array,
+            targetWorkspace: Object,
+            noDrag: {
+                type: Boolean,
+                value: false,
+            },
+            filter: {
+                type: Function,
+                observer: '_filterChanged',
+            },
+            qts: Number,
+            selected: Number,
+            _target: Object,
+        };
+    }
+    connectedCallback() {
+        super.connectedCallback();
         this._target = this.$.input;
-    },
-
+    }
     _blockCreated() {
-        this.fire('close');
-    },
-
+        this.dispatchEvent(new CustomEvent('close'));
+    }
     _filterChanged() {
         this.lookup();
-    },
-
-    _queryChanged(query) {
+    }
+    _queryChanged() {
         this.set('hint', '');
-        this.debounce('updateResult', () => {
-            this.lookup();
-        }, 200);
-    },
-
+        this._resultDebouncer = Debouncer.debounce(
+            this._resultDebouncer,
+            timeOut.after(200),
+            () => {
+                this.lookup();
+            },
+        );
+    }
     lookup() {
         let results = this.targetWorkspace.search(this.query || '');
         if (typeof this.filter === 'function') {
@@ -146,49 +147,43 @@ Polymer({
         }
         this.set('selected', 0);
         this.set('results', results);
-        // Update the query timestamp to force a computation on the labels if the results didn't change
+        // Update the query timestamp to force
+        // a computation on the labels if the results didn't change
         this.set('qts', Date.now());
-    },
-
+    }
     _computeBlockLabel(block) {
         return block.toAPIString(this.query || '', this.targetWorkspace);
-    },
-
+    }
     _computeBlockStyle(result) {
         return `background: ${result.getColour()};`;
-    },
-
+    }
     focus() {
         this.$.input.focus();
         this.$.input.select();
-    },
-
+    }
     clear() {
         this.query = '';
-    },
-
+    }
     _onResultTapped(e) {
         const block = e.model.get('result');
-        this.fire('confirm', { selected: block });
-    },
-
+        this.dispatchEvent(new CustomEvent('confirm', { detail: { selected: block } }));
+    }
     _onEnterPressed() {
-        this.fire('confirm', { selected: this.results[this.selected] });
-    },
-
+        this.dispatchEvent(new CustomEvent('confirm', { detail: { selected: this.results[this.selected] } }));
+    }
     _onDownPressed(e) {
         this.selected = Math.min(this.selected + 1, this.results.length - 1);
         e.preventDefault();
         e.stopPropagation();
-    },
-
+    }
     _onUpPressed(e) {
         this.selected = Math.max(this.selected - 1, 0);
         e.preventDefault();
         e.stopPropagation();
-    },
-
+    }
     _computeSelectedClass(index, selected) {
         return index === selected ? 'selected' : '';
-    },
-});
+    }
+}
+
+customElements.define('kwc-blockly-omnibox', KwcBlocklyOmnibox);
