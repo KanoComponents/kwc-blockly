@@ -6,6 +6,7 @@ import './override/core/css.js';
 import './override/core/connection.js';
 import './override/core/block.js';
 import './override/core/block_svg.js';
+import './override/core/gesture.js';
 import './override/core/scrollbar.js';
 import './override/core/block_render_svg.js';
 import './override/core/workspace_svg.js';
