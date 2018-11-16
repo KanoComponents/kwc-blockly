@@ -301,8 +301,6 @@ class KwcBlocklyFlyout extends PolymerElement {
         this._listeners = this._listeners || [];
         this._listeners.push(Blockly.bindEvent_(root, 'mousedown', null, this._blockMouseDown(block)));
         this._listeners.push(Blockly.bindEvent_(rect, 'mousedown', null, this._blockMouseDown(block)));
-        this._listeners.push(Blockly.bindEvent_(root, 'mouseup', null, this._blockMouseUp(block)));
-        this._listeners.push(Blockly.bindEvent_(rect, 'mouseup', null, this._blockMouseUp(block)));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseover', block, block.addSelect));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseout', block, block.removeSelect));
         this._listeners.push(Blockly.bindEvent_(rect, 'mouseover', block, block.addSelect));
@@ -331,14 +329,6 @@ class KwcBlocklyFlyout extends PolymerElement {
                 this.targetWorkspace._gesture = gesture;
             }
         };
-    }
-    _blockMouseUp(block) {
-        return (e) => {
-            const gesture = this.targetWorkspace.getGesture(e);
-            if (gesture) {
-                gesture.cancel();
-            }
-        }
     }
     createBlock(originBlock) {
         let block;
