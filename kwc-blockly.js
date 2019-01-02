@@ -381,11 +381,15 @@ class KwcBlockly extends PolymerElement {
         };
         Blockly._originalConfirm = Blockly.confirm;
         Blockly.confirm = (message, callback) => {
-            this._openDialog(message, defaultValue, { noInput: true }).then(callback);
+            this._openDialog(message, true, { noInput: true }).then((answer) => {
+                if (answer) {
+                    callback(answer);
+                }
+            });
         };
         Blockly._originalAlert = Blockly.alert;
         Blockly.alert = (message, callback) => {
-            this._openDialog(message, defaultValue, { noInput: true, noCancel: true }).then(callback);
+            this._openDialog(message, null, { noInput: true, noCancel: true }).then(callback);
         };
     }
     _teardownDialogs() {
@@ -545,10 +549,10 @@ class KwcBlockly extends PolymerElement {
                 const reason = e.detail;
                 const answer = this.dialog.input;
                 dialog.removeEventListener('iron-overlay-closed', onDialogClose);
-                if (reason.canceled) {
-                    return resolve(null);
+                if (reason.confirmed) {
+                    return resolve(answer);
                 }
-                return resolve(answer);
+                return resolve(null);
             };
             this.set('dialog.message', message);
             this.set('dialog.input', defaultValue);
