@@ -29,122 +29,122 @@ import { Blockly } from './blockly.js';
 import './kwc-blockly-omnibox.js';
 import './kwc-blockly-toolbox.js';
 import './kwc-blockly-flyout.js';
-import { createFilters } from './lib/filters.js';
 import { blocklyStyle } from './kwc-blockly-style.js';
+import { createFilters } from './lib/filters.js';
 
 class KwcBlockly extends PolymerElement {
     static get template() {
         return html`
-        ${blocklyStyle}
-        <style>
-            :host {
-                display: block;
-                position: relative;
-            }
-            #workspace {
-                position: absolute;
-                top: 0px;
-                bottom: 0px;
-                left: 0px;
-                right: 0px;
-                background-color: var(--kwc-blockly-background, #414a51);
-            }
-            .toolbox-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                box-sizing: border-box;
-            }
-            #flyout {
-                @apply --kwc-blockly-flyout;
-                background: var(--kwc-blockly-background, #414a51);
-            }
-            .toolbox-container {
-                @apply --layout-vertical;
-                background: var(--kwc-blockly-background, #414a51);
-            }
-            #toolbox, #flyout {
-                @apply --layout-flex;
-                --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
-            }
-            #flyout.flyout-mode {
-                position: relative;
-                padding-top: 20px;
-            }
-            #flyout.flyout-mode:after {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: -20px;
-                bottom: 0;
-                width: 15px;
-                background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
-                background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-                background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            }
-            #svg {
-                height: 100%;
-                width: 100%;
-                display: block;
-            }
-            #svg:focus {
-                outline: none;
-            }
-            .container {
-                padding: 16px 8px 8px 8px;
-            }
-            .omnibox-wrapper {
-                position: absolute;
-                top: 50%;
-                left: 0px;
-                transform: translateY(-50%);
-                width: 100%;
-                @apply --layout-vertical;
-                @apply --layout-center;
-                display: none;
-            }
-            paper-dialog .buttons .confirm {
-                background: var(--color-grassland);
-                color: white;
-            }
-            #dialog-content {
-                min-width: 320px;
-            }
-            kwc-blockly-omnibox {
-                max-width: 80%;
-            }
-            [hidden] {
-                display: none !important;
-            }
-        </style>
-        <div id="workspace" class="injectionDiv">
-            <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
-        </div>
-        <div class="toolbox-container">
-            <slot name="above-toolbox"></slot>
-            <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
-            <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
-            <slot name="under-toolbox"></slot>
-        </div>
-        <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
-            <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
-        </div>
-        <paper-dialog id="dialog" entry-animation="from-big-animation" fit-into="[[_svg]]" with-backdrop="">
-            <div id="dialog-content">
-                <h2>[[dialog.message]]</h2>
-                <div class="container" hidden\$="[[dialog.noInput]]">
-                    <input type="text" id="dialog-input" value="{{dialog.input::input}}" no-label="" autofocus="" on-keydown="_dialogKeydown">
-                </div>
-                <div class="buttons">
-                    <button dialog-confirm="" class="confirm">Confirm</button>
-                    <button dialog-dismiss="" hidden\$="[[dialog.noCancel]]">Cancel</button>
-                </div>
+            ${blocklyStyle}
+            <style>
+                :host {
+                    display: block;
+                    position: relative;
+                }
+                #workspace {
+                    position: absolute;
+                    top: 0px;
+                    bottom: 0px;
+                    left: 0px;
+                    right: 0px;
+                    background-color: var(--kwc-blockly-background, #414a51);
+                }
+                .toolbox-container {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    height: 100%;
+                    box-sizing: border-box;
+                }
+                #flyout {
+                    @apply --kwc-blockly-flyout;
+                    background: var(--kwc-blockly-background, #414a51);
+                }
+                .toolbox-container {
+                    @apply --layout-vertical;
+                    background: var(--kwc-blockly-background, #414a51);
+                }
+                #toolbox, #flyout {
+                    @apply --layout-flex;
+                    --kwc-blockly-toolbox-background: var(--kwc-blockly-background, #414a51);
+                }
+                #flyout.flyout-mode {
+                    position: relative;
+                    padding-top: 20px;
+                }
+                #flyout.flyout-mode:after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: -20px;
+                    bottom: 0;
+                    width: 15px;
+                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                }
+                #svg {
+                    height: 100%;
+                    width: 100%;
+                    display: block;
+                }
+                #svg:focus {
+                    outline: none;
+                }
+                .container {
+                    padding: 16px 8px 8px 8px;
+                }
+                .omnibox-wrapper {
+                    position: absolute;
+                    top: 50%;
+                    left: 0px;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    @apply --layout-vertical;
+                    @apply --layout-center;
+                    display: none;
+                }
+                paper-dialog .buttons .confirm {
+                    background: var(--color-grassland);
+                    color: white;
+                }
+                #dialog-content {
+                    min-width: 320px;
+                }
+                kwc-blockly-omnibox {
+                    max-width: 80%;
+                }
+                [hidden] {
+                    display: none !important;
+                }
+            </style>
+            <div id="workspace" class="injectionDiv">
+                <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
-        </paper-dialog>
-        <iron-a11y-keys keys="meta+f" on-keys-pressed="_openOmnibox" target="[[_target]]"></iron-a11y-keys>
-        <iron-a11y-keys keys="esc" on-keys-pressed="_closeOmnibox" target="[[_target]]"></iron-a11y-keys>
-`;
+            <div class="toolbox-container">
+                <slot name="above-toolbox"></slot>
+                <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
+                <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
+                <slot name="under-toolbox"></slot>
+            </div>
+            <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
+                <kwc-blockly-omnibox id="omnibox" on-close="_closeOmnibox" on-confirm="_onOmniboxConfirm"></kwc-blockly-omnibox>
+            </div>
+            <paper-dialog id="dialog" entry-animation="from-big-animation" fit-into="[[_svg]]" with-backdrop="">
+                <div id="dialog-content">
+                    <h2>[[dialog.message]]</h2>
+                    <div class="container" hidden\$="[[dialog.noInput]]">
+                        <input type="text" id="dialog-input" value="{{dialog.input::input}}" no-label="" autofocus="" on-keydown="_dialogKeydown">
+                    </div>
+                    <div class="buttons">
+                        <button dialog-confirm="" class="confirm">Confirm</button>
+                        <button dialog-dismiss="" hidden\$="[[dialog.noCancel]]">Cancel</button>
+                    </div>
+                </div>
+            </paper-dialog>
+            <iron-a11y-keys keys="meta+f" on-keys-pressed="_openOmnibox" target="[[_target]]"></iron-a11y-keys>
+            <iron-a11y-keys keys="esc" on-keys-pressed="_closeOmnibox" target="[[_target]]"></iron-a11y-keys>
+        `;
     }
     static get properties() {
         return {
@@ -202,6 +202,15 @@ class KwcBlockly extends PolymerElement {
             _svg: Object,
         };
     }
+    constructor() {
+        super();
+        this._target = this;
+        this.visible = false;
+        this._loadBlocks = this._loadBlocks.bind(this);
+        this._blurInput = this._blurInput.bind(this);
+        this._onMouseWheel = this._onMouseWheel.bind(this);
+        this._onToolboxScroll = this._onToolboxScroll.bind(this);
+    }
     ready() {
         super.ready();
         this.codeRelatedEvents = [
@@ -212,10 +221,8 @@ class KwcBlockly extends PolymerElement {
             'value',
             'connect',
         ];
-        this._blurInput = this._blurInput.bind(this);
-        this._onMouseWheel = this._onMouseWheel.bind(this);
-        this._onToolboxScroll = this._onToolboxScroll.bind(this);
     }
+
     /**
    * Inject blockly to the workspace div
    */
@@ -224,9 +231,6 @@ class KwcBlockly extends PolymerElement {
         this.dialog = {
             element: this.$.dialog,
         };
-        this.$.toolbox.addEventListener('scroll', this._onToolboxScroll);
-        this._target = this;
-        this.visible = false;
         const options = new Blockly.Options({
             media: this.media,
             scrollbars: true,
@@ -243,6 +247,7 @@ class KwcBlockly extends PolymerElement {
         });
         options.getMetrics = this.getMetrics;
         options.setMetrics = this.setMetrics;
+        this.$.toolbox.addEventListener('scroll', this._onToolboxScroll);
         this._svg = this.$.svg;
         this._svg.addEventListener('mousewheel', this._onMouseWheel);
         const filters = createFilters(Blockly, options);
@@ -271,13 +276,15 @@ class KwcBlockly extends PolymerElement {
 
         afterNextRender(this, () => {
             this.resize();
-            this.dispatchEvent(new CustomEvent('blockly-ready'), { bubbles: true, composed: true });
+            this.dispatchEvent(new CustomEvent('blockly-ready', {
+                bubbles: true,
+                composed: true,
+            }));
             if (this.blocks) {
                 this.loadBlocks(this.blocks);
             }
             this._defaultBlocksChanged();
         });
-
         // TODO Removing this is possibly controversial.
         // I moved it into the main CSS, but it would be good to find
         // out why we need it.
@@ -287,7 +294,7 @@ class KwcBlockly extends PolymerElement {
     disconnectedCallback() {
         super.disconnectedCallback();
         this._teardownDialogs();
-        this.$.toolbox.addEventListener('scroll', this._onToolboxScroll);
+        this.$.toolbox.removeEventListener('scroll', this._onToolboxScroll);
         this._svg.removeEventListener('mousewheel', this._onMouseWheel);
         this.workspace.dispose();
         // document.body.style.overflow = undefined;
@@ -312,7 +319,8 @@ class KwcBlockly extends PolymerElement {
             Blockly.inject.loadSounds_(options.pathToMedia, this.workspace);
         }
     }
-    _shouldHideToolbox() {
+
+    _shouldHideToolbox(noToolbox, toolbox) {
         return this.noToolbox || !this.toolbox;
     }
     _flyoutChanged() {
@@ -342,7 +350,6 @@ class KwcBlockly extends PolymerElement {
     }
     _onMouseWheel(e) {
         const { workspace } = this;
-        const metrics = workspace.getMetrics();
         let x = e.deltaX * workspace.scale;
         let y = e.deltaY * workspace.scale;
 
@@ -544,16 +551,16 @@ class KwcBlockly extends PolymerElement {
             inputSelect: false,
         }, opts || {});
         return new Promise((resolve) => {
-            const dialog = this.dialog.element;
-            const onDialogClose = (e) => {
-                const reason = e.detail;
-                const answer = this.dialog.input;
-                dialog.removeEventListener('iron-overlay-closed', onDialogClose);
-                if (reason.confirmed) {
-                    return resolve(answer);
-                }
-                return resolve(null);
-            };
+            let dialog = this.dialog.element,
+                onDialogClose = (e) => {
+                    let reason = e.detail,
+                        answer = this.dialog.input;
+                    dialog.removeEventListener('iron-overlay-closed', onDialogClose);
+                    if (reason.confirmed) {
+                        return resolve(answer);
+                    }
+                    return resolve(null);
+                };
             this.set('dialog.message', message);
             this.set('dialog.input', defaultValue);
             this.set('dialog.noInput', options.noInput);
@@ -620,7 +627,10 @@ class KwcBlockly extends PolymerElement {
                 this._panDebouncer,
                 timeOut.after(200),
                 () => {
-                    this.dispatchEvent(new CustomEvent('workspace-scroll', { bubbles: true, composed: true }));
+                    this.dispatchEvent(new CustomEvent('workspace-scroll', {
+                        bubbles: true,
+                        composed: true,
+                    }));
                 },
             );
             return;
@@ -654,7 +664,10 @@ class KwcBlockly extends PolymerElement {
                 this.lastCreated = null;
             } else if (e.type === Blockly.Events.MOVE) {
                 // The event type is `move` and the block concerned was not just created
-                this.dispatchEvent(new CustomEvent('block-move'), { bubbles: true, composed: true });
+                this.dispatchEvent(new CustomEvent('block-move', {
+                    bubbles: true,
+                    composed: true,
+                }));
             }
             if (block) {
                 blockType = block.type;
@@ -663,7 +676,11 @@ class KwcBlockly extends PolymerElement {
         this.updateFunctions(e);
         /** Enrich the event for tracking purposes */
         e.blockType = blockType;
-        this.dispatchEvent(new CustomEvent('change', { detail: e, bubbles: true, composed: true }));
+        this.dispatchEvent(new CustomEvent('change', {
+            detail: e,
+            bubbles: true,
+            composed: true,
+        }));
         if (this.codeRelatedEvents.indexOf(e.type) !== -1) {
             this.set('code', this.getCode(this.language));
         }
@@ -766,10 +783,13 @@ class KwcBlockly extends PolymerElement {
             this._scrollDebouncer,
             timeOut.after(200),
             () => {
-                this.dispatchEvent(new CustomEvent('toolbox-scroll', { bubbles: true, composed: true }));
+                this.dispatchEvent(new CustomEvent('toolbox-scroll', {
+                    bubbles: true,
+                    composed: true,
+                }));
             },
         );
     }
-}
+};
 
-customElements.define('kwc-blockly', KwcBlockly);
+window.customElements.define('kwc-blockly', KwcBlockly);

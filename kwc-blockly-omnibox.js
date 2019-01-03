@@ -166,10 +166,18 @@ class KwcBlocklyOmnibox extends PolymerElement {
     }
     _onResultTapped(e) {
         const block = e.model.get('result');
-        this.dispatchEvent(new CustomEvent('confirm', { detail: { selected: block } }));
+        this.dispatchEvent(new CustomEvent('confirm', {
+            detail: {
+                selected: block
+            }
+        }));
     }
     _onEnterPressed() {
-        this.dispatchEvent(new CustomEvent('confirm', { detail: { selected: this.results[this.selected] } }));
+        this.dispatchEvent(new CustomEvent('confirm', {
+            detail: {
+                selected: this.results[this.selected]
+            }
+        }));
     }
     _onDownPressed(e) {
         this.selected = Math.min(this.selected + 1, this.results.length - 1);
@@ -186,4 +194,4 @@ class KwcBlocklyOmnibox extends PolymerElement {
     }
 }
 
-customElements.define('kwc-blockly-omnibox', KwcBlocklyOmnibox);
+window.customElements.define('kwc-blockly-omnibox', KwcBlocklyOmnibox);
