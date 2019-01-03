@@ -37,7 +37,7 @@
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
-"@kano/web-tester@^1.0.0-alpha.5":
+"@kano/web-tester@^1.0.0-alpha.6":
   version "1.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@kano/web-tester/-/web-tester-1.0.0-alpha.6.tgz#4c9e407e776ee5ad233a0dd873762a6a0ebcc319"
   integrity sha512-w4Ax+xyoNIG3x96hSXjKgn0qp839j6/E4bfMovW02n8rW5kXw0xsKP91JtPvs3e1RSpG87eyFPp6hDNgjdILbg==

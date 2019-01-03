@@ -10,8 +10,8 @@
     "@webcomponents/webcomponentsjs": "2.0.0-beta.2"
   },
   "scripts": {
-    "serve-test": "web-tester serve ./test",
-    "test": "web-tester run ./test",
+    "serve-test": "web-tester serve ./test/*.js",
+    "test": "web-tester run ./test/*.js",
     "test-ci": "yarn run --silent test > test-results.xml",
     "checkstyle": "eslint ./*.js ./lib ./field ./input",
     "checkstyle-ci": "yarn checkstyle -f checkstyle -o eslint.xml"
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@kano/eslint-config": "^1.0.0",
-    "@kano/web-tester": "^1.0.0-alpha.5",
+    "@kano/web-tester": "^1.0.0-alpha.6",
     "@polymer/iron-test-helpers": "^3.0.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "eslint": "^4.19.1",
