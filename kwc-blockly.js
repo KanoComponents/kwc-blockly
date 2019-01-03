@@ -320,7 +320,7 @@ class KwcBlockly extends PolymerElement {
         }
     }
 
-    _shouldHideToolbox(noToolbox, toolbox) {
+    _shouldHideToolbox() {
         return this.noToolbox || !this.toolbox;
     }
     _flyoutChanged() {
@@ -790,6 +790,6 @@ class KwcBlockly extends PolymerElement {
             },
         );
     }
-};
+}
 
 window.customElements.define('kwc-blockly', KwcBlockly);
