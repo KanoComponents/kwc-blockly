@@ -117,7 +117,7 @@ class KwcBlocklyFlyout extends PolymerElement {
         this.svgGroup.appendChild(this.wsDom);
         this.$.svg.appendChild(this.svgGroup);
     }
-    _toolboxChanged(toolbox = []) {
+    _toolboxChanged(toolbox) {
         let xmlString;
         let content;
         let extraArgs;
@@ -345,7 +345,10 @@ class KwcBlocklyFlyout extends PolymerElement {
             Blockly.Events.setGroup(true);
             Blockly.Events.fire(new Blockly.Events.Create(block));
         }
-        this.dispatchEvent(new CustomEvent('block-created', { bubbles: true, composed: true }));
+        this.dispatchEvent(new CustomEvent('block-created', {
+            bubbles: true,
+            composed: true,
+        }));
 
 
         /* Add a class with elevated z-index when dragging

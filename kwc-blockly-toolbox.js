@@ -28,112 +28,112 @@ import './kwc-blockly-flyout.js';
 class KwcBlocklyToolbox extends PolymerElement {
     static get template() {
         return html`
-        <style>
-            :host {
-                display: block;
-                padding: 18px 0px 0px 0px;
-                color: var(--kwc-blockly-toolbox-color, white);
-                font-family: var(--font-body, Arial);
-                background: var(--kwc-blockly-toolbox-background, #414a51);
-                overflow-y: auto;
-                @apply --kwc-blockly-toolbox;
-                /* Promote layer as a prime element */
-                transform: translateZ(0);
-                position: relative;
-            }
-            :host([hidden]) {
-                display: none !important;
-            }
-            button.category {
-                display: block;
-                width: 100%;
-                background: transparent;
-                color: var(--kwc-blockly-toolbox-color, white);
-                text-align: left;
-                font-family: var(--font-body, Arial);
-                font-size: 16px;
-                font-weight: bold;
-                border: 0;
-                cursor: pointer;
-                padding: 2px 32px 3px 12px;
-                transition: border-color linear 100ms;
-            }
-            button.category>* {
-                display: inline-block;
-                vertical-align: middle;
-                pointer-events: none;
-            }
-            button.category:hover {
-                background-color: var(--kwc-blockly-toolbox-selected-color, #394148);
-            }
-            .separator {
-                height: 16px;
-            }
-            button.category.selected {
-                background-color: var(--kwc-blockly-toolbox-selected-color, #394148);
-            }
-            button.category:focus {
-                outline: none;
-            }
-            @keyframes fade-in {
-                from {
-                    opacity: 0;
+            <style>
+                :host {
+                    display: block;
+                    padding: 18px 0px 0px 0px;
+                    color: var(--kwc-blockly-toolbox-color, white);
+                    font-family: var(--font-body, Arial);
+                    background: var(--kwc-blockly-toolbox-background, #414a51);
+                    overflow-y: auto;
+                    @apply --kwc-blockly-toolbox;
+                    /* Promote layer as a prime element */
+                    transform: translateZ(0);
+                    position: relative;
                 }
-                to {
-                    opacity: 1;
+                :host([hidden]) {
+                    display: none !important;
                 }
-            }
-            .category-label {
-                margin: 3px 0 3px;
-            }
-            #flyout {
-                position: absolute;
-                top: 0;
-                transition: border-color linear 300ms;
-                /*border-bottom: 1px solid #383838;*/
-                overflow: hidden;
-                animation: fade-in ease-out 300ms;
-                display: none;
-                margin-left: 12px;
-            }
-            button.category.selected .color {
-                box-shadow: 0 0 0 1px var(--kwc-blockly-toolbox-selected-color, #394148),
-                            0 0 0 2px var(--selected-color, black);
-            }
-            .color {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                box-shadow: none;
-                transition: box-shadow linear 150ms;
-                margin: 0 8px 0 2px;
-            }
-            :host([opened]) {
-                @apply --kwc-blockly-toolbox-opened;
-            }
-            *[hidden] {
-                display: none !important;
-            }
-            .mask {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: inherit;
-                display: none;
-            }
-        </style>
-        <kwc-blockly-flyout id="flyout" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
-        <div id="mask" class="mask"></div>
-        <template is="dom-repeat" items="[[toolbox]]" as="category" on-dom-change="_toolboxDomChanged">
-            <button type="button" class\$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id\$="category-[[category.id]]" hidden\$="[[_isSeparator(category.type)]]">
-                <div class="color" style\$="[[_computeColorStyle(category.colour)]]"></div>
-                <div class="category-label">[[category.name]]</div>
-            </button>
-            <div class="separator" hidden\$="[[!_isSeparator(category.type)]]"></div>
-        </template>
-`;
+                button.category {
+                    display: block;
+                    width: 100%;
+                    background: transparent;
+                    color: var(--kwc-blockly-toolbox-color, white);
+                    text-align: left;
+                    font-family: var(--font-body, Arial);
+                    font-size: 16px;
+                    font-weight: bold;
+                    border: 0;
+                    cursor: pointer;
+                    padding: 2px 32px 3px 12px;
+                    transition: border-color linear 100ms;
+                }
+                button.category>* {
+                    display: inline-block;
+                    vertical-align: middle;
+                    pointer-events: none;
+                }
+                button.category:hover {
+                    background-color: var(--kwc-blockly-toolbox-selected-color, #394148);
+                }
+                .separator {
+                    height: 16px;
+                }
+                button.category.selected {
+                    background-color: var(--kwc-blockly-toolbox-selected-color, #394148);
+                }
+                button.category:focus {
+                    outline: none;
+                }
+                @keyframes fade-in {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+                .category-label {
+                    margin: 3px 0 3px;
+                }
+                #flyout {
+                    position: absolute;
+                    top: 0;
+                    transition: border-color linear 300ms;
+                    /*border-bottom: 1px solid #383838;*/
+                    overflow: hidden;
+                    animation: fade-in ease-out 300ms;
+                    display: none;
+                    margin-left: 12px;
+                }
+                button.category.selected .color {
+                    box-shadow: 0 0 0 1px var(--kwc-blockly-toolbox-selected-color, #394148),
+                                0 0 0 2px var(--selected-color, black);
+                }
+                .color {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    box-shadow: none;
+                    transition: box-shadow linear 150ms;
+                    margin: 0 8px 0 2px;
+                }
+                :host([opened]) {
+                    @apply --kwc-blockly-toolbox-opened;
+                }
+                *[hidden] {
+                    display: none !important;
+                }
+                .mask {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: inherit;
+                    display: none;
+                }
+            </style>
+            <kwc-blockly-flyout id="flyout" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
+            <div id="mask" class="mask"></div>
+            <template is="dom-repeat" items="[[toolbox]]" as="category" on-dom-change="_toolboxDomChanged">
+                <button type="button" class\$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id\$="category-[[category.id]]" hidden\$="[[_isSeparator(category.type)]]">
+                    <div class="color" style\$="[[_computeColorStyle(category.colour)]]"></div>
+                    <div class="category-label">[[category.name]]</div>
+                </button>
+                <div class="separator" hidden\$="[[!_isSeparator(category.type)]]"></div>
+            </template>
+        `;
     }
     static get properties() {
         return {
@@ -396,4 +396,4 @@ class KwcBlocklyToolbox extends PolymerElement {
     refreshSelection() {}
 }
 
-customElements.define('kwc-blockly-toolbox', KwcBlocklyToolbox);
+window.customElements.define('kwc-blockly-toolbox', KwcBlocklyToolbox);
