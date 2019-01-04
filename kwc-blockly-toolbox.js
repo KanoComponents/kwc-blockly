@@ -18,8 +18,7 @@ Example:
 @hero hero.svg
 */
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import { timeOut } from '@polymer/polymer/lib/utils/async.js';
+import { microTask, timeOut } from '@polymer/polymer/lib/utils/async.js';
 import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
 import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import { Blockly, goog } from './blockly.js';
@@ -231,7 +230,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
         category = this.toolbox[this.currentSelected];
         if (category) {
-            categoryEl = this.$$(`#category-${category.id}`),
+            categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`),
             categoryEl.style.paddingBottom = '';
         }
         this.style.width = '';
@@ -271,7 +270,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
 
         if (typeof this.currentSelected !== 'undefined') {
-            const categoryEl = this.$$(`#category-${this.toolbox[this.currentSelected].id}`);
+            const categoryEl = this.shadowRoot.querySelector(`#category-${this.toolbox[this.currentSelected].id}`);
             categoryEl.style.paddingBottom = '';
             this.style.width = '';
             this.$.flyout.style.display = 'none';
@@ -283,9 +282,9 @@ class KwcBlocklyToolbox extends PolymerElement {
                     type: Blockly.Events.OPEN_FLYOUT,
                     categoryId: category.id,
                 },
-                categoryEl = this.$$(`#category-${category.id}`),
+                categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`),
                 rect = categoryEl.getBoundingClientRect(),
-                buttons = dom(this.root).querySelectorAll('button.category, .separator:not([hidden])'),
+                buttons = this.shadowRoot.querySelectorAll('button.category, .separator:not([hidden])'),
                 buttonTop = categoryEl.offsetTop,
                 onSizeChanged;
             onSizeChanged = (e) => {
@@ -294,7 +293,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                     duration;
                 this.prevSize = size;
                 this.$.flyout.removeEventListener('size-changed', onSizeChanged);
-                this.transform(`translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout);
+                this.$.flyout.style.transform = `translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout;
                 categoryEl.style.paddingBottom = `${size.height}px`;
                 this.style.width = `${size.width + 35}px`;
                 this._scrollIfNeeded(categoryEl);
@@ -336,7 +335,13 @@ class KwcBlocklyToolbox extends PolymerElement {
             if (this.prevSelected !== index) {
                 this.$.flyout.addEventListener('size-changed', onSizeChanged);
             } else {
-                this.async(onSizeChanged);
+                this._sizeDebouncer = Debouncer.debounce(
+                    this._sizeDebouncer,
+                    microTask,
+                    () => {
+                        onSizeChanged();
+                    },
+                );
             }
             this.$.flyout.style.display = 'block';
             this.currentSelected = index;
@@ -374,10 +379,10 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
     }
     getCategoryElement(id) {
-        return this.$$(`#category-${id}`);
+        return this.shadowRoot.querySelector(`#category-${id}`);
     }
     getFlyoutBlock(type) {
-        const flyout = this.$$('#flyout');
+        const flyout = this.shadowRoot.querySelector('#flyout');
         if (flyout) {
             return flyout.getBlockByType(type);
         }
