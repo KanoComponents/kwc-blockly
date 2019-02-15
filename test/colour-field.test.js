@@ -1,4 +1,3 @@
-import * as interactions from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../kwc-blockly.js';
 import '../blocks.js';
 
@@ -20,8 +19,22 @@ suite('ColourField', () => {
         const fieldSvg = svgRoot.querySelector('.blocklyEditableText');
 
         setTimeout(() => {
-            interactions.down(fieldSvg, { x: 5, y: 5 });
-            interactions.up(fieldSvg, { x: 5, y: 5 });
+            fieldSvg.dispatchEvent(new PointerEvent('pointerdown', {
+                pointerId: 1,
+                bubbles: true,
+                cancelable: true,
+                pointerType: 'mouse',
+                clientX: 1,
+                clientY: 1,
+            }));
+            fieldSvg.dispatchEvent(new PointerEvent('pointerup', {
+                pointerId: 1,
+                bubbles: true,
+                cancelable: true,
+                pointerType: 'mouse',
+                clientX: 1,
+                clientY: 1,
+            }));
             assert.isNotNull(document.body.querySelector('.blocklyWidgetDiv kwc-color-picker'));
             done();
         }, 100);
