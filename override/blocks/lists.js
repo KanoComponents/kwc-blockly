@@ -1,4 +1,5 @@
 import '../../field/array-length.js';
+
 Blockly.Blocks['lists_create_with'] = {
     /**
      * Block for creating a list with any number of elements of any type.
@@ -6,7 +7,7 @@ Blockly.Blocks['lists_create_with'] = {
      */
     init: function () {
         this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
-        this.setColour(Blockly.Blocks.lists.HUE);
+        this.setColour(Blockly.Constants.Lists.HUE);
         this.itemCount_ = 3;
         this.updateShape_();
         this.setOutput(true, 'Array');

@@ -297,14 +297,16 @@ Blockly.BlockSvg.prototype.render = function(opt_bubble) {
 
 /**
  * Render the bottom edge of the block.
- * @param {!Array.<string>} steps Path of block outline.
- * @param {!Array.<string>} highlightSteps Path of block highlights.
+ * @param {!Blockly.BlockSvg.PathObject} pathObject The object containing
+ *     partially constructed SVG paths, which will be modified by this function.
  * @param {number} cursorY Height of block.
  * @private
  */
-Blockly.BlockSvg.prototype.renderDrawBottom_ =
-    function(steps, highlightSteps, cursorY) {
+Blockly.BlockSvg.prototype.renderDrawBottom_ = function(pathObject, cursorY) {
   /* eslint-disable indent */
+
+  var steps = pathObject.steps;
+  var highlightSteps = pathObject.highlightSteps;
   this.height += cursorY + 1;  // Add one for the shadow.
   if (this.nextConnection) {
     steps.push('H', (Blockly.BlockSvg.NOTCH_WIDTH + (this.RTL ? 0.5 : - 0.5)) +
@@ -346,14 +348,13 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ =
 
 /**
  * Render the left edge of the block.
- * @param {!Array.<string>} steps Path of block outline.
- * @param {!Array.<string>} highlightSteps Path of block highlights.
- * @param {!Object} connectionsXY Location of block.
- * @param {number} cursorY Height of block.
+ * @param {!Blockly.BlockSvg.PathObject} pathObject The object containing
+ *     partially constructed SVG paths, which will be modified by this function.
  * @private
  */
-Blockly.BlockSvg.prototype.renderDrawLeft_ =
-    function(steps, highlightSteps, connectionsXY, cursorY) {
+Blockly.BlockSvg.prototype.renderDrawLeft_ = function(pathObject) {
+  var steps = pathObject.steps;
+  var highlightSteps = pathObject.highlightSteps;
   if (this.outputConnection) {
     // Create output connection.
     this.outputConnection.setOffsetInBlock(0, 0);
@@ -385,14 +386,15 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ =
 
 /**
  * Render the top edge of the block.
- * @param {!Array.<string>} steps Path of block outline.
- * @param {!Array.<string>} highlightSteps Path of block highlights.
+ * @param {!Blockly.BlockSvg.PathObject} pathObject The object containing
+ *     partially constructed SVG paths, which will be modified by this function.
  * @param {number} rightEdge Minimum width of block.
  * @private
  */
-Blockly.BlockSvg.prototype.renderDrawTop_ =
-    function(steps, highlightSteps, rightEdge) {
+Blockly.BlockSvg.prototype.renderDrawTop_ = function(pathObject, rightEdge) {
   /* eslint-disable indent */
+  var steps = pathObject.steps;
+  var highlightSteps = pathObject.highlightSteps;
   // Position the cursor at the top-left starting point.
   this.squareTopLeftCorner_ = false;
   if (this.squareTopLeftCorner_) {
@@ -432,21 +434,20 @@ Blockly.BlockSvg.prototype.renderDrawTop_ =
 
 /**
  * Render the right edge of the block.
- * @param {!Array.<string>} steps Path of block outline.
- * @param {!Array.<string>} highlightSteps Path of block highlights.
- * @param {!Array.<string>} inlineSteps Inline block outlines.
- * @param {!Array.<string>} highlightInlineSteps Inline block highlights.
+ * @param {!Blockly.BlockSvg.PathObject} pathObject The object containing
+ *     partially constructed SVG paths, which will be modified by this function.
  * @param {!Array.<!Array.<!Object>>} inputRows 2D array of objects, each
  *     containing position information.
  * @param {number} iconWidth Offset of first row due to icons.
  * @return {number} Height of block.
  * @private
  */
-Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
-    inlineSteps, highlightInlineSteps, inputRows, iconWidth) {
+Blockly.BlockSvg.prototype.renderDrawRight_ = function(pathObject, inputRows, iconWidth) {
   var cursorX;
   var cursorY = 0;
   var connectionX, connectionY;
+  var { steps, highlightSteps, inlineSteps, highlightInlineSteps } = pathObject;
+
   for (var y = 0, row; row = inputRows[y]; y++) {
     cursorX = Blockly.BlockSvg.SEP_SPACE_X;
     if (y == 0) {
