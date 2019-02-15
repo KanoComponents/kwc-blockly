@@ -399,6 +399,8 @@ class KwcBlocklyToolbox extends PolymerElement {
         return this;
     }
     refreshSelection() {}
+    addStyle() {}
+    removeStyle() {}
 }
 
 window.customElements.define('kwc-blockly-toolbox', KwcBlocklyToolbox);
