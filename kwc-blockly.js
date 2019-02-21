@@ -255,6 +255,7 @@ class KwcBlockly extends PolymerElement {
         options.disabledPatternId = filters.disabledPattern.id;
         options.gridPattern = filters.gridPattern;
         this.$.svg.appendChild(filters.defs);
+
         // Load CSS.
         Blockly.Css.inject(options.hasCss, options.pathToMedia);
         this._setupDialogs();
@@ -457,6 +458,8 @@ class KwcBlockly extends PolymerElement {
         if (options.hasSounds) {
             Blockly.inject.loadSounds_(options.pathToMedia, this.workspace);
         }
+
+        Blockly.setTheme(Blockly.Themes.Classic);
     }
     _closeOmnibox(e) {
         if (!this._omniboxOpened) {

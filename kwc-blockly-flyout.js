@@ -449,6 +449,7 @@ class KwcBlocklyFlyout extends PolymerElement {
     reflow() {}
     setContainerVisible() {}
     dispose() {}
+    isBlockCreatable_() { return true; }
 }
 
 customElements.define('kwc-blockly-flyout', KwcBlocklyFlyout);
