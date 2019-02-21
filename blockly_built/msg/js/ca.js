@@ -10,6 +10,7 @@ Blockly.Msg["ADD_COMMENT"] = "Afegeix un comentari";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "No podem esborrar la variable '%1' perquè forma part de la definició de la funció '%2'";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Canvia valor:";
 Blockly.Msg["CLEAN_UP"] = "Netejar blocs";
+Blockly.Msg["COLLAPSED_WARNINGS_WARNING"] = "Collapsed blocks contain warnings.";  // untranslated
 Blockly.Msg["COLLAPSE_ALL"] = "Contraure blocs";
 Blockly.Msg["COLLAPSE_BLOCK"] = "Contraure bloc";
 Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "color 1";
