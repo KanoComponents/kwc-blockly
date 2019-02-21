@@ -10,6 +10,7 @@ Blockly.Msg["ADD_COMMENT"] = "Добави коментар";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Променливата '%1' не може да бъде изтрита, защото е част от определението на функцията '%2'";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Промени стойността:";
 Blockly.Msg["CLEAN_UP"] = "Премахни блокове";
+Blockly.Msg["COLLAPSED_WARNINGS_WARNING"] = "Collapsed blocks contain warnings.";  // untranslated
 Blockly.Msg["COLLAPSE_ALL"] = "Скрий блокове";
 Blockly.Msg["COLLAPSE_BLOCK"] = "Скрий блок";
 Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "цвят 1";

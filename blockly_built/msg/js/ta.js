@@ -10,6 +10,7 @@ Blockly.Msg["ADD_COMMENT"] = "கருத்தை சேர்";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable '%1' because it's part of the definition of the function '%2'";  // untranslated
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "மதிப்பை மாற்றவும்:";
 Blockly.Msg["CLEAN_UP"] = "Clean up Blocks";  // untranslated
+Blockly.Msg["COLLAPSED_WARNINGS_WARNING"] = "Collapsed blocks contain warnings.";  // untranslated
 Blockly.Msg["COLLAPSE_ALL"] = "உறுப்புகளை மரை";
 Blockly.Msg["COLLAPSE_BLOCK"] = "உறுப்பை மரை";
 Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "நிறம் 1";

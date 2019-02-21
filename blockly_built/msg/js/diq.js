@@ -10,6 +10,7 @@ Blockly.Msg["ADD_COMMENT"] = "Tefsir cı ke";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable '%1' because it's part of the definition of the function '%2'";  // untranslated
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Erci bıvurne:";
 Blockly.Msg["CLEAN_UP"] = "Blokan pak ke";
+Blockly.Msg["COLLAPSED_WARNINGS_WARNING"] = "Collapsed blocks contain warnings.";  // untranslated
 Blockly.Msg["COLLAPSE_ALL"] = "Blokan teng ke";
 Blockly.Msg["COLLAPSE_BLOCK"] = "Bloki teng ke";
 Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "reng 1";
