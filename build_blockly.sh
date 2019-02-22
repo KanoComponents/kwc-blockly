@@ -30,6 +30,9 @@ mv $TMP_DIR/blockly/lua_compressed.js $CURRENT_DIR/blockly_built/lua_compressed.
 mv $TMP_DIR/blockly/php_compressed.js $CURRENT_DIR/blockly_built/php_compressed.js
 mv $TMP_DIR/blockly/python_compressed.js $CURRENT_DIR/blockly_built/python_compressed.js
 
+# Set goog.global to window
+$CURRENT_DIR/node_modules/.bin/replace 'goog\.global\s*=\s*this;' 'goog.global=window;' $CURRENT_DIR/blockly_built/blockly_compressed.js
+
 # Ensure that these objects are available outside of the compiled module
 echo " window.goog=goog; window.Blockly=Blockly;" >> $CURRENT_DIR/blockly_built/blockly_compressed.js
 
