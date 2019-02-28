@@ -117,6 +117,20 @@ class KwcBlockly extends PolymerElement {
                 [hidden] {
                     display: none !important;
                 }
+                /* Pup the flyout in top-left corner and let blockly position it. */
+                .trashcan-flyout {
+                    top: 0px;
+                }
+                /* The same colour we use for the toolbox flyouts */
+                .trashcan-flyout path.blocklyFlyoutBackground {
+                    fill: var(--kwc-blockly-toolbox-selected-color, #394148);
+                    fill-opacity: 0.8;
+                }
+                /* Fixes lid animation */
+                .blocklyTrash #lid {
+                    transform-origin: -5px 0px 0px;
+                }
+
             </style>
             <div id="workspace" class="injectionDiv">
                 <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -421,6 +435,21 @@ class KwcBlockly extends PolymerElement {
         // A null translation will also apply the correct initial scale.
         mainWorkspace.translate(0, 0);
         mainWorkspace.markFocused();
+
+        if (options.hasTrashcan) {
+            mainWorkspace.addTrashcan();
+        }
+        if (options.zoomOptions && options.zoomOptions.controls) {
+            mainWorkspace.addZoomControls();
+        }
+
+        var verticalSpacing = Blockly.Scrollbar.scrollbarThickness;
+        if (options.hasTrashcan) {
+            verticalSpacing = mainWorkspace.trashcan.init(verticalSpacing);
+        }
+        if (options.zoomOptions && options.zoomOptions.controls) {
+            mainWorkspace.zoomControls_.init(verticalSpacing);
+        }
 
         mainWorkspace.functionsRegistry = new Blockly.FunctionsRegistry(mainWorkspace);
 

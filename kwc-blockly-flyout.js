@@ -355,7 +355,7 @@ class KwcBlocklyFlyout extends PolymerElement {
            the block out of the toolbox and register a listener to
            remove it when the dragging is over. */
         const onChange = (e) => {
-            if (e.type === Blockly.Events.MOVE && e.blockId === block.id) {
+            if (e.type === Blockly.Events.MOVE && e.blockId === block.id && block.svgGroup_) {
                 Blockly.utils.removeClass(block.svgGroup_, 'initialDrag');
                 block.workspace.removeChangeListener(onChange);
             }

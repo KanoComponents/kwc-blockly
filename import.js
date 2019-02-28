@@ -16,6 +16,7 @@ import './override/core/field_variable.js';
 import './override/core/block_dragger.js';
 import './override/core/trashcan.js';
 import './override/core/zoom_controls.js';
+import './override/core/flyout_vertical.js';
 import './ext/blocks/functions.js';
 import './ext/field_lookup.js';
 import './ext/custom_dropdown.js';
