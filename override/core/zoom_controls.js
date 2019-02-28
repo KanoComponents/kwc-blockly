@@ -119,33 +119,39 @@ Blockly.ZoomControls.prototype.createDom = function () {
  * Move the zoom controls to the bottom-right corner.
  */
 Blockly.ZoomControls.prototype.position = function() {
-    var metrics = this.workspace_.getMetrics();
-    if (!metrics) {
-        // There are no metrics available (workspace is probably not visible).
-        return;
-    }
-    if (this.workspace_.RTL) {
-        this.left_ = this.MARGIN_SIDE_ + Blockly.Scrollbar.scrollbarThickness;
-        if (metrics.toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
-        this.left_ += metrics.flyoutWidth;
-        if (this.workspace_.toolbox_) {
-            this.left_ += metrics.absoluteLeft;
-        }
-        }
-    } else {
-        this.left_ = metrics.viewWidth + metrics.absoluteLeft -
-            this.WIDTH_ - this.MARGIN_SIDE_ - Blockly.Scrollbar.scrollbarThickness;
+  // Not yet initialized.
+  if (!this.verticalSpacing_) {
+    return;
+  }
+  var metrics = this.workspace_.getMetrics();
+  if (!metrics) {
+    // There are no metrics available (workspace is probably not visible).
+    return;
+  }
+  if (metrics.toolboxPosition == Blockly.TOOLBOX_AT_LEFT
+    || (this.workspace_.horizontalLayout && !this.workspace_.RTL)) {
+    // Toolbox starts in the left corner.
+    this.left_ = metrics.viewWidth + metrics.absoluteLeft -
+      this.WIDTH_ - this.MARGIN_SIDE_ - Blockly.Scrollbar.scrollbarThickness;
+  } else {
+    // Toolbox starts in the right corner.
+    this.left_ = this.MARGIN_SIDE_ + Blockly.Scrollbar.scrollbarThickness;
+  }
 
-        if (metrics.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
-        this.left_ -= metrics.flyoutWidth;
-        }
-    }
+  if (metrics.toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
+    this.top_ = this.verticalSpacing_;
+    /* Commented out blockly's transforms as we use different assets */
+    // this.zoomInGroup_.setAttribute('transform', 'translate(0, 34)');
+    // this.zoomResetGroup_.setAttribute('transform', 'translate(0, 77)');
+  } else {
     this.top_ = metrics.viewHeight + metrics.absoluteTop -
-        this.HEIGHT_ - this.bottom_;
-    if (metrics.toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
-        this.top_ -= metrics.flyoutHeight;
-    }
-    this.left_ -= 1;
-    this.svgGroup_.setAttribute('transform',
-        'translate(' + this.left_ + ',' + this.top_ + ')');
+        this.HEIGHT_ - this.verticalSpacing_;
+    /* Commented out blockly's transforms as we use different assets */
+    // this.zoomInGroup_.setAttribute('transform', 'translate(0, 43)');
+    // this.zoomOutGroup_.setAttribute('transform', 'translate(0, 77)');
+  }
+
+  this.left_ -= 1;
+  this.svgGroup_.setAttribute('transform',
+      'translate(' + this.left_ + ',' + this.top_ + ')');
 };
