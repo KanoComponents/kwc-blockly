@@ -130,6 +130,18 @@ class KwcBlockly extends PolymerElement {
                 .blocklyTrash #lid {
                     transform-origin: -5px 0px 0px;
                 }
+                kwc-blockly-toolbox::-webkit-scrollbar {
+                    width: 5px;
+                }
+                kwc-blockly-toolbox::-webkit-scrollbar-thumb {
+                    border-radius: 8px;
+                    opacity: 0.5;
+                    background: var(--kwc-blockly-scrollbars-color, #292f35);
+                }
+                kwc-blockly-toolbox:hover::-webkit-scrollbar-thumb {
+                    opacity: 1;
+                    cursor: pointer;
+                }
 
             </style>
             <div id="workspace" class="injectionDiv">

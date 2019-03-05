@@ -1,3 +1,4 @@
+import { assert, fixture } from '@kano/web-tester/helpers.js';
 import * as interactions from '@polymer/iron-test-helpers/mock-interactions.js';
 import { flush } from '@polymer/polymer/lib/utils/flush.js';
 import '../kwc-blockly.js';

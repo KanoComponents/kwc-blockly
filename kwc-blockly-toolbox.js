@@ -126,11 +126,11 @@ class KwcBlocklyToolbox extends PolymerElement {
             <kwc-blockly-flyout id="flyout" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
             <div id="mask" class="mask"></div>
             <template is="dom-repeat" items="[[toolbox]]" as="category" on-dom-change="_toolboxDomChanged">
-                <button type="button" class\$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id\$="category-[[category.id]]" hidden\$="[[_isSeparator(category.type)]]">
-                    <div class="color" style\$="[[_computeColorStyle(category.colour)]]"></div>
+                <button type="button" class$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id$="category-[[category.id]]" hidden$="[[_isSeparator(category.type)]]">
+                    <div class="color" style$="[[_computeColorStyle(category.colour)]]"></div>
                     <div class="category-label">[[category.name]]</div>
                 </button>
-                <div class="separator" hidden\$="[[!_isSeparator(category.type)]]"></div>
+                <div class="separator" hidden$="[[!_isSeparator(category.type)]]"></div>
             </template>
         `;
     }

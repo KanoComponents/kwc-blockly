@@ -4,3 +4,9 @@ modulizer.sh
 blockly_patch
 polymer.json
 wct.conf.json
+coverage
+Jenkinsfile
+.eslintrc.js
+.gitmodules
+build_blockly.sh
+yarn.lock

@@ -1,3 +1,4 @@
+import { assert, fixture } from '@kano/web-tester/helpers.js';
 import { flush } from '@polymer/polymer/lib/utils/flush.js';
 import '../kwc-blockly.js';
 import '../blocks.js';

@@ -12,6 +12,7 @@ import './override/core/scrollbar.js';
 import './override/core/block_render_svg.js';
 import './override/core/workspace_svg.js';
 import './override/core/events.js';
+import './override/core/field_number.js';
 import './override/core/field_variable.js';
 import './override/core/block_dragger.js';
 import './override/core/trashcan.js';
