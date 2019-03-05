@@ -11,14 +11,20 @@ pipeline {
             junit allowEmptyResults: true, testResults: 'test-results.xml'
             cobertura coberturaReportFile: 'coverage/cobertura-coverage.xml'
             step([$class: 'CheckStylePublisher', pattern: 'eslint.xml'])
-            github.updatePRWithCoverageData file: 'coverage/coverage-summary.md'
-            jira.updateIssuesStatus('SX')
+            script {
+                github.updatePRWithCoverageData file: 'coverage/coverage-summary.md'
+                jira.updateIssuesStatus('SX')
+            }
         }
         regression {
-            email.notifyCulprits()
+            script {
+                email.notifyCulprits()
+            }
         }
         fixed {
-            email.notifyCulprits()
+            script {
+                email.notifyCulprits()
+            }
         }
     }
     stages {
