@@ -80,13 +80,18 @@ class KwcBlocklyFlyout extends PolymerElement {
         this._separators = [];
         this._rectPool = [];
         this._blockDB = {};
+        this._stylesInjected = false;
     }
     connectedCallback() {
         super.connectedCallback();
-        if (Blockly.Css.styleSheet_) {
-            this.shadowRoot.appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
-        }
         this._render();
+    }
+    injectStyles() {
+        if (this._stylesInjected || !Blockly.Css.styleSheet_) {
+            return;
+        }
+        this.shadowRoot.appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
+        this._stylesInjected = true;
     }
     _targetWorkspaceChanged() {
         this._render();
@@ -116,6 +121,7 @@ class KwcBlocklyFlyout extends PolymerElement {
         this.svgGroup = Blockly.utils.createSvgElement('g', { class: 'kanoBlocklyFlyout' }, null);
         this.svgGroup.appendChild(this.wsDom);
         this.$.svg.appendChild(this.svgGroup);
+        this.injectStyles();
     }
     _toolboxChanged(toolbox) {
         let xmlString;

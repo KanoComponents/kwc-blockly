@@ -32,4 +32,7 @@ Blockly.Css.CONTENT = Blockly.Css.CONTENT.concat((`
 .blocklyWidgetDiv .goog-menuitem-content {
     font: normal 1.5em bariol, Arial !important;
 }
+.blocklyText {
+    cursor: inherit;
+}
 `).split('\n'));

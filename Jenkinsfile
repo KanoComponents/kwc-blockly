@@ -4,15 +4,21 @@
 
 pipeline {
     agent {
-        label 'ubuntu_18.04'
+        label 'ubuntu_18.04_with_docker'
     }
     post {
         always {
             junit allowEmptyResults: true, testResults: 'test-results.xml'
+            cobertura coberturaReportFile: 'coverage/cobertura-coverage.xml'
             step([$class: 'CheckStylePublisher', pattern: 'eslint.xml'])
+            github.updatePRWithCoverageData file: 'coverage/coverage-summary.md'
+            jira.updateIssuesStatus('SX')
         }
         regression {
-            notify_culprits currentBuild.result
+            email.notifyCulprits()
+        }
+        fixed {
+            email.notifyCulprits()
         }
     }
     stages {
@@ -22,22 +28,14 @@ pipeline {
                 checkout scm
             }
         }
-        stage('tools') {
-            steps {
-                script {
-                    def NODE_PATH = tool name: 'Node 8.11.2', type: 'nodejs'
-                    env.PATH = "${env.PATH}:${NODE_PATH}/bin"
-                    def YARN_PATH = tool name: 'yarn', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
-                    env.PATH = "${env.PATH}:${YARN_PATH}/bin"
-                }
-            }
-        }
         // Install the bower dependencies of the component
         stage('install dependencies') {
             steps {
                 sshagent(['read-only-github']) {
                     script {
-                        sh "yarn"
+                        docker.image('node:8-alpine').inside {
+                            sh "yarn"
+                        }
                     }
                 }
             }
@@ -46,20 +44,25 @@ pipeline {
         stage('checkstyle') {
             steps {
                 script {
-                    sh "yarn checkstyle-ci || exit 0"
+                    docker.image('node:8-alpine').inside {
+                        sh "yarn lint-ci || exit 0"
+                    }
                 }
             }
         }
         stage('test') {
             steps {
                 script {
-                    install_chrome_dependencies()
-                    sh "yarn test-ci"
+                    docker.image('kanocomputing/puppeteer').inside('--cap-add=SYS_ADMIN') {
+                        sh "yarn test-ci"
+                        sh "yarn coverage-ci"
+                    }
                 }
             }
         }
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
+        timeout(time: 60, unit: 'MINUTES')
     }
 }
