@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /**
  * Name of event that records a UI change.
  * @const

@@ -1,3 +1,4 @@
+import { goog, Blockly } from '../blockly-module.js';
 import '../input/kwc-blockly-function-definition.js';
 import './config-input.js';
 

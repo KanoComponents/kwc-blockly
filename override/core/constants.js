@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /**
  * String for use in the dropdown created in field_variable.
  * This string indicates that this option in the dropdown is 'New

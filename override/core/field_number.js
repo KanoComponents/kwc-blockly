@@ -1,4 +1,5 @@
 import '@kano/kwc-number-inputs/kwc-numpad.js';
+import '../../blockly_built/blockly_compressed.js';
 
 const OriginalFieldNumber = Blockly.FieldNumber;
 

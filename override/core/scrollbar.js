@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 const OriginalScrollbar = Blockly['Scrollbar'];
 /**
  * Class for a pure SVG scrollbar.

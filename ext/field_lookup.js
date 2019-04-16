@@ -1,3 +1,5 @@
+import { goog, Blockly } from '../blockly-module.js';
+
 const FieldLookup = function (text, c) {
     this._text = text;
     this._c = c || '';

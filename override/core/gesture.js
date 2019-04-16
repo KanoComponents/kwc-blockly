@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /**
  * Execute a block click.
  * @private

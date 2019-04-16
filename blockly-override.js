@@ -1,5 +1,6 @@
 import { Material } from '@kano/kwc-color-picker/palettes/material.js';
-
+import './blockly_built/blockly_compressed.js';
+import './blockly_built/msg/js/en.js';
 
 const animationSupported = 'animate' in HTMLElement.prototype;
 // Set the default palette to the material from the color picker

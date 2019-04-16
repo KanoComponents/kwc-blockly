@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /* global Blockly */
 
 Blockly.ZoomControls.prototype.IMAGES = {};
