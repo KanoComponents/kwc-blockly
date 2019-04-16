@@ -1,3 +1,4 @@
+import '../../blockly_built/blockly_compressed.js';
 /* globals Blockly */
 // UI constants for rendering blocks.
 

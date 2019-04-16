@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /* global Blockly, goog */
 
 Blockly.Trashcan.prototype.IMAGE_WIDTH = 18.15;

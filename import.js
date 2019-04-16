@@ -1,6 +1,4 @@
 import '@kano/kwc-color-picker/kwc-color-picker.js';
-import './blockly_built/blockly_compressed.js';
-import './blockly_built/msg/js/en.js';
 import './override/core/constants.js';
 import './blockly-override.js';
 import './override/core/css.js';

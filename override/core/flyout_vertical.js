@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 const FLYOUT_WIDTH_LIMIT = 500;
 
 /**

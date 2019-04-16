@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /**
  * Get the colour of a block.
  * @return {string} #RRGGBB string.

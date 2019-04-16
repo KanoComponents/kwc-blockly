@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 /**
  * Checks whether the current connection can connect with the target
  * connection.

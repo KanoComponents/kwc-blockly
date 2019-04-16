@@ -1,3 +1,4 @@
+import '../../blockly_built/blockly_compressed.js';
 /**
  * Shut the trash can and, if necessary, delete the dragging block.
  * Should be called at the end of a block drag.

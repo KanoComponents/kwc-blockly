@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 Blockly.Css.CONTENT = Blockly.Css.CONTENT.concat((`
 .blocklyWidgetDiv .goog-menu {
     border-radius: 4px !important;

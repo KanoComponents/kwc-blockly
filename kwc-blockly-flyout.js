@@ -264,8 +264,8 @@ class KwcBlocklyFlyout extends PolymerElement {
         const height = (cursorY + 20) * this.ws.scale;
         this.width = maxWidth;
         this.height = height;
-        this.$.svg.style.width = this.width;
-        this.$.svg.style.height = this.height;
+        this.$.svg.style.width = `${this.width}px`;
+        this.$.svg.style.height = `${this.height}px`;
         this.dispatchEvent(new CustomEvent('size-changed', {
             composed: true,
             bubbles: true,
