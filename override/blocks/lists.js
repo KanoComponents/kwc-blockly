@@ -50,7 +50,7 @@ Blockly.Blocks['lists_create_with'] = {
                 var input = this.appendValueInput('ADD' + i);
                 if (i == 0) {
                     input.appendField(new Blockly.FieldArrayLength(this.itemCount_, (newValue) => {
-                        if (this.itemCount_ !== newValue) {
+                        if (typeof newValue === 'number' && this.itemCount_ !== newValue) {
                             this.itemCount_ = newValue;
                             this.updateShape_();
                         }
