@@ -53,15 +53,27 @@ Polymer({
                 display: inline-block;
                 color: white;
             }
+            .controls {
+                padding: 8px 16px;
+            }
             kwc-blockly-wrapper {
                 --kwc-blockly-wrapper-caret-color: var(--color-black);
+            }
+            .elseifs {
+                display: flex;
+                align-items: center;
+            }
+            kwc-blockly-incr {
+                margin: 0 0 0 8px;
             }
         </style>
         <kwc-blockly-wrapper title="If / Else / Else If" no-close-button="" on-close="_close">
             <div slot="content">
                 <div class="controls">
-                    <label for="params">Else If</label>
-                    <kwc-blockly-incr value="{{value.elseIfs}}" min="0"></kwc-blockly-incr>
+                    <div class="elseifs">
+                        <label for="params">Else If</label>
+                        <kwc-blockly-incr value="{{value.elseIfs}}" min="0"></kwc-blockly-incr>
+                    </div>
                     <label for="rtn">
                         <input id="rtn" type="checkbox" checked="{{value.else::change}}">
                         <span></span><div id="cb-label">Else</div>

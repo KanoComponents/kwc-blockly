@@ -1,16 +1,17 @@
-import '../../field/if-stack.js';
-Blockly.Blocks.controls_if = {
-    init: function () {
+import { FieldIfStack } from '../../field/if-stack.js';
 
-        this.stackField = new Blockly.FieldIfStack({ elseIfs: 0, else: false }, (newValue) => {
-            this.elseifCount_ = newValue.elseIfs;
-            this.elseCount_   = newValue.else;
+Blockly.Blocks.controls_if = {
+    init() {
+        this.stackField = new FieldIfStack(JSON.stringify({ elseIfs: 0, else: false }), (newValue) => {
+            const v = JSON.parse(newValue);
+            this.elseifCount_ = v.elseIfs;
+            this.elseCount_ = v.else;
             this.updateShape_();
         });
 
         this.appendValueInput('IF0')
             .setCheck('Boolean')
-            .appendField(this.stackField)
+            .appendField(this.stackField, 'CONFIG')
             .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);
 
         this.appendStatementInput('DO0')
@@ -26,24 +27,24 @@ Blockly.Blocks.controls_if = {
      * @this Blockly.Block
      * @private
      */
-    updateShape_: function () {
+    updateShape_() {
         let i;
         // Delete everything.
         if (this.getInput('ELSE')) {
             this.removeInput('ELSE');
         }
         i = 1;
-        while (this.getInput('IF' + i)) {
-            this.removeInput('IF' + i);
-            this.removeInput('DO' + i);
-            i++;
+        while (this.getInput(`IF${i}`)) {
+            this.removeInput(`IF${i}`);
+            this.removeInput(`DO${i}`);
+            i += 1;
         }
         // Rebuild block.
-        for (let i = 1; i <= this.elseifCount_; i++) {
-            this.appendValueInput('IF' + i)
+        for (let j = 1; j <= this.elseifCount_; j += 1) {
+            this.appendValueInput(`IF${j}`)
                 .setCheck('Boolean')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);
-            this.appendStatementInput('DO' + i)
+            this.appendStatementInput(`DO${j}`)
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_THEN);
         }
         if (this.elseCount_) {
@@ -51,37 +52,4 @@ Blockly.Blocks.controls_if = {
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
         }
     },
-    /**
-     * Create XML to represent the number of else-if and else inputs.
-     * @return {Element} XML storage element.
-     * @this Blockly.Block
-     */
-    mutationToDom: function () {
-        let container;
-        if (!this.elseifCount_ && !this.elseCount_) {
-            return null;
-        }
-        container = document.createElement('mutation');
-        if (this.elseifCount_) {
-            container.setAttribute('elseif', this.elseifCount_);
-        }
-        if (this.elseCount_) {
-            container.setAttribute('else', 1);
-        }
-        return container;
-    },
-    /**
-     * Parse XML to restore the else-if and else inputs.
-     * @param {!Element} xmlElement XML storage element.
-     * @this Blockly.Block
-     */
-    domToMutation: function (xmlElement) {
-        this.elseifCount_ = parseInt(xmlElement.getAttribute('elseif'), 10) || 0;
-        this.elseCount_   = parseInt(xmlElement.getAttribute('else'), 10) || 0;
-        this.stackField.setValue({
-            elseIfs: this.elseifCount_,
-            else: this.elseCount_
-        });
-        this.updateShape_();
-    }
 };
