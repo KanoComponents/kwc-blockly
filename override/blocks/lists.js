@@ -1,11 +1,11 @@
 import '../../field/array-length.js';
 
-Blockly.Blocks['lists_create_with'] = {
+Blockly.Blocks.lists_create_with = {
     /**
      * Block for creating a list with any number of elements of any type.
      * @this Blockly.Block
      */
-    init: function () {
+    init() {
         this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
         this.setColour(Blockly.Constants.Lists.HUE);
         this.itemCount_ = 3;
@@ -18,8 +18,8 @@ Blockly.Blocks['lists_create_with'] = {
      * @return {!Element} XML storage element.
      * @this Blockly.Block
      */
-    mutationToDom: function () {
-        var container = document.createElement('mutation');
+    mutationToDom() {
+        const container = document.createElement('mutation');
         container.setAttribute('items', this.itemCount_);
         return container;
     },
@@ -28,7 +28,7 @@ Blockly.Blocks['lists_create_with'] = {
      * @param {!Element} xmlElement XML storage element.
      * @this Blockly.Block
      */
-    domToMutation: function (xmlElement) {
+    domToMutation(xmlElement) {
         this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
         this.updateShape_();
     },
@@ -37,7 +37,7 @@ Blockly.Blocks['lists_create_with'] = {
      * @private
      * @this Blockly.Block
      */
-    updateShape_: function () {
+    updateShape_() {
         if (this.itemCount_ && this.getInput('EMPTY')) {
             this.removeInput('EMPTY');
         } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
@@ -45,24 +45,25 @@ Blockly.Blocks['lists_create_with'] = {
                 .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
         }
         // Add new inputs.
-        for (var i = 0; i < this.itemCount_; i++) {
-            if (!this.getInput('ADD' + i)) {
-                var input = this.appendValueInput('ADD' + i);
-                if (i == 0) {
+        let i = 0;
+        for (i = 0; i < this.itemCount_; i += 1) {
+            if (!this.getInput(`ADD ${i}`)) {
+                const input = this.appendValueInput(`ADD ${i}`);
+                if (i === 0) {
                     input.appendField(new Blockly.FieldArrayLength(this.itemCount_, (newValue) => {
                         if (this.itemCount_ !== newValue) {
                             this.itemCount_ = newValue;
                             this.updateShape_();
                         }
-                    }));
+                    }), 'CONFIG');
                     input.appendField(Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH);
                 }
             }
         }
         // Remove deleted inputs.
-        while (this.getInput('ADD' + i)) {
-            this.removeInput('ADD' + i);
-            i++;
+        while (this.getInput(`ADD ${i}`)) {
+            this.removeInput(`ADD ${i}`);
+            i += 1;
         }
         const widgetInput = this.getInput('ADD0');
         const widget = widgetInput && widgetInput.fieldRow[0] ? widgetInput.fieldRow[0] : null;
@@ -70,5 +71,5 @@ Blockly.Blocks['lists_create_with'] = {
             return;
         }
         widget.setValue(this.itemCount_);
-    }
+    },
 };

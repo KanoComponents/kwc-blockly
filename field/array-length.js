@@ -33,4 +33,8 @@ FieldArrayLength.prototype.showEditor_ = function () {
         });
     }
 };
+FieldArrayLength.prototype.setValue = function (v) {
+    const value = typeof v === 'number' ? v : parseInt(v, 10);
+    FieldArrayLength.superClass_.setValue.call(this, value);
+};
 window.Blockly.FieldArrayLength = FieldArrayLength;
