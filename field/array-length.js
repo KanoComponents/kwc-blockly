@@ -17,6 +17,7 @@ FieldArrayLength.prototype.showEditor_ = function () {
     this.customEl = document.createElement('kwc-blockly-array-length');
     this.customEl.value = this.getValue();
 
+
     this.customEl.addEventListener('value-changed', (e) => {
         this.setValue(e.detail.value);
     });

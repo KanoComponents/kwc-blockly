@@ -45,6 +45,7 @@ suite('FieldArrayLength', () => {
 
         const fieldSvg = svgRoot.querySelector('.blocklyConfigInput');
 
+        
         setTimeout(() => {
             fieldSvg.dispatchEvent(new Event('pointerdown'));
             const input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
