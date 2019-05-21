@@ -90,26 +90,19 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@kano/es6-resolution@^1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@kano/es6-resolution/-/es6-resolution-1.0.18.tgz#5060e7ae55be635db5f1c69440dd857b27b45427"
-  integrity sha512-DEHPkeSnofp9nbxNsQpIghmWivNi0s3xxpqDz9a0Zu+2OZDe/gQwXLykJSJc6XMzTGtzm5fy/wISgRxzL1AMpQ==
+"@kano/es6-resolution@^1.0.18", "@kano/es6-resolution@^1.0.20":
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/@kano/es6-resolution/-/es6-resolution-1.0.20.tgz#5beb3cf09f9b2b29f9e0a865e7b047888680b790"
+  integrity sha512-bTKy6quIkoJifHdI1cujW3NS4oBL0AjJn14xUM7kGrhj3yT4U0fwbsISdtB3dvDiYxPCsNHk9h67EWXGHnGwGg==
   dependencies:
     resolve "^1.7.1"
 
-"@kano/es6-resolution@^1.0.8":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@kano/es6-resolution/-/es6-resolution-1.0.14.tgz#6afbba8e1f9647f311fb580789c7b7efd6d495a7"
-  integrity sha512-jqJzM2Qlti3snpYb71a7VEN7Idpl9hFLUGHYzZoj5L7heHSigVzv1KKb1G1AwkFldjusreFcKHk63bCF+cf6MQ==
+"@kano/es6-server@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@kano/es6-server/-/es6-server-1.0.3.tgz#3d3e32758b918f41d241f531f1edad84a1b967e0"
+  integrity sha512-Sh0jzuMpGe1NI91Yu0HiXeThcKSIfi4SH63d04a7rJr8PMCxiRau+F50MxYF/CBoK1Iml760RFrKOo8R2saNmA==
   dependencies:
-    resolve "^1.7.1"
-
-"@kano/es6-server@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@kano/es6-server/-/es6-server-1.0.2.tgz#76df203dfd0557d4f481178f7c6ce989cf797dd3"
-  integrity sha512-3mO4pAbaMGJWM03tyVTSdtRrRjYaWtObU5xUe9AAcY0DN7tySqL0lDnOFw/w7YBAgfnOpjGUJpGAQoCjxp6JYw==
-  dependencies:
-    "@kano/es6-resolution" "^1.0.18"
+    "@kano/es6-resolution" "^1.0.20"
     chalk "^2.4.2"
     connect "^3.6.6"
     mime "^2.3.1"
@@ -152,12 +145,12 @@
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
-"@kano/web-tester@^1.0.0-alpha.14":
-  version "1.0.0-alpha.14"
-  resolved "https://registry.yarnpkg.com/@kano/web-tester/-/web-tester-1.0.0-alpha.14.tgz#7b8cea5ff1c98364d9218b0b27191bbaab6d8607"
-  integrity sha512-I602sC3QZWSaxFzgxS6TBG3CGpk19Q5wT6DdKbMIl/+5cRVCR/ct+SmRwraeyVGoQieJcB5aG5FfObDNSXsAYw==
+"@kano/web-tester@^1.0.0-alpha.20":
+  version "1.0.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/@kano/web-tester/-/web-tester-1.0.0-alpha.20.tgz#e2d9083a5dd0b04b8524804859f0867a9503bd87"
+  integrity sha512-9JWY5NLxezAVes6NlaxavuVz3NpOWxk+fbvTTottABQ5maTMn9o1XKbmXObuDm/8Hjbaxx2tuCb+1AMFXzVnAQ==
   dependencies:
-    "@kano/es6-resolution" "^1.0.8"
+    "@kano/es6-resolution" "^1.0.18"
     chai "^4.2.0"
     chalk "^2.4.2"
     connect "^3.6.6"
@@ -171,7 +164,7 @@
     mime "^2.3.1"
     mocha "^5.2.0"
     node-text-chunk "^0.1.1"
-    puppeteer "^1.7.0"
+    puppeteer-core "^1.13.0"
     resolve "^1.8.1"
     serve-static "^1.13.2"
     sywac "^1.2.1"
@@ -1893,10 +1886,10 @@ pump@^3.0.0:
     end-of-stream "^1.1.0"
     once "^1.3.1"
 
-puppeteer@^1.7.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.11.0.tgz#63cdbe12b07275cd6e0b94bce41f3fcb20305770"
-  integrity sha512-iG4iMOHixc2EpzqRV+pv7o3GgmU2dNYEMkvKwSaQO/vMZURakwSOn/EYJ6OIRFYOque1qorzIBvrytPIQB3YzQ==
+puppeteer-core@^1.13.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-1.16.0.tgz#e1d3123c1fef8aaf55f8e90a3740429f839510ca"
+  integrity sha512-ldBUcvepJDIcUcBUf+3kOTH19EjCEXMWPdZRFBW+bbcp4WqcxxlEhae8qos0zDIVHITbDIaxWAKtu9uNO74IjQ==
   dependencies:
     debug "^4.1.0"
     extract-zip "^1.6.6"

@@ -31,9 +31,9 @@
     "@polymer/polymer": "^3.0.0"
   },
   "devDependencies": {
-    "@kano/es6-server": "^1.0.2",
+    "@kano/es6-server": "^1.0.3",
     "@kano/eslint-config": "^1.0.0",
-    "@kano/web-tester": "^1.0.0-alpha.14",
+    "@kano/web-tester": "^1.0.0-alpha.20",
     "@polymer/iron-test-helpers": "^3.0.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "eslint": "^4.19.1",
