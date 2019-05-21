@@ -6,6 +6,9 @@ pipeline {
     agent {
         label 'ubuntu_18.04_with_docker'
     }
+    environment {
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true'
+    }
     post {
         always {
             junit allowEmptyResults: true, testResults: 'test-results.xml'
