@@ -31,6 +31,7 @@ Blockly.Blocks.lists_create_with = {
     domToMutation(xmlElement) {
         this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
         this.updateShape_();
+        this.setFieldValue(this.itemCount_, 'CONFIG');
     },
     /**
      * Modify this block to have the correct number of inputs.

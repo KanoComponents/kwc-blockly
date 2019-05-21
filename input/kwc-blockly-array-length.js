@@ -15,9 +15,14 @@ Polymer({
                 --kwc-blockly-wrapper-caret-color: var(--color-black);
             }
             kwc-blockly-incr {
-                margin-top: 10px;
+                margin: 0 0 0 8px;
                 background: #464C51;
                 font-size: 14px;
+            }
+            .controls {
+                display: flex;
+                align-items: center;
+                padding: 8px 16px;
             }
         </style>
         <kwc-blockly-wrapper title="List" no-close-button="" on-close="_close">
