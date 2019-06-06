@@ -66,6 +66,7 @@ class KwcBlocklyFlyout extends PolymerElement {
                 value: Infinity,
                 observer: '_maxWidthChanged',
             },
+            rtl: Boolean,
         };
     }
     get width_() {
@@ -115,7 +116,10 @@ class KwcBlocklyFlyout extends PolymerElement {
         return this._rectPool.push(rect);
     }
     _createWorkspace() {
-        this.ws = new Blockly.WorkspaceSvg({});
+        const options = new Blockly.Options({
+            rtl: this.rtl,
+        });
+        this.ws = new Blockly.WorkspaceSvg(options);
         this.ws.isFlyout = true;
         this.wsDom = this.ws.createDom();
         this.svgGroup = Blockly.utils.createSvgElement('g', { class: 'kanoBlocklyFlyout' }, null);
@@ -246,10 +250,11 @@ class KwcBlocklyFlyout extends PolymerElement {
             }
             // Silence the MOVE event as this move is to set the initial position
             Blockly.Events.disable();
-            block.moveBy(cursorX, cursorY);
+            block.moveBy(this.ws.RTL ? maxWidth - cursorX : cursorX, cursorY);
             Blockly.Events.enable();
             rect = this._createRect({ 'fill-opacity': 0 });
-            rect.setAttribute('x', cursorX - (hasOutputConnection ? 6 : 0));
+            const x = cursorX - (hasOutputConnection ? 6 : 0);
+            rect.setAttribute('x', this.ws.RTL ? maxWidth - x : x);
             rect.setAttribute('y', cursorY);
             rect.setAttribute('width', hw.width);
             rect.setAttribute('height', hw.height);

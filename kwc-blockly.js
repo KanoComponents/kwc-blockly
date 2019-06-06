@@ -56,6 +56,14 @@ class KwcBlockly extends PolymerElement {
                     height: 100%;
                     box-sizing: border-box;
                 }
+                :host([rtl]) .toolbox-container {
+                    position: absolute;
+                    right: 0;
+                    left: auto;
+                    top: 0;
+                    height: 100%;
+                    box-sizing: border-box;
+                }
                 #flyout {
                     @apply --kwc-blockly-flyout;
                     background: var(--kwc-blockly-background, #414a51);
@@ -149,8 +157,8 @@ class KwcBlockly extends PolymerElement {
             </div>
             <div class="toolbox-container">
                 <slot name="above-toolbox"></slot>
-                <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
-                <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
+                <kwc-blockly-flyout id="flyout" rtl="[[rtl]]" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
+                <kwc-blockly-toolbox id="toolbox" rtl="[[rtl]]" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
                 <slot name="under-toolbox"></slot>
             </div>
             <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
@@ -222,6 +230,10 @@ class KwcBlockly extends PolymerElement {
                 },
                 observer: '_mediaChanged',
             },
+            rtl: {
+                type: Boolean,
+                reflectToAttribute: true,
+            },
             getMetrics: Function,
             setMetrics: Function,
             _target: Object,
@@ -270,6 +282,7 @@ class KwcBlockly extends PolymerElement {
                 minScale: 0.3,
                 scaleSpeed: 1.2,
             },
+            rtl: this.rtl,
         });
         options.getMetrics = this.getMetrics;
         options.setMetrics = this.setMetrics;

@@ -43,8 +43,17 @@ class KwcBlocklyToolbox extends PolymerElement {
                 :host([hidden]) {
                     display: none !important;
                 }
+                :host([rtl]) button.category {
+                    flex-direction: row-reverse;
+                    padding: 2px 12px 3px 32px;
+                }
+                :host([rtl]) button.category .color {
+                    margin: 0 2px 0 8px;
+                }
                 button.category {
-                    display: block;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
                     width: 100%;
                     background: transparent;
                     color: var(--kwc-blockly-toolbox-color, white);
@@ -123,7 +132,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                     display: none;
                 }
             </style>
-            <kwc-blockly-flyout id="flyout" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
+            <kwc-blockly-flyout id="flyout" rtl="[[rtl]]" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
             <div id="mask" class="mask"></div>
             <template is="dom-repeat" items="[[toolbox]]" as="category" on-dom-change="_toolboxDomChanged">
                 <button type="button" class$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id$="category-[[category.id]]" hidden$="[[_isSeparator(category.type)]]">
@@ -159,6 +168,10 @@ class KwcBlocklyToolbox extends PolymerElement {
             _canAnimate: {
                 type: Boolean,
                 value: 'animate' in HTMLElement.prototype,
+            },
+            rtl: {
+                type: Boolean,
+                reflectToAttribute: true,
             },
         };
     }
