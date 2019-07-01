@@ -310,8 +310,8 @@ class KwcBlocklyFlyout extends PolymerElement {
     }
     _addBlockListeners(root, block, rect) {
         this._listeners = this._listeners || [];
-        this._listeners.push(Blockly.bindEvent_(root, 'mousedown', null, this._blockMouseDown(block)));
-        this._listeners.push(Blockly.bindEvent_(rect, 'mousedown', null, this._blockMouseDown(block)));
+        this._listeners.push(Blockly.bindEventWithChecks_(root, 'mousedown', null, this._blockMouseDown(block)));
+        this._listeners.push(Blockly.bindEventWithChecks_(rect, 'mousedown', null, this._blockMouseDown(block)));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseover', block, block.addSelect));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseout', block, block.removeSelect));
         this._listeners.push(Blockly.bindEvent_(rect, 'mouseover', block, block.addSelect));
