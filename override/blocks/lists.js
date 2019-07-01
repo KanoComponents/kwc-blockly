@@ -48,8 +48,8 @@ Blockly.Blocks.lists_create_with = {
         // Add new inputs.
         let i = 0;
         for (i = 0; i < this.itemCount_; i += 1) {
-            if (!this.getInput(`ADD ${i}`)) {
-                const input = this.appendValueInput(`ADD ${i}`);
+            if (!this.getInput(`ADD${i}`)) {
+                const input = this.appendValueInput(`ADD${i}`);
                 if (i === 0) {
                     input.appendField(new Blockly.FieldArrayLength(this.itemCount_, (newValue) => {
                         if (this.itemCount_ !== newValue) {
@@ -62,8 +62,8 @@ Blockly.Blocks.lists_create_with = {
             }
         }
         // Remove deleted inputs.
-        while (this.getInput(`ADD ${i}`)) {
-            this.removeInput(`ADD ${i}`);
+        while (this.getInput(`ADD${i}`)) {
+            this.removeInput(`ADD${i}`);
             i += 1;
         }
         const widgetInput = this.getInput('ADD0');
