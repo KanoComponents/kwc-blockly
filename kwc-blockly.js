@@ -171,8 +171,8 @@ class KwcBlockly extends PolymerElement {
                         <input type="text" id="dialog-input" value="{{dialog.input::input}}" no-label="" autofocus="" on-keydown="_dialogKeydown">
                     </div>
                     <div class="buttons">
-                        <button dialog-confirm="" class="confirm">Confirm</button>
-                        <button dialog-dismiss="" hidden\$="[[dialog.noCancel]]">Cancel</button>
+                        <button dialog-confirm class="confirm">Confirm</button>
+                        <button dialog-dismiss hidden\$="[[dialog.noCancel]]">Cancel</button>
                     </div>
                 </div>
             </paper-dialog>
@@ -248,6 +248,7 @@ class KwcBlockly extends PolymerElement {
         this._blurInput = this._blurInput.bind(this);
         this._onMouseWheel = this._onMouseWheel.bind(this);
         this._onToolboxScroll = this._onToolboxScroll.bind(this);
+        this.enterClicked = false;
     }
     ready() {
         super.ready();
@@ -608,16 +609,17 @@ class KwcBlockly extends PolymerElement {
             inputSelect: false,
         }, opts || {});
         return new Promise((resolve) => {
-            let dialog = this.dialog.element,
-                onDialogClose = (e) => {
-                    let reason = e.detail,
-                        answer = this.dialog.input;
-                    dialog.removeEventListener('iron-overlay-closed', onDialogClose);
-                    if (reason.confirmed) {
-                        return resolve(answer);
-                    }
-                    return resolve(null);
-                };
+            const dialog = this.dialog.element;
+            const onDialogClose = (e) => {
+                const reason = e.detail;
+                const answer = this.dialog.input;
+                dialog.removeEventListener('iron-overlay-closed', onDialogClose);
+                if (reason.confirmed || this.enterClicked) {
+                    this.enterClicked = false;
+                    return resolve(answer);
+                }
+                return resolve(null);
+            };
             this.set('dialog.message', message);
             this.set('dialog.input', defaultValue);
             this.set('dialog.noInput', options.noInput);
@@ -632,6 +634,7 @@ class KwcBlockly extends PolymerElement {
     }
     _dialogKeydown(e) {
         if (e.keyCode === 13) {
+            this.enterClicked = true;
             this.dialog.element.close();
         } else if (e.keyCode === 8) {
             e.stopPropagation();
