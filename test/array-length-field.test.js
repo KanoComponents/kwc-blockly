@@ -49,6 +49,8 @@ suite('FieldArrayLength', () => {
         setTimeout(() => {
             fieldSvg.dispatchEvent(new Event('pointerdown'));
             const input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
+            input.set('value', 7);
+
             assert.equal(block.itemCount_, 7);
             assert.equal(input.get('value'), 7);
             done();

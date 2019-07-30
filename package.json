@@ -11,7 +11,7 @@
   },
   "scripts": {
     "serve": "es6-server",
-    "serve-test": "web-tester serve ./test/*.test.js",
+    "serve-test": "web-tester serve 'test/**/*.test.js'",
     "test": "web-tester run ./test/*.test.js",
     "test-ci": "yarn run --silent test -r xunit > test-results.xml",
     "coverage": "web-tester cover ./test/*.test.js",
