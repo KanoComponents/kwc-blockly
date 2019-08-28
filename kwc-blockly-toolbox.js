@@ -300,10 +300,6 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
 
         if (this.currentSelected !== index) {
-            // const e = {
-            //     type: Blockly.Events.OPEN_FLYOUT,
-            //     categoryId: category.id,
-            // };
             const categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`);
             const rect = categoryEl.getBoundingClientRect();
             const buttons = this.shadowRoot.querySelectorAll('button.category, .separator:not([hidden])');
