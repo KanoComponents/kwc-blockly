@@ -353,7 +353,6 @@ class KwcBlocklyFlyout extends PolymerElement {
             const gesture = this.targetWorkspace.getGesture(e);
             this._rect = this.ws.svgGroup_.getBoundingClientRect();
             if (gesture) {
-                console.log(gesture.mouseDownXY_);
                 gesture.setStartBlock(block);
                 gesture.handleFlyoutStart(e, this);
                 this.targetWorkspace._gesture = gesture;
