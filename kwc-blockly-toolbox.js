@@ -132,7 +132,16 @@ class KwcBlocklyToolbox extends PolymerElement {
                     display: none;
                 }
             </style>
-            <kwc-blockly-flyout id="flyout" rtl="[[rtl]]" padding-left="0" toolbox="[[currentToolbox]]" target-workspace="[[targetWorkspace]]" on-block-created="_onBlockCreated" auto-close="[[autoClose]]"></kwc-blockly-flyout>
+            <kwc-blockly-flyout
+                id="flyout"
+                rtl="[[rtl]]"
+                padding-left="0"
+                toolbox="[[currentToolbox]]"
+                target-workspace="[[targetWorkspace]]"
+                on-block-created="_onBlockCreated"
+                on-flyout-scrolled="_onFlyoutScrolled"
+                auto-close="[[autoClose]]">
+            </kwc-blockly-flyout>
             <div id="mask" class="mask"></div>
             <template is="dom-repeat" items="[[toolbox]]" as="category" on-dom-change="_toolboxDomChanged">
                 <button type="button" class$="category [[_computeSelectedClass(category.selected)]]" on-tap="_selectCategory" id$="category-[[category.id]]" hidden$="[[_isSeparator(category.type)]]">
@@ -206,6 +215,9 @@ class KwcBlocklyToolbox extends PolymerElement {
             );
         }
     }
+    _onFlyoutScrolled(e) {
+        this.scroll(0, e.detail);
+    }
     _updateMetrics() {
         this._metrics = this.getBoundingClientRect();
     }
@@ -235,21 +247,19 @@ class KwcBlocklyToolbox extends PolymerElement {
         return new goog.math.Rect(rect.left, rect.top, rect.width, rect.height);
     }
     close() {
-        let category,
-            categoryEl,
-            e;
+        let categoryEl;
         if (!this.opened) {
             return;
         }
-        category = this.toolbox[this.currentSelected];
+        const category = this.toolbox[this.currentSelected];
         if (category) {
-            categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`),
+            categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`);
             categoryEl.style.paddingBottom = '';
         }
         this.style.width = '';
         this.$.flyout.style.display = 'none';
         this.set(`toolbox.${this.currentSelected}.selected`, false);
-        e = { type: Blockly.Events.CLOSE_FLYOUT };
+        const e = { type: Blockly.Events.CLOSE_FLYOUT };
         this.prevSelected = this.currentSelected;
         this.currentSelected = undefined;
         this.updateStyles({
@@ -271,9 +281,8 @@ class KwcBlocklyToolbox extends PolymerElement {
         this.close();
     }
     _selectCategory(e) {
-        let category = e.model.get('category'),
-            target = e.target,
-            index = e.model.get('index');
+        const category = e.model.get('category');
+        const index = e.model.get('index');
 
         e.stopPropagation();
         e.preventDefault();
@@ -291,30 +300,28 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
 
         if (this.currentSelected !== index) {
-            let e = {
-                    type: Blockly.Events.OPEN_FLYOUT,
-                    categoryId: category.id,
-                },
-                categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`),
-                rect = categoryEl.getBoundingClientRect(),
-                buttons = this.shadowRoot.querySelectorAll('button.category, .separator:not([hidden])'),
-                buttonTop = categoryEl.offsetTop,
-                onSizeChanged;
-            onSizeChanged = (e) => {
-                let size = e && e.detail || this.prevSize,
-                    over = false,
-                    duration;
+            // const e = {
+            //     type: Blockly.Events.OPEN_FLYOUT,
+            //     categoryId: category.id,
+            // };
+            const categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`);
+            const rect = categoryEl.getBoundingClientRect();
+            const buttons = this.shadowRoot.querySelectorAll('button.category, .separator:not([hidden])');
+            const buttonTop = categoryEl.offsetTop;
+            const onSizeChanged = (eSizeChanged) => {
+                const size = (eSizeChanged && eSizeChanged.detail) || this.prevSize;
+                let over = false;
                 this.prevSize = size;
                 this.$.flyout.removeEventListener('size-changed', onSizeChanged);
-                this.$.flyout.style.transform = `translate(0px, ${buttonTop + rect.height}px)`, this.$.flyout;
+                this.$.flyout.style.transform = `translate(0px, ${buttonTop + rect.height}px)`;
                 categoryEl.style.paddingBottom = `${size.height}px`;
                 this.style.width = `${size.width + 35}px`;
                 this._scrollIfNeeded(categoryEl);
                 this.$.mask.style.display = 'block';
                 this.$.mask.style.top = `${rect.top + rect.height}px`;
-                duration = size.height / 3;
+                const duration = size.height / 3;
                 this.style.overflowY = 'hidden';
-                for (let i = 0; i < buttons.length; i++) {
+                for (let i = 0; i < buttons.length; i += 1) {
                     if (over && this._canAnimate) {
                         buttons[i].animate({
                             transform: [`translate(0px, -${size.height - rect.height}px`, 'translate(0px, 0px)'],
@@ -367,7 +374,7 @@ class KwcBlocklyToolbox extends PolymerElement {
             this.targetWorkspace.setResizesEnabled(false);
             this.set('opened', true);
         } else {
-            const e = {
+            const eCloseFlyout = {
                 type: Blockly.Events.CLOSE_FLYOUT,
             };
             this.prevSelected = this.currentSelected;
@@ -377,7 +384,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 '--selected-color': null,
             });
             if (this.targetWorkspace) {
-                this.targetWorkspace.fireChangeListener(e);
+                this.targetWorkspace.fireChangeListener(eCloseFlyout);
             }
             this.targetWorkspace.setResizesEnabled(true);
             this.set('opened', false);
