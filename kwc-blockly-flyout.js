@@ -86,7 +86,16 @@ class KwcBlocklyFlyout extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         this._render();
-        this.addEventListener('touchstart', e => this.handleTouchEvent(e));
+        this.addEventListener('touchstart', this.handleTouchEvent);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.removeEventListener('touchstart', this.handleTouchEvent);
+
+        while (this.$.svg.firstChild) {
+            this.$.svg.removeChild(this.$.svg.firstChild);
+        }
     }
 
     handleTouchEvent(event) {
@@ -443,12 +452,6 @@ class KwcBlocklyFlyout extends PolymerElement {
         block.moveBy(newBlockPos.x, newBlockPos.y);
         block.initialXY_ = newBlockPos;
         return block;
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        while (this.$.svg.firstChild) {
-            this.$.svg.removeChild(this.$.svg.firstChild);
-        }
     }
     /**
      * Blockly compatibility methods
