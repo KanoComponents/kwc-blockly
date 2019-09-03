@@ -300,6 +300,10 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
 
         if (this.currentSelected !== index) {
+            const eOpenFlyout = {
+                type: Blockly.Events.OPEN_FLYOUT,
+                categoryId: category.id,
+            };
             const categoryEl = this.shadowRoot.querySelector(`#category-${category.id}`);
             const rect = categoryEl.getBoundingClientRect();
             const buttons = this.shadowRoot.querySelectorAll('button.category, .separator:not([hidden])');
@@ -366,7 +370,7 @@ class KwcBlocklyToolbox extends PolymerElement {
             this.updateStyles({
                 '--selected-color': category.colour,
             });
-            this.targetWorkspace.fireChangeListener(e);
+            this.targetWorkspace.fireChangeListener(eOpenFlyout);
             this.targetWorkspace.setResizesEnabled(false);
             this.set('opened', true);
         } else {
