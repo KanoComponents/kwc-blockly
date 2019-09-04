@@ -1,4 +1,6 @@
+import { assert, fixture } from '@kano/web-tester/helpers.js';
 import '../kwc-blockly.js';
+import '../blocks.js';
 
 const basic = fixture`
     <kwc-blockly style="height: 400px;"></kwc-blockly>

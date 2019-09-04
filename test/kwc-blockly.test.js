@@ -1,3 +1,4 @@
+import { assert, fixture } from '@kano/web-tester/helpers.js';
 import '../kwc-blockly.js';
 import '../blocks.js';
 
@@ -42,6 +43,32 @@ suite('kwc-blockly', () => {
         const prevTransform = canvas.getAttribute('transform');
         scroll(workspace.getParentSvg(), { x: -45, y: 0 });
         assert.notEqual(prevTransform, canvas.getAttribute('transform'));
+    });
+});
+
+suite('kwc-blockly create variable dialog', () => {
+    let element;
+    let dialogEl;
+    setup(() => {
+        element = basic();
+        dialogEl = element.dialog.element;
+    });
+    test('calling open shows the element', () => {
+        element._openDialog('Message', '', { inputSelect: true });
+        assert.equal(dialogEl.opened, true);
+    });
+    test('on press enter, save the text in the input as the new variable name', () => {
+        element._openDialog('Message', '', { inputSelect: true })
+            .then((res) => {
+                assert.equal(res, 'Test string');
+            })
+            .catch((e) => {
+                throw e;
+            });
+        const inputEl = dialogEl.querySelector('#dialog-input');
+        element.dialog.input = 'Test string';
+        const event = new KeyboardEvent('keydown', { keyCode: 13 });
+        inputEl.dispatchEvent(event);
     });
 });
 

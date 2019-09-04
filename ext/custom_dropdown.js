@@ -1,3 +1,6 @@
+import { goog, Blockly } from '../blockly-module.js';
+
+import '../blockly_built/blockly_compressed.js';
 /**
  * Class for an editable dropdown field.
  * @param {(!Array.<!Array>|!Function)} menuGenerator An array of options

@@ -1,3 +1,4 @@
+import { goog, Blockly } from '../blockly-module.js';
 import './config-input.js';
 import '../input/kwc-blockly-array-length.js';
 
@@ -16,6 +17,7 @@ FieldArrayLength.prototype.showEditor_ = function () {
     this.customEl = document.createElement('kwc-blockly-array-length');
     this.customEl.value = this.getValue();
 
+
     this.customEl.addEventListener('value-changed', (e) => {
         this.setValue(e.detail.value);
     });
@@ -31,5 +33,9 @@ FieldArrayLength.prototype.showEditor_ = function () {
             easing: 'ease-out',
         });
     }
+};
+FieldArrayLength.prototype.setValue = function (v) {
+    const value = typeof v === 'number' ? v : parseInt(v, 10);
+    FieldArrayLength.superClass_.setValue.call(this, value);
 };
 window.Blockly.FieldArrayLength = FieldArrayLength;

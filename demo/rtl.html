@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+        <title>kwc-blockly demo</title>
+        <style>
+            kwc-blockly {
+                width: 800px;
+                height: 500px;
+            }
+            body>div {
+                max-width: 840px;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script type="module">
+            import '../kwc-blockly.js';
+            import '../blocks.js';
+
+            const editor = document.createElement('kwc-blockly');
+
+            editor.rtl = true;
+
+            editor.toolbox = [{
+                id: 'math',
+                name: 'Math',
+                colour: '#00bcd4',
+                blocks: [
+                    { id: 'math_constrain' },
+                    {
+                        id: 'math_arithmetic',
+                        shadow: {
+                            A: '<shadow type="math_number"></shadow>',
+                        },
+                    },
+                ],
+            }, {
+                id: 'variables',
+                name: 'Variables',
+                colour: '#3f51b5',
+                blocks: [
+                    { id: 'variables_set' },
+                    { id: 'variables_get' },
+                ],
+            }, {
+                id: 'color',
+                name: 'Color',
+                colour: '#673ab7',
+                blocks: [
+                    { id: 'colour_picker' },
+                    { id: 'controls_if' },
+                    { id: 'lists_create_with' },
+                ],
+            }];
+
+            editor.media = '/blockly_built/media/';
+
+            document.body.appendChild(editor);
+        </script>
+    </body>

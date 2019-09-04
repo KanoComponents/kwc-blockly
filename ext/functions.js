@@ -1,10 +1,12 @@
+import { Blockly } from '../blockly-module.js';
 import '../field/function_definition.js';
+
 Blockly.Functions = {};
 
 Blockly.Functions.NAME_TYPE = 'FUNCTION';
 
 class UserFunction {
-    constructor (definitionBlock, registry) {
+    constructor(definitionBlock, registry) {
         this.registry = registry;
         this.params = [];
         this.calls = [];
@@ -16,18 +18,17 @@ class UserFunction {
         }
     }
 
-    setDefinitionBlock (definitionBlock) {
-        let onDelete;
+    setDefinitionBlock(definitionBlock) {
         this.definitionBlock = definitionBlock;
 
-        onDelete = (e) => {
+        const onDelete = (e) => {
             if (e.type === Blockly.Events.DELETE && e.blockId === this.definitionBlock.id) {
                 this.deleteCalls();
                 this.deleteParams();
                 Blockly.Workspace.getById(e.workspaceId).removeChangeListener(onDelete);
                 this.registry.deleteFunction(this.getBlockId());
             }
-        }
+        };
         this.definitionBlock.workspace.addChangeListener(onDelete);
         // A late registration of the function can leave calls and params
         // in an unfinished state. This ensures they are rendered properly
@@ -35,8 +36,8 @@ class UserFunction {
         this.updateParamsBlocks();
     }
 
-    addCall (callBlock) {
-        let onDelete = (e) => {
+    addCall(callBlock) {
+        const onDelete = (e) => {
             let index;
             if (e.type === Blockly.Events.DELETE && e.blockId === callBlock.id) {
                 Blockly.Workspace.getById(e.workspaceId).removeChangeListener(onDelete);
@@ -46,7 +47,7 @@ class UserFunction {
                 }
             }
         };
-        for (let i = 0; i < this.calls.length; i++) {
+        for (let i = 0; i < this.calls.length; i += 1) {
             if (this.calls[i].id === callBlock.id) {
                 this.calls.splice(i, 1, callBlock);
                 callBlock.workspace.addChangeListener(onDelete);
@@ -57,8 +58,8 @@ class UserFunction {
         callBlock.workspace.addChangeListener(onDelete);
     }
 
-    addParam (paramBlock) {
-        let onDelete = (e) => {
+    addParam(paramBlock) {
+        const onDelete = (e) => {
             let index;
             if (e.type === Blockly.Events.DELETE && e.blockId === paramBlock.id) {
                 Blockly.Workspace.getById(e.workspaceId).removeChangeListener(onDelete);
@@ -68,7 +69,7 @@ class UserFunction {
                 }
             }
         };
-        for (let i = 0; i < this.params.length; i++) {
+        for (let i = 0; i < this.params.length; i += 1) {
             if (this.params[i].id === paramBlock.id) {
                 this.params.splice(i, 1, paramBlock);
                 paramBlock.workspace.addChangeListener(onDelete);
@@ -79,54 +80,54 @@ class UserFunction {
         paramBlock.workspace.addChangeListener(onDelete);
     }
 
-    deleteCalls () {
+    deleteCalls() {
         this.calls.forEach(block => block.dispose(false, false));
     }
 
-    deleteParams () {
+    deleteParams() {
         this.params.forEach(block => block.dispose(false, false));
     }
 
-    getBlockId () {
+    getBlockId() {
         return this.definitionBlock ? this.definitionBlock.id : this.blockId;
     }
 
-    getCallXml () {
-        let blockId = this.getBlockId();
+    getCallXml() {
+        const blockId = this.getBlockId();
         return `<block type="function_call"><mutation definition="${blockId}"></mutation></block>`;
     }
 
-    getParamsXml () {
-        let blockId = this.getBlockId(),
-            params = this.getParams();
+    getParamsXml() {
+        const blockId = this.getBlockId();
+        const params = this.getParams();
         return Object.keys(params).map(param => `<block type="function_argument"><mutation param="${param}" definition="${blockId}"></mutation></block>`);
     }
 
-    getName () {
+    getName() {
         return this.definitionBlock ? this.definitionBlock.getFieldValue('NAME') : this.blockId;
     }
 
-    getParams () {
+    getParams() {
         return this.definitionBlock.paramFields.reduce((acc, field) => {
             acc[field] = this.definitionBlock.getFieldValue(field);
             return acc;
         }, {});
     }
 
-    getReturns () {
+    getReturns() {
         return this.definitionBlock.returns;
     }
 
-    updateCallBlocks () {
+    updateCallBlocks() {
         this.calls.forEach(block => block.updateShape());
         this.definitionBlock.workspace.fireChangeListener({
             type: Blockly.Events.UPDATE_FUNCTIONS,
-            blockId: this.definitionBlock.id
+            blockId: this.definitionBlock.id,
         });
     }
 
-    updateParamsBlocks () {
-        let params = Object.keys(this.getParams());
+    updateParamsBlocks() {
+        const params = Object.keys(this.getParams());
         // Delete blocks that used to point to a deleted param
         this.params.forEach((block, index) => {
             if (params.indexOf(block.paramName) === -1) {
@@ -152,7 +153,7 @@ Blockly.FunctionsRegistry.prototype.createFunction = function (definitionBlock) 
         currentDefinition = new UserFunction(definitionBlock, this);
     }
     this.workspace.fireChangeListener({
-        type: Blockly.Events.UPDATE_FUNCTIONS
+        type: Blockly.Events.UPDATE_FUNCTIONS,
     });
     return this.functions[id] = currentDefinition;
 };
@@ -160,14 +161,14 @@ Blockly.FunctionsRegistry.prototype.createFunction = function (definitionBlock) 
 Blockly.FunctionsRegistry.prototype.reset = function () {
     this.functions = {};
     this.workspace.fireChangeListener({
-        type: Blockly.Events.UPDATE_FUNCTIONS
+        type: Blockly.Events.UPDATE_FUNCTIONS,
     });
 };
 
 Blockly.FunctionsRegistry.prototype.deleteFunction = function (id) {
     delete this.functions[id];
     this.workspace.fireChangeListener({
-        type: Blockly.Events.UPDATE_FUNCTIONS
+        type: Blockly.Events.UPDATE_FUNCTIONS,
     });
 };
 
@@ -196,11 +197,9 @@ Blockly.FunctionsRegistry.prototype.getAllFunctions = function () {
 };
 
 Blockly.FunctionsRegistry.prototype.getToolbox = function () {
-    let toolbox = Object.keys(this.functions).map(functionId => {
-        return {
+    const toolbox = Object.keys(this.functions).map((functionId) => ({
             custom: this.functions[functionId].getCallXml()
-        }
-    });
+        }));
 
     toolbox.unshift({ id: 'function_definition' });
 

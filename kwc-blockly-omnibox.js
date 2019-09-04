@@ -168,15 +168,15 @@ class KwcBlocklyOmnibox extends PolymerElement {
         const block = e.model.get('result');
         this.dispatchEvent(new CustomEvent('confirm', {
             detail: {
-                selected: block
-            }
+                selected: block,
+            },
         }));
     }
     _onEnterPressed() {
         this.dispatchEvent(new CustomEvent('confirm', {
             detail: {
-                selected: this.results[this.selected]
-            }
+                selected: this.results[this.selected],
+            },
         }));
     }
     _onDownPressed(e) {

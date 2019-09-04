@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 Blockly.Css.CONTENT = Blockly.Css.CONTENT.concat((`
 .blocklyWidgetDiv .goog-menu {
     border-radius: 4px !important;
@@ -31,5 +33,8 @@ Blockly.Css.CONTENT = Blockly.Css.CONTENT.concat((`
 
 .blocklyWidgetDiv .goog-menuitem-content {
     font: normal 1.5em bariol, Arial !important;
+}
+.blocklyText {
+    cursor: inherit;
 }
 `).split('\n'));

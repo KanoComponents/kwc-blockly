@@ -81,18 +81,19 @@ export const blocklyStyle = html`
             fill: white;
         }
         .blocklyZoom .button {
-            opacity: 0.5;
+            transition: opacity linear 100ms;
+            opacity: 0.4;
             cursor: pointer;
         }
         ::slotted(* .blocklyZoom .button) {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: pointer;
         }
         .blocklyZoom .button:hover {
-            opacity: 1;
+            opacity: 0.8;
         }
         ::slotted(* .blocklyZoom .button:hover) {
-            opacity: 1;
+            opacity: 0.8;
         }
         g.smoothScroll {
             transition: transform 200ms ease-out;

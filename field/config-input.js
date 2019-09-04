@@ -1,3 +1,5 @@
+import { goog, Blockly } from '../blockly-module.js';
+
 const FieldConfig = function (value, opt_validator) {
     this._width = 16;
     this._height = 16;

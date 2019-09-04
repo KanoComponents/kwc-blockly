@@ -1,5 +1,7 @@
+/* eslint-disable func-names */
 import { Material } from '@kano/kwc-color-picker/palettes/material.js';
-
+import './blockly_built/blockly_compressed.js';
+import './blockly_built/msg/js/en.js';
 
 const animationSupported = 'animate' in HTMLElement.prototype;
 // Set the default palette to the material from the color picker
@@ -64,7 +66,7 @@ goog.a11y.aria.setState = function (element, stateName, value) {
  * @private
  */
 Blockly.utils.isTargetInput = function (e) {
-// In a shadow DOM the first element of the path is more accurate
+    // In a shadow DOM the first element of the path is more accurate
     const target = e.path ? e.path[0] : e.target;
     return target.type == 'textarea' || target.type == 'text' ||
         target.type == 'number' || target.type == 'email' ||
@@ -73,15 +75,35 @@ Blockly.utils.isTargetInput = function (e) {
         target.isContentEditable;
 };
 
+Blockly.utils.getPhantomSvgGroup = function (targetBlock, position) {
+
+    const phantomSvgGroup = document.createElementNS(Blockly.SVG_NS, 'g');
+    const phantomSvgPath = document.createElementNS(Blockly.SVG_NS, 'path');
+    const phantomSvgText = document.createElementNS(Blockly.SVG_NS, 'text');
+    phantomSvgPath.setAttribute('d', targetBlock.svgPath_.getAttribute('d'));
+    phantomSvgPath.setAttribute('fill', targetBlock.getColour());
+    phantomSvgPath.setAttribute('fill-opacity', 0.25);
+    phantomSvgPath.setAttribute('stroke', targetBlock.getColour());
+    phantomSvgPath.setAttribute('stroke-width', 1);
+    phantomSvgPath.setAttribute('stroke-dasharray', 6);
+
+    phantomSvgGroup.appendChild(phantomSvgPath);
+    phantomSvgGroup.appendChild(phantomSvgText);
+    phantomSvgGroup.setAttribute('transform', `translate(${position.x}, ${position.y})`);
+
+    Blockly.removePhantomBlock();
+    return phantomSvgGroup;
+}
+
 Blockly.Variables.variablesDB = {};
 
 Blockly.Variables.allUsedVariables = function (root) {
     let blocks;
     if (root instanceof Blockly.Block) {
-    // Root is Block.
+        // Root is Block.
         blocks = root.getDescendants();
     } else if (root.getAllBlocks) {
-    // Root is Workspace.
+        // Root is Workspace.
         blocks = root.getAllBlocks();
     } else {
         throw `Not Block or Workspace: ${root}`;
@@ -126,8 +148,8 @@ Blockly.getSvgXY_ = function (element, workspace) {
     let y = 0;
     let scale = 1;
     if (goog.dom.contains(workspace.getCanvas(), element) ||
-    goog.dom.contains(workspace.getBubbleCanvas(), element)) {
-    // Before the SVG canvas, scale the coordinates.
+        goog.dom.contains(workspace.getBubbleCanvas(), element)) {
+        // Before the SVG canvas, scale the coordinates.
         scale = workspace.scale;
     }
     do {
@@ -137,7 +159,7 @@ Blockly.getSvgXY_ = function (element, workspace) {
         // Loop through this block and every parent.
         const xy = Blockly.utils.getRelativeXY(element);
         if (element == workspace.getCanvas() ||
-        element == workspace.getBubbleCanvas()) {
+            element == workspace.getBubbleCanvas()) {
             // After the SVG canvas, don't scale the coordinates.
             scale = 1;
         }
@@ -155,23 +177,23 @@ Blockly.getSvgXY_ = function (element, workspace) {
  */
 Blockly.Field.prototype.onMouseUp_ = function (e) {
     if ((goog.userAgent.IPHONE || goog.userAgent.IPAD) &&
-    !goog.userAgent.isVersionOrHigher('537.51.2') &&
-    e.layerX !== 0 && e.layerY !== 0) {
-    // Old iOS spawns a bogus event on the next touch after a 'prompt()' edit.
-    // Unlike the real events, these have a layerX and layerY set.
+        !goog.userAgent.isVersionOrHigher('537.51.2') &&
+        e.layerX !== 0 && e.layerY !== 0) {
+        // Old iOS spawns a bogus event on the next touch after a 'prompt()' edit.
+        // Unlike the real events, these have a layerX and layerY set.
 
     } else if (Blockly.utils.isRightButton(e)) {
-    // Right-click.
+        // Right-click.
 
     } else if (this.sourceBlock_.workspace.isDragging() || this.sourceBlock_.isInFlyout) {
-    // Drag operation is concluding.  Don't open the editor.
+        // Drag operation is concluding.  Don't open the editor.
 
     } else if (this.sourceBlock_.isEditable()) {
-    // Non-abstract sub-classes must define a showEditor_ method.
+        // Non-abstract sub-classes must define a showEditor_ method.
         this.showEditor_();
-    // The field is handling the touch, but we also want the blockSvg onMouseUp
-    // handler to fire, so we will leave the touch identifier as it is.
-    // The next onMouseUp is responsible for nulling it out.
+        // The field is handling the touch, but we also want the blockSvg onMouseUp
+        // handler to fire, so we will leave the touch identifier as it is.
+        // The next onMouseUp is responsible for nulling it out.
     }
 };
 
@@ -180,7 +202,7 @@ Blockly.Field.prototype.onMouseUp_ = function (e) {
  */
 Blockly.Field.prototype.init = function () {
     if (this.fieldGroup_) {
-    // Field has already been initialized once.
+        // Field has already been initialized once.
         return;
     }
     // Build the DOM.
@@ -208,23 +230,20 @@ Blockly.Field.prototype.init = function () {
     this.updateEditable();
     this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
     this.mouseUpWrapper_ =
-    Blockly.bindEventWithChecks_(
-        this.fieldGroup_, 'mouseup', this,
-        this.onMouseUp_,
-    );
+        Blockly.bindEventWithChecks_(
+            this.fieldGroup_, 'mouseup', this,
+            this.onMouseUp_,
+        );
     // Force a render.
     this.render_();
 };
 
 Blockly.setPhantomBlock = function (connection, targetBlock) {
-    let sourceBlock = connection.getSourceBlock(),
-        targetConnection = targetBlock.outputConnection ? targetBlock.outputConnection : targetBlock.previousConnection,
-        phantomSvgGroup = document.createElementNS(Blockly.SVG_NS, 'g'),
-        phantomSvgPath = document.createElementNS(Blockly.SVG_NS, 'path'),
-        phantomSvgText = document.createElementNS(Blockly.SVG_NS, 'text'),
-        xy = sourceBlock.getRelativeToSurfaceXY(),
-        position = {},
-        breathingAnimation;
+    const sourceBlock = connection.getSourceBlock();
+    const targetConnection = targetBlock.outputConnection ? targetBlock.outputConnection : targetBlock.previousConnection;
+    const xy = sourceBlock.getRelativeToSurfaceXY();
+    let position = {};
+    let breathingAnimation;
 
     if (Blockly.dragMode_ !== 0) {
         if (!targetBlock.initialXY_) {
@@ -237,18 +256,7 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
         position.y = xy.y - connection.y_ - (targetConnection.y_ - targetBlock.getBoundingRectangle().topLeft.y);
     }
 
-    phantomSvgPath.setAttribute('d', targetBlock.svgPath_.getAttribute('d'));
-    phantomSvgPath.setAttribute('fill', targetBlock.getColour());
-    phantomSvgPath.setAttribute('fill-opacity', 0.25);
-    phantomSvgPath.setAttribute('stroke', targetBlock.getColour());
-    phantomSvgPath.setAttribute('stroke-width', 1);
-    phantomSvgPath.setAttribute('stroke-dasharray', 6);
-
-    phantomSvgGroup.appendChild(phantomSvgPath);
-    phantomSvgGroup.appendChild(phantomSvgText);
-    phantomSvgGroup.setAttribute('transform', `translate(${position.x}, ${position.y})`);
-
-    Blockly.removePhantomBlock();
+    const phantomSvgGroup = Blockly.utils.getPhantomSvgGroup(targetBlock, position);
 
     sourceBlock.svgGroup_.appendChild(phantomSvgGroup);
     if (animationSupported) {
@@ -257,9 +265,9 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
         }, {
             opacity: 1,
         }], {
-            duration: 400,
-            easing: 'ease-out',
-        });
+                duration: 400,
+                easing: 'ease-out',
+            });
         breathingAnimation = phantomSvgGroup.animate([{
             opacity: 0.7,
         }, {
@@ -267,16 +275,80 @@ Blockly.setPhantomBlock = function (connection, targetBlock) {
         }, {
             opacity: 0.7,
         }], {
-            delay: 400,
-            duration: 1200,
-            easing: 'ease-in-out',
-            iterations: Infinity,
-        });
+                delay: 400,
+                duration: 1200,
+                easing: 'ease-in-out',
+                iterations: Infinity,
+            });
     } else {
         phantomSvgGroup.style.opacity = 1;
         breathingAnimation = function () {
             phantomSvgGroup.style.opacity = 1;
         };
+        breathingAnimation.cancel = function () {
+            return null;
+        };
+    }
+
+
+    Blockly.phantomBlock_ = {
+        svgRoot: phantomSvgGroup,
+        position,
+        animation: breathingAnimation,
+    };
+};
+
+Blockly.setPhantomBlockByPosition = function (workspace, targetBlock) {
+
+    let breathingAnimation;
+
+    let position = {
+        x: 200,
+        y: 200,
+    }
+
+    // Get the C-Blocks from the workspace.
+    // Filter for blocks that are already in the editor.
+    // Use the last one that's not the one you're dragging.
+    const topBlocks = workspace.topBlocks_.filter(el => el.rendered);
+    const topBlock = topBlocks[topBlocks.length - 2]
+    if (topBlock) {
+        position = {
+            x: topBlock.getBoundingRectangle().topLeft.x,
+            y: topBlock.getBoundingRectangle().bottomRight.y + 20,
+        }
+    }
+
+    const phantomSvgGroup = Blockly.utils.getPhantomSvgGroup(targetBlock, position);
+
+    workspace.svgBlockCanvas_.appendChild(phantomSvgGroup);
+    if (animationSupported) {
+        phantomSvgGroup.animate([{
+            opacity: 0,
+        }, {
+            opacity: 1,
+        }], {
+                duration: 400,
+                easing: 'ease-out',
+            });
+        breathingAnimation = phantomSvgGroup.animate([{
+            opacity: 0.7,
+        }, {
+            opacity: 1,
+        }, {
+            opacity: 0.7,
+        }], {
+                delay: 400,
+                duration: 1200,
+                easing: 'ease-in-out',
+                iterations: Infinity,
+            });
+    } else {
+        phantomSvgGroup.style.opacity = 1;
+        breathingAnimation = function () {
+            phantomSvgGroup.style.opacity = 1;
+        };
+        // eslint-disable-next-line func-names
         breathingAnimation.cancel = function () {
             return null;
         };
@@ -306,11 +378,11 @@ Blockly.removePhantomBlock = function (connection, targetBlock) {
                 transform: `${translate} scale(4)`,
                 opacity: 0,
             }], {
-                duration: 300,
-                easing: 'ease-in',
-            }).onfinish = () => {
-                root.parentNode.removeChild(root);
-            };
+                    duration: 300,
+                    easing: 'ease-in',
+                }).onfinish = () => {
+                    root.parentNode.removeChild(root);
+                };
         } else {
             root.style.opacity = 0;
             root.parentNode.removeChild(root);
@@ -390,9 +462,9 @@ Blockly.Block.prototype.renderSearchPlus_ = function () {
                     this.shadowSearch_.dispose();
                     this.shadowSearch_ = null;
                 } else if (e.oldParentId === this.id
-                        && this.nextConnection
-                        && !this.nextConnection.targetConnection
-                        && this.workspace) {
+                    && this.nextConnection
+                    && !this.nextConnection.targetConnection
+                    && this.workspace) {
                     // A block disconnected from this block and the nextConnection is now empty
                     this.attachSearchToConnection_(this.nextConnection);
                 }
@@ -487,7 +559,7 @@ Blockly.Field.prototype.matches = function (qs) {
     return qs.split(' ').some(piece => Blockly.stringMatch(this.text_, piece));
 };
 
-Blockly.Field.prototype.fromQuery = function () {};
+Blockly.Field.prototype.fromQuery = function () { };
 
 Blockly.FieldDropdown.prototype.getAPIText = function () {
     const options = this.getOptions().map(options => options[0]);

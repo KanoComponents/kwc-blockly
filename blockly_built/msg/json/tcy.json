@@ -4,7 +4,8 @@
 			"Vishwanatha Badikana",
 			"Bharathesha Alasandemajalu",
 			"Kiranpoojary",
-			"BHARATHESHA ALASANDEMAJALU"
+			"BHARATHESHA ALASANDEMAJALU",
+			"Ravi Mundkur"
 		]
 	},
 	"VARIABLES_DEFAULT_NAME": "ವಸ್ತು",
@@ -33,7 +34,6 @@
 	"NEW_VARIABLE": "ವ್ಯತ್ಯಯೊನು ಉಂಡು ಮಲ್ಪುಲೆ",
 	"NEW_VARIABLE_TITLE": "ಪೊಸ ವ್ಯತ್ಯಯೊದ ಪುದರ್:",
 	"VARIABLE_ALREADY_EXISTS": "'%1' ಪನ್ಪಿ ಪುದರ್‌ದ ವ್ಯತ್ಯಯೊ ದುಂಬೆ ಅಸ್ತಿತ್ವೊಡು ಉಂಡು.",
-	"PROCEDURE_ALREADY_EXISTS": "'%1' ಪನ್ಪಿ ಪುದರ್‌ದ ಕಾರ್ಯೊವಿದಾನೊ ದುಂಬೆ ಅಸ್ತಿತ್ವೊಡು ಉಂಡು.",
 	"DELETE_VARIABLE_CONFIRMATION": "'%2' ವ್ಯತ್ಯಯೊದ %1 ಉಪಯೋಗೊಲೆನ್ ಮಾಜಾವೊಡೆ?",
 	"DELETE_VARIABLE": "'%1' ವ್ಯತ್ಯಯೊನು ಮಾಜಾಲೆ",
 	"COLOUR_PICKER_HELPURL": "https://en.wikipedia.org/wiki/ಬಣ್ಣೊ",
@@ -182,6 +182,7 @@
 	"MATH_RANDOM_FLOAT_HELPURL": "https://en.wikipedia.org/wiki/ರಾಂಡಮ್_ನಂಬರ್_ಜನರೇಶನ್",
 	"MATH_RANDOM_FLOAT_TITLE_RANDOM": "ಒವ್ವಾಂಡಲ ಒಂಜಿ ಭಿನ್ನರಾಶಿ",
 	"MATH_RANDOM_FLOAT_TOOLTIP": "0.0 (ಸೇರ್‌ದ್) ಬೊಕ್ಕ 1.0 (ಸೇರಂದೆ) ನಡುತ ಒವ್ವಾಂಡಲ ಒಂಜಿ ಭಿನ್ನರಾಶಿನ್ ಪಿರಕೊರು.",
+	"MATH_ATAN2_HELPURL": "https://en.wikipedia.org/wiki/Atan2",
 	"TEXT_TEXT_HELPURL": "https://en.wikipedia.org/wiki/ಸ್ಟ್ರಿಂಗ್_(ಕಂಪ್ಯೂಟರ್_ಸೈನ್ಸ್)",
 	"TEXT_TEXT_TOOLTIP": "ಒಂಜಿ ಅಕ್ಷರೊ, ಪದೊ ಅತ್ತಂಡ ಪಾಟೊದ ಒಂಜಿ ಸಾಲ್",
 	"TEXT_JOIN_TITLE_CREATEWITH": "ನೆಡ್ದ್ ಪಟ್ಯೊನು ಉಂಡು ಮಲ್ಪು",
@@ -189,8 +190,8 @@
 	"TEXT_CREATE_JOIN_TITLE_JOIN": "ಸೇರಾವ್",
 	"TEXT_CREATE_JOIN_TOOLTIP": "ಈ ಪಠ್ಯ ತಡೆನ್ ಕುಡ ಸಂರಚಣೆ ಮಲ್ಪೆರೆ, ಸೇರಾವ್, ದೆತ್ತ್ ಬುಡು, ಅತ್ತಂಡ ವಿಭಾಗೊಲೆನ್ ಕುಡ ಒತ್ತರೆ ಮಲ್ಪು.",
 	"TEXT_CREATE_JOIN_ITEM_TOOLTIP": "ಪಟ್ಯೊಗು ಒಂಜಿ ವಿಷಯೊನು ಸೇರಾವ್",
-	"TEXT_APPEND_TOOLTIP": "%1 ವ್ಯತ್ಯಯೊಗು ಕೆಲವು ಪಟ್ಯೊಲೆನ್ ಸೇರಾವ್",
 	"TEXT_APPEND_TITLE": "ಇಂದೆಕ್ %1 ಪಟ್ಯೊನು ಸೇರವೆ %2",
+	"TEXT_APPEND_TOOLTIP": "%1 ವ್ಯತ್ಯಯೊಗು ಕೆಲವು ಪಟ್ಯೊಲೆನ್ ಸೇರಾವ್",
 	"TEXT_LENGTH_TITLE": "%1 ಉದ್ದೊ",
 	"TEXT_LENGTH_TOOLTIP": "ಕೊರಿನ ಪಟ್ಯೊದ ಅಕ್ಷರೊಲೆನ (ಅಂತರೊಲು ಸೇರ್‌ದ್) ಸಂಖ್ಯೆನ್ ಪಿರಕೊರು.",
 	"TEXT_ISEMPTY_TITLE": "%1 ಖಾಲಿ",

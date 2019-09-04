@@ -56,6 +56,14 @@ class KwcBlockly extends PolymerElement {
                     height: 100%;
                     box-sizing: border-box;
                 }
+                :host([rtl]) .toolbox-container {
+                    position: absolute;
+                    right: 0;
+                    left: auto;
+                    top: 0;
+                    height: 100%;
+                    box-sizing: border-box;
+                }
                 #flyout {
                     @apply --kwc-blockly-flyout;
                     background: var(--kwc-blockly-background, #414a51);
@@ -117,14 +125,40 @@ class KwcBlockly extends PolymerElement {
                 [hidden] {
                     display: none !important;
                 }
+                /* Pup the flyout in top-left corner and let blockly position it. */
+                .trashcan-flyout {
+                    top: 0px;
+                }
+                /* The same colour we use for the toolbox flyouts */
+                .trashcan-flyout path.blocklyFlyoutBackground {
+                    fill: var(--kwc-blockly-toolbox-selected-color, #394148);
+                    fill-opacity: 0.8;
+                }
+                /* Fixes lid animation */
+                .blocklyTrash #lid {
+                    transform-origin: -5px 0px 0px;
+                }
+                kwc-blockly-toolbox::-webkit-scrollbar {
+                    width: 5px;
+                }
+                kwc-blockly-toolbox::-webkit-scrollbar-thumb {
+                    border-radius: 8px;
+                    opacity: 0.5;
+                    background: var(--kwc-blockly-scrollbars-color, #292f35);
+                }
+                kwc-blockly-toolbox:hover::-webkit-scrollbar-thumb {
+                    opacity: 1;
+                    cursor: pointer;
+                }
+
             </style>
             <div id="workspace" class="injectionDiv">
                 <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
             <div class="toolbox-container">
                 <slot name="above-toolbox"></slot>
-                <kwc-blockly-flyout id="flyout" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
-                <kwc-blockly-toolbox id="toolbox" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
+                <kwc-blockly-flyout id="flyout" rtl="[[rtl]]" toolbox="[[flyout]]" hidden\$="{{!flyout}}" on-size-changed="_resizeFlyout" min-width="0"></kwc-blockly-flyout>
+                <kwc-blockly-toolbox id="toolbox" rtl="[[rtl]]" toolbox="[[toolbox]]" auto-close="" hidden\$="[[_shouldHideToolbox(toolbox, noToolbox)]]"></kwc-blockly-toolbox>
                 <slot name="under-toolbox"></slot>
             </div>
             <div class="omnibox-wrapper" id="omnibox-wrapper" on-tap="_omniboxWrapperTapped">
@@ -137,8 +171,8 @@ class KwcBlockly extends PolymerElement {
                         <input type="text" id="dialog-input" value="{{dialog.input::input}}" no-label="" autofocus="" on-keydown="_dialogKeydown">
                     </div>
                     <div class="buttons">
-                        <button dialog-confirm="" class="confirm">Confirm</button>
-                        <button dialog-dismiss="" hidden\$="[[dialog.noCancel]]">Cancel</button>
+                        <button dialog-confirm class="confirm">Confirm</button>
+                        <button dialog-dismiss hidden\$="[[dialog.noCancel]]">Cancel</button>
                     </div>
                 </div>
             </paper-dialog>
@@ -196,6 +230,10 @@ class KwcBlockly extends PolymerElement {
                 },
                 observer: '_mediaChanged',
             },
+            rtl: {
+                type: Boolean,
+                reflectToAttribute: true,
+            },
             getMetrics: Function,
             setMetrics: Function,
             _target: Object,
@@ -210,6 +248,7 @@ class KwcBlockly extends PolymerElement {
         this._blurInput = this._blurInput.bind(this);
         this._onMouseWheel = this._onMouseWheel.bind(this);
         this._onToolboxScroll = this._onToolboxScroll.bind(this);
+        this.enterClicked = false;
     }
     ready() {
         super.ready();
@@ -244,6 +283,7 @@ class KwcBlockly extends PolymerElement {
                 minScale: 0.3,
                 scaleSpeed: 1.2,
             },
+            rtl: this.rtl,
         });
         options.getMetrics = this.getMetrics;
         options.setMetrics = this.setMetrics;
@@ -255,6 +295,7 @@ class KwcBlockly extends PolymerElement {
         options.disabledPatternId = filters.disabledPattern.id;
         options.gridPattern = filters.gridPattern;
         this.$.svg.appendChild(filters.defs);
+
         // Load CSS.
         Blockly.Css.inject(options.hasCss, options.pathToMedia);
         this._setupDialogs();
@@ -421,6 +462,21 @@ class KwcBlockly extends PolymerElement {
         mainWorkspace.translate(0, 0);
         mainWorkspace.markFocused();
 
+        if (options.hasTrashcan) {
+            mainWorkspace.addTrashcan();
+        }
+        if (options.zoomOptions && options.zoomOptions.controls) {
+            mainWorkspace.addZoomControls();
+        }
+
+        var verticalSpacing = Blockly.Scrollbar.scrollbarThickness;
+        if (options.hasTrashcan) {
+            verticalSpacing = mainWorkspace.trashcan.init(verticalSpacing);
+        }
+        if (options.zoomOptions && options.zoomOptions.controls) {
+            mainWorkspace.zoomControls_.init(verticalSpacing);
+        }
+
         mainWorkspace.functionsRegistry = new Blockly.FunctionsRegistry(mainWorkspace);
 
         // The SVG is now fully assembled.
@@ -457,6 +513,8 @@ class KwcBlockly extends PolymerElement {
         if (options.hasSounds) {
             Blockly.inject.loadSounds_(options.pathToMedia, this.workspace);
         }
+
+        Blockly.setTheme(Blockly.Themes.Classic);
     }
     _closeOmnibox(e) {
         if (!this._omniboxOpened) {
@@ -551,16 +609,17 @@ class KwcBlockly extends PolymerElement {
             inputSelect: false,
         }, opts || {});
         return new Promise((resolve) => {
-            let dialog = this.dialog.element,
-                onDialogClose = (e) => {
-                    let reason = e.detail,
-                        answer = this.dialog.input;
-                    dialog.removeEventListener('iron-overlay-closed', onDialogClose);
-                    if (reason.confirmed) {
-                        return resolve(answer);
-                    }
-                    return resolve(null);
-                };
+            const dialog = this.dialog.element;
+            const onDialogClose = (e) => {
+                const reason = e.detail;
+                const answer = this.dialog.input;
+                dialog.removeEventListener('iron-overlay-closed', onDialogClose);
+                if (reason.confirmed || this.enterClicked) {
+                    this.enterClicked = false;
+                    return resolve(answer);
+                }
+                return resolve(null);
+            };
             this.set('dialog.message', message);
             this.set('dialog.input', defaultValue);
             this.set('dialog.noInput', options.noInput);
@@ -575,6 +634,7 @@ class KwcBlockly extends PolymerElement {
     }
     _dialogKeydown(e) {
         if (e.keyCode === 13) {
+            this.enterClicked = true;
             this.dialog.element.close();
         } else if (e.keyCode === 8) {
             e.stopPropagation();

@@ -1,3 +1,5 @@
+import '../../blockly_built/blockly_compressed.js';
+
 Blockly.BlockSvg.prototype.getShadowLight = function() {
     return this.shadowLight || this.workspace.shadowLight || 0.6;
 };

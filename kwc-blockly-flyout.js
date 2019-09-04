@@ -11,7 +11,7 @@ class KwcBlocklyFlyout extends PolymerElement {
             <style>
                 :host {
                     display: block;
-                    overflow-y: auto;
+                    overflow-y: scroll;
                 }
                 .injectionDiv {
                     position: relative;
@@ -66,6 +66,7 @@ class KwcBlocklyFlyout extends PolymerElement {
                 value: Infinity,
                 observer: '_maxWidthChanged',
             },
+            rtl: Boolean,
         };
     }
     get width_() {
@@ -80,13 +81,45 @@ class KwcBlocklyFlyout extends PolymerElement {
         this._separators = [];
         this._rectPool = [];
         this._blockDB = {};
+        this._stylesInjected = false;
     }
     connectedCallback() {
         super.connectedCallback();
-        if (Blockly.Css.styleSheet_) {
-            this.shadowRoot.appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
-        }
         this._render();
+        this.addEventListener('touchstart', this.handleTouchEvent);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.removeEventListener('touchstart', this.handleTouchEvent);
+
+        while (this.$.svg.firstChild) {
+            this.$.svg.removeChild(this.$.svg.firstChild);
+        }
+    }
+
+    handleTouchEvent(event) {
+        const startingY = event.touches[0].clientY;
+        const moveCb = e => this.handleTouchMove(e, startingY);
+        this.addEventListener('touchmove', moveCb);
+        const endCb = () => {
+            this.removeEventListener('touchmove', moveCb);
+            this.removeEventListener('touchend', endCb);
+        };
+        this.addEventListener('touchend', endCb);
+    }
+
+    handleTouchMove(e, startingY) {
+        const dist = startingY + (startingY - e.touches[0].clientY);
+        this.dispatchEvent(new CustomEvent('flyout-scrolled', { detail: dist }));
+    }
+
+    injectStyles() {
+        if (this._stylesInjected || !Blockly.Css.styleSheet_) {
+            return;
+        }
+        this.shadowRoot.appendChild(Blockly.Css.styleSheet_.ownerNode.cloneNode(true));
+        this._stylesInjected = true;
     }
     _targetWorkspaceChanged() {
         this._render();
@@ -110,12 +143,16 @@ class KwcBlocklyFlyout extends PolymerElement {
         return this._rectPool.push(rect);
     }
     _createWorkspace() {
-        this.ws = new Blockly.WorkspaceSvg({});
+        const options = new Blockly.Options({
+            rtl: this.rtl,
+        });
+        this.ws = new Blockly.WorkspaceSvg(options);
         this.ws.isFlyout = true;
         this.wsDom = this.ws.createDom();
         this.svgGroup = Blockly.utils.createSvgElement('g', { class: 'kanoBlocklyFlyout' }, null);
         this.svgGroup.appendChild(this.wsDom);
         this.$.svg.appendChild(this.svgGroup);
+        this.injectStyles();
     }
     _toolboxChanged(toolbox) {
         let xmlString;
@@ -240,10 +277,11 @@ class KwcBlocklyFlyout extends PolymerElement {
             }
             // Silence the MOVE event as this move is to set the initial position
             Blockly.Events.disable();
-            block.moveBy(cursorX, cursorY);
+            block.moveBy(this.ws.RTL ? maxWidth - cursorX : cursorX, cursorY);
             Blockly.Events.enable();
             rect = this._createRect({ 'fill-opacity': 0 });
-            rect.setAttribute('x', cursorX - (hasOutputConnection ? 6 : 0));
+            const x = cursorX - (hasOutputConnection ? 6 : 0);
+            rect.setAttribute('x', this.ws.RTL ? maxWidth - x : x);
             rect.setAttribute('y', cursorY);
             rect.setAttribute('width', hw.width);
             rect.setAttribute('height', hw.height);
@@ -258,8 +296,8 @@ class KwcBlocklyFlyout extends PolymerElement {
         const height = (cursorY + 20) * this.ws.scale;
         this.width = maxWidth;
         this.height = height;
-        this.$.svg.style.width = this.width;
-        this.$.svg.style.height = this.height;
+        this.$.svg.style.width = `${this.width}px`;
+        this.$.svg.style.height = `${this.height}px`;
         this.dispatchEvent(new CustomEvent('size-changed', {
             composed: true,
             bubbles: true,
@@ -299,8 +337,8 @@ class KwcBlocklyFlyout extends PolymerElement {
     }
     _addBlockListeners(root, block, rect) {
         this._listeners = this._listeners || [];
-        this._listeners.push(Blockly.bindEvent_(root, 'mousedown', null, this._blockMouseDown(block)));
-        this._listeners.push(Blockly.bindEvent_(rect, 'mousedown', null, this._blockMouseDown(block)));
+        this._listeners.push(Blockly.bindEventWithChecks_(root, 'mousedown', null, this._blockMouseDown(block)));
+        this._listeners.push(Blockly.bindEventWithChecks_(rect, 'mousedown', null, this._blockMouseDown(block)));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseover', block, block.addSelect));
         this._listeners.push(Blockly.bindEvent_(root, 'mouseout', block, block.removeSelect));
         this._listeners.push(Blockly.bindEvent_(rect, 'mouseover', block, block.addSelect));
@@ -355,7 +393,7 @@ class KwcBlocklyFlyout extends PolymerElement {
            the block out of the toolbox and register a listener to
            remove it when the dragging is over. */
         const onChange = (e) => {
-            if (e.type === Blockly.Events.MOVE && e.blockId === block.id) {
+            if (e.type === Blockly.Events.MOVE && e.blockId === block.id && block.svgGroup_) {
                 Blockly.utils.removeClass(block.svgGroup_, 'initialDrag');
                 block.workspace.removeChangeListener(onChange);
             }
@@ -415,12 +453,6 @@ class KwcBlocklyFlyout extends PolymerElement {
         block.initialXY_ = newBlockPos;
         return block;
     }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        while (this.$.svg.firstChild) {
-            this.$.svg.removeChild(this.$.svg.firstChild);
-        }
-    }
     /**
      * Blockly compatibility methods
      */
@@ -449,6 +481,7 @@ class KwcBlocklyFlyout extends PolymerElement {
     reflow() {}
     setContainerVisible() {}
     dispose() {}
+    isBlockCreatable_() { return true; }
 }
 
 customElements.define('kwc-blockly-flyout', KwcBlocklyFlyout);

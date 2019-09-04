@@ -1,4 +1,4 @@
-import * as interactions from '@polymer/iron-test-helpers/mock-interactions.js';
+import { assert, fixture } from '@kano/web-tester/helpers.js';
 import '../kwc-blockly.js';
 import '../blocks.js';
 
@@ -23,11 +23,11 @@ suite('FieldArrayLength', () => {
 
         assert.equal(prevItems, 3);
 
-        const fieldSvg = svgRoot.querySelector('.blocklyConfigInput rect');
+        const fieldSvg = svgRoot.querySelector('.blocklyConfigInput');
 
         setTimeout(() => {
-            interactions.down(fieldSvg, { x: 5, y: 5 });
-            interactions.up(fieldSvg, { x: 5, y: 5 });
+            fieldSvg.dispatchEvent(new Event('pointerdown'));
+
             const input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
             input.set('value', 7);
 
@@ -43,12 +43,14 @@ suite('FieldArrayLength', () => {
         const block = workspace.getBlockById(id);
         const svgRoot = block.getSvgRoot();
 
-        const fieldSvg = svgRoot.querySelector('.blocklyConfigInput rect');
+        const fieldSvg = svgRoot.querySelector('.blocklyConfigInput');
 
+        
         setTimeout(() => {
-            interactions.down(fieldSvg, { x: 5, y: 5 });
-            interactions.up(fieldSvg, { x: 5, y: 5 });
+            fieldSvg.dispatchEvent(new Event('pointerdown'));
             const input = document.body.querySelector('.blocklyWidgetDiv kwc-blockly-array-length');
+            input.set('value', 7);
+
             assert.equal(block.itemCount_, 7);
             assert.equal(input.get('value'), 7);
             done();
