@@ -11,7 +11,7 @@ class KwcBlocklyFlyout extends PolymerElement {
             <style>
                 :host {
                     display: block;
-                    overflow-y: scroll;
+                    overflow-y: auto;
                 }
                 .injectionDiv {
                     position: relative;
