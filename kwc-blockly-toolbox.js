@@ -137,9 +137,9 @@ class KwcBlocklyToolbox extends PolymerElement {
                 rtl="[[rtl]]"
                 padding-left="0"
                 toolbox="[[currentToolbox]]"
+                toolbox-element="[[toolboxElement]]"
                 target-workspace="[[targetWorkspace]]"
                 on-block-created="_onBlockCreated"
-                on-flyout-scrolled="_onFlyoutScrolled"
                 auto-close="[[autoClose]]">
             </kwc-blockly-flyout>
             <div id="mask" class="mask"></div>
@@ -182,6 +182,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 type: Boolean,
                 reflectToAttribute: true,
             },
+            toolboxElement: Object
         };
     }
     get flyout_() {
@@ -191,6 +192,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         super.connectedCallback();
         this._onResize = this._onResize.bind(this);
         window.addEventListener('resize', this._onResize);
+        this.toolboxElement = this;
     }
     _onResize() {
         this._updateMetrics();
@@ -214,9 +216,6 @@ class KwcBlocklyToolbox extends PolymerElement {
                 },
             );
         }
-    }
-    _onFlyoutScrolled(e) {
-        this.scroll(0, e.detail);
     }
     _updateMetrics() {
         this._metrics = this.getBoundingClientRect();
