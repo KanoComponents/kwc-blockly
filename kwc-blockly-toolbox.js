@@ -364,6 +364,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 );
             }
             this.$.flyout.style.display = 'block';
+            this.prevSelected = this.currentSelected;
             this.currentSelected = index;
             this.currentToolbox = category.blocks;
             this.set(`toolbox.${this.currentSelected}.selected`, true);
