@@ -221,7 +221,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         this._metrics = this.getBoundingClientRect();
     }
     _toolboxDomChanged() {
-        if (this.opened && !this.toolbox.find(tool => tool.id === this.currentCategoryId)) {
+        if (this.opened && !this.toolbox.find(category => category.id === this.currentCategoryId)) {
             this.close();
         }
         this._updateMetrics();
