@@ -593,11 +593,11 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(pathObject, inputRows, ic
       }
       steps.push('v', this.getPaddingY());
       steps.push(Blockly.BlockSvg.TAB_PATH_DOWN_BLOCK);
-      steps.push('v', -this.getPaddingY());
       var nextRow = inputRows[y + 1];
       if (y === inputRows.length - 1 || nextRow && nextRow.type === Blockly.NEXT_STATEMENT) {
           v -= Blockly.BlockSvg.CORNER_RADIUS;
       }
+      v -= this.getPaddingY();
       steps.push('v', v);
       if (this.RTL) {
         // Highlight around back of tab.
