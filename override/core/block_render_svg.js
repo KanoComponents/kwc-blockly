@@ -734,8 +734,8 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(pathObject, inputRows, ic
       connectionX = this.RTL ? -cursorX : cursorX + 1;
       input.connection.setOffsetInBlock(connectionX, cursorY + 1);
 
-      // 2 corners were added to the path, but the connection offset needs to be computed without them
-      cursorY += Blockly.BlockSvg.CORNER_RADIUS * 2;
+      // 3 corners were added to the path, but the connection offset needs to be computed without them
+      cursorY += Blockly.BlockSvg.CORNER_RADIUS * 3;
 
       if (input.connection.isConnected()) {
         this.width = Math.max(this.width, inputRows.statementEdge +
@@ -750,10 +750,14 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(pathObject, inputRows, ic
           highlightSteps.push('v', Blockly.BlockSvg.SEP_SPACE_Y - 1);
         }
         cursorY += Blockly.BlockSvg.SEP_SPACE_Y;
+      } else {
+        // The next statement will begin with a right corner radius. We need to
+        // account for the space it will take up or the next block will render
+        // in the wrong position.
+        steps.push('v', -Blockly.BlockSvg.CORNER_RADIUS);
       }
       if (y === inputRows.length - 1) {
         steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
-        cursorY += Blockly.BlockSvg.CORNER_RADIUS;
       }
     }
     cursorY += row.height;
