@@ -11,7 +11,7 @@ class KwcBlocklyFlyout extends PolymerElement {
             <style>
                 :host {
                     display: block;
-                    overflow-y: scroll;
+                    overflow-y: auto;
                 }
                 .injectionDiv {
                     position: relative;
@@ -32,6 +32,9 @@ class KwcBlocklyFlyout extends PolymerElement {
             toolbox: {
                 type: Array,
                 observer: '_toolboxChanged',
+            },
+            toolboxElement: {
+                type: Object
             },
             targetWorkspace: {
                 type: Object,
@@ -100,7 +103,8 @@ class KwcBlocklyFlyout extends PolymerElement {
 
     handleTouchEvent(event) {
         const startingY = event.touches[0].clientY;
-        const moveCb = e => this.handleTouchMove(e, startingY);
+        const initialScroll = this.toolboxElement.scrollTop;
+        const moveCb = e => this.handleTouchMove(e, startingY, initialScroll);
         this.addEventListener('touchmove', moveCb);
         const endCb = () => {
             this.removeEventListener('touchmove', moveCb);
@@ -109,9 +113,9 @@ class KwcBlocklyFlyout extends PolymerElement {
         this.addEventListener('touchend', endCb);
     }
 
-    handleTouchMove(e, startingY) {
-        const dist = startingY + (startingY - e.touches[0].clientY);
-        this.dispatchEvent(new CustomEvent('flyout-scrolled', { detail: dist }));
+    handleTouchMove(e, startingY, initialScroll) {
+        const dist = startingY - e.touches[0].clientY;
+        this.toolboxElement.scroll(0, initialScroll + dist);
     }
 
     injectStyles() {

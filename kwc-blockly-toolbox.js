@@ -137,9 +137,9 @@ class KwcBlocklyToolbox extends PolymerElement {
                 rtl="[[rtl]]"
                 padding-left="0"
                 toolbox="[[currentToolbox]]"
+                toolbox-element="[[toolboxElement]]"
                 target-workspace="[[targetWorkspace]]"
                 on-block-created="_onBlockCreated"
-                on-flyout-scrolled="_onFlyoutScrolled"
                 auto-close="[[autoClose]]">
             </kwc-blockly-flyout>
             <div id="mask" class="mask"></div>
@@ -182,6 +182,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 type: Boolean,
                 reflectToAttribute: true,
             },
+            toolboxElement: Object
         };
     }
     get flyout_() {
@@ -191,6 +192,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         super.connectedCallback();
         this._onResize = this._onResize.bind(this);
         window.addEventListener('resize', this._onResize);
+        this.toolboxElement = this;
     }
     _onResize() {
         this._updateMetrics();
@@ -215,13 +217,13 @@ class KwcBlocklyToolbox extends PolymerElement {
             );
         }
     }
-    _onFlyoutScrolled(e) {
-        this.scroll(0, e.detail);
-    }
     _updateMetrics() {
         this._metrics = this.getBoundingClientRect();
     }
     _toolboxDomChanged() {
+        if (this.opened && !this.toolbox.find(category => category.id === this.currentCategoryId)) {
+            this.close();
+        }
         this._updateMetrics();
         if (this.targetWorkspace) {
             this.targetWorkspace.resize();
@@ -262,6 +264,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         const e = { type: Blockly.Events.CLOSE_FLYOUT };
         this.prevSelected = this.currentSelected;
         this.currentSelected = undefined;
+        this.currentCategoryId = undefined;
         this.updateStyles({
             '--selected-color': null,
         });
@@ -364,6 +367,8 @@ class KwcBlocklyToolbox extends PolymerElement {
                 );
             }
             this.$.flyout.style.display = 'block';
+            this.prevSelected = this.currentSelected;
+            this.currentCategoryId = category.id;
             this.currentSelected = index;
             this.currentToolbox = category.blocks;
             this.set(`toolbox.${this.currentSelected}.selected`, true);
@@ -378,6 +383,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 type: Blockly.Events.CLOSE_FLYOUT,
             };
             this.prevSelected = this.currentSelected;
+            this.currentCategoryId = undefined;
             this.currentSelected = undefined;
             this.currentToolbox = undefined;
             this.updateStyles({
