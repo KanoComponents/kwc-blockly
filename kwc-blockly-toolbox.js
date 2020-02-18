@@ -182,7 +182,7 @@ class KwcBlocklyToolbox extends PolymerElement {
                 type: Boolean,
                 reflectToAttribute: true,
             },
-            toolboxElement: Object
+            toolboxElement: Object,
         };
     }
     get flyout_() {
@@ -191,8 +191,20 @@ class KwcBlocklyToolbox extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         this._onResize = this._onResize.bind(this);
+        this._onLeave = this._onLeave.bind(this);
         window.addEventListener('resize', this._onResize);
+        window.addEventListener('focus', this._onLeave);
         this.toolboxElement = this;
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('resize', this._onResize);
+        window.removeEventListener('focus', this._onLeave);
+    }
+    _onLeave() {
+        if (this.opened) {
+            this.close();
+        }
     }
     _onResize() {
         this._updateMetrics();
