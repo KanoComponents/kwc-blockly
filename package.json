@@ -20,7 +20,7 @@
     "lint-ci": "yarn lint -f checkstyle -o eslint.xml"
   },
   "dependencies": {
-    "@kano/kwc-color-picker": "^3.0.0-beta.7",
+    "@kano/kwc-color-picker": "^3.0.0-beta.8",
     "@kano/kwc-number-inputs": "^0.0.10",
     "@kano/kwc-style": "^3.0.0-beta.2",
     "@polymer/iron-a11y-keys": "^3.0.0-pre.18",
