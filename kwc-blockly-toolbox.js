@@ -23,6 +23,7 @@ import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
 import '@polymer/iron-flex-layout/iron-flex-layout.js';
 import { Blockly, goog } from './blockly.js';
 import './kwc-blockly-flyout.js';
+import { isLegacyEdge } from './lib/browser.js';
 
 class KwcBlocklyToolbox extends PolymerElement {
     static get template() {
@@ -219,7 +220,13 @@ class KwcBlocklyToolbox extends PolymerElement {
         return selected ? 'selected' : '';
     }
     _onBlockCreated() {
-        if (this.autoClose) {
+        /**
+         *  Disabling autoClose on legacy Edge because it
+         *  was causing the UI to lock up when dragging blocks.
+         *
+         *  TODO: Review this later and fix the underlying issue.
+         **/
+        if (this.autoClose && !isLegacyEdge()) {
             this._createdDebouncer = Debouncer.debounce(
                 this._createdDebouncer,
                 timeOut.after(200),
