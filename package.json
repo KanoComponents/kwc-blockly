@@ -1,7 +1,7 @@
 {
   "description": "Blockly based kano coding editor",
   "name": "@kano/kwc-blockly",
-  "version": "3.1.17-beta.2",
+  "version": "3.1.17-beta.3",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
