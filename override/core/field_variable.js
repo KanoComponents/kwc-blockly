@@ -88,20 +88,3 @@ Blockly.FieldVariable.prototype.onItemSelected = function(menu, menuItem) {
   }
   this.setValue(id);
 };
-
-/**
- * Construct a FieldVariable from a JSON arg object,
- * dereferencing any string table references.
- * @param {!Object} options A JSON object with options (variable,
- *                          variableTypes, and defaultType).
- * @returns {!Blockly.FieldVariable} The new field instance.
- * @package
- * @nocollapse
- */
-Blockly.FieldVariable.fromJson = function(options) {
-  console.log('field variable fromJson', options);
-  var varname = Blockly.utils.replaceMessageReferences(options['variable']);
-  var variableTypes = options['variableTypes'];
-  var defaultType = options['defaultType'];
-  return new Blockly.FieldVariable(varname, null, variableTypes, defaultType);
-};
