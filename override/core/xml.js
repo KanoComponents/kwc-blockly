@@ -64,6 +64,8 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
           }
         } else if (name == 'variables') {
           if (variablesFirst) {
+            console.log('before domToVariables run');
+            console.log('domToWorkspace xmlChild', xmlChild);
             Blockly.Xml.domToVariables(xmlChild, workspace);
           } else {
             throw Error('\'variables\' tag must exist once before block and ' +
@@ -85,4 +87,31 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
     }
     Blockly.Events.fire(new Blockly.Events.FinishedLoading(workspace));
     return newBlockIds;
+  };
+
+/**
+ * Decode an XML list of variables and add the variables to the workspace.
+ * @param {!Element} xmlVariables List of XML variable elements.
+ * @param {!Blockly.Workspace} workspace The workspace to which the variable
+ *     should be added.
+ */
+Blockly.Xml.domToVariables = function(xmlVariables, workspace) {
+    console.log('domToVariables xmlVariables received', xmlVariables);
+    for (var i = 0, xmlChild; xmlChild = xmlVariables.childNodes[i]; i++) {
+        console.log('domToVariables loop enter');
+      if (xmlChild.nodeType != Element.ELEMENT_NODE) {
+        continue;  // Skip text nodes.
+      }
+      var type = xmlChild.getAttribute('type');
+      var id = xmlChild.getAttribute('id');
+      var name = xmlChild.textContent;
+
+      console.log('domToVariables loop type, id, name', type, id, name);
+
+      if (type == null) {
+        throw Error('Variable with id, ' + id + ' is without a type');
+      }
+      console.log('domToVariables pre createVariable');
+      workspace.createVariable(name, type, id);
+    }
   };
