@@ -99,7 +99,13 @@ Blockly.Xml.domToVariables = function(xmlVariables, workspace) {
     console.log('domToVariables xmlVariables received', xmlVariables);
     for (var i = 0, xmlChild; xmlChild = xmlVariables.childNodes[i]; i++) {
         console.log('domToVariables loop enter');
+        console.log('xmlChild', xmlChild);
+        console.log('nodeType', xmlChild.nodeType);
+        console.log('Element', Element);
+        console.log('Element node', Element.ELEMENT_NODE);
+
       if (xmlChild.nodeType != Element.ELEMENT_NODE) {
+          console.log('skip');
         continue;  // Skip text nodes.
       }
       var type = xmlChild.getAttribute('type');
