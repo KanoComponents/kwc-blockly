@@ -101,8 +101,10 @@ class KwcBlocklyToolbox extends PolymerElement {
                     transition: border-color linear 300ms;
                     /*border-bottom: 1px solid #383838;*/
                     overflow: hidden;
+
                     animation: fade-in ease-out 300ms;
                     display: none;
+
                     margin-left: 12px;
                 }
                 button.category.selected .color {
@@ -220,13 +222,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         return selected ? 'selected' : '';
     }
     _onBlockCreated() {
-        /**
-         *  Disabling autoClose on legacy Edge because it
-         *  was causing the UI to lock up when dragging blocks.
-         *
-         *  TODO: Review this later and fix the underlying issue.
-         **/
-        if (this.autoClose && !isLegacyEdge()) {
+        if (this.autoClose) {
             this._createdDebouncer = Debouncer.debounce(
                 this._createdDebouncer,
                 timeOut.after(200),
@@ -278,7 +274,15 @@ class KwcBlocklyToolbox extends PolymerElement {
             categoryEl.style.paddingBottom = '';
         }
         this.style.width = '';
-        this.$.flyout.style.display = 'none';
+
+        if (isLegacyEdge()) {
+            this.$.flyout.style.opacity = '0';
+            this.$.flyout.style.pointerEvents = 'none';
+            this.scrollTop = 0;
+        } else {
+            this.$.flyout.style.display = 'none';
+        }
+
         this.set(`toolbox.${this.currentSelected}.selected`, false);
         const e = { type: Blockly.Events.CLOSE_FLYOUT };
         this.prevSelected = this.currentSelected;
@@ -311,6 +315,11 @@ class KwcBlocklyToolbox extends PolymerElement {
 
         if (category.type === 'separator') {
             return;
+        }
+
+        if (isLegacyEdge()) {
+            this.$.flyout.style.opacity = '';
+            this.$.flyout.style.pointerEvents = '';
         }
 
         if (typeof this.currentSelected !== 'undefined') {
