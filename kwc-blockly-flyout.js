@@ -1,6 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { Blockly, goog } from './blockly.js';
 import { blocklyStyle } from './kwc-blockly-style.js';
+import { isLegacyEdge } from './lib/browser.js';
 
 const BLOCK_SPACING_Y = 12;
 
