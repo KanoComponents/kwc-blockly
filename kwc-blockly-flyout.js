@@ -364,6 +364,20 @@ class KwcBlocklyFlyout extends PolymerElement {
                 return;
             }
             const gesture = this.targetWorkspace.getGesture(e);
+
+            /* This will disable touch in Edge, in case we need it */
+            // if (gesture && isLegacyEdge() && e.pointerType === 'touch') {
+            //     this.targetWorkspace.cancelCurrentGesture();
+            //     this.targetWorkspace.clearGesture();
+            //     return;
+            // }
+
+            /* This clears touch identifiers when starting to drag */
+            if (gesture && isLegacyEdge() && e.pointerType === 'touch') {
+                Blockly.Touch.clearTouchIdentifier();
+                Blockly.Touch.checkTouchIdentifier(e);
+            }
+
             this._rect = this.ws.svgGroup_.getBoundingClientRect();
             if (gesture) {
                 gesture.setStartBlock(block);
