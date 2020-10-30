@@ -13,6 +13,7 @@ class KwcBlocklyFlyout extends PolymerElement {
                 :host {
                     display: block;
                     overflow-y: auto;
+                    -ms-overflow-style: none;
                 }
                 .injectionDiv {
                     position: relative;
@@ -367,11 +368,11 @@ class KwcBlocklyFlyout extends PolymerElement {
             const gesture = this.targetWorkspace.getGesture(e);
 
             /* This will disable touch in Edge, in case we need it */
-            if (gesture && isLegacyEdge() && e.pointerType === 'touch') {
-                this.targetWorkspace.cancelCurrentGesture();
-                this.targetWorkspace.clearGesture();
-                return;
-            }
+            // if (gesture && isLegacyEdge() && e.pointerType === 'touch') {
+            //     this.targetWorkspace.cancelCurrentGesture();
+            //     this.targetWorkspace.clearGesture();
+            //     return;
+            // }
 
             this._rect = this.ws.svgGroup_.getBoundingClientRect();
             if (gesture) {
