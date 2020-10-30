@@ -276,9 +276,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         this.style.width = '';
 
         if (isLegacyEdge()) {
-            this.$.flyout.style.opacity = '0';
-            this.$.flyout.style.pointerEvents = 'none';
-            this.scrollTop = 0;
+            this.$.flyout.style.height = '1px';
         } else {
             this.$.flyout.style.display = 'none';
         }
@@ -318,8 +316,7 @@ class KwcBlocklyToolbox extends PolymerElement {
         }
 
         if (isLegacyEdge()) {
-            this.$.flyout.style.opacity = '';
-            this.$.flyout.style.pointerEvents = '';
+            this.$.flyout.style.height = '';
         }
 
         if (typeof this.currentSelected !== 'undefined') {
