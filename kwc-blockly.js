@@ -55,6 +55,7 @@ class KwcBlockly extends PolymerElement {
                     top: 0;
                     height: 100%;
                     box-sizing: border-box;
+                    border-right: var(--kwc-blockly-toolbox-border-right, 2px solid #1a1a1a);
                 }
                 :host([rtl]) .toolbox-container {
                     position: absolute;
@@ -79,18 +80,22 @@ class KwcBlockly extends PolymerElement {
                 #flyout.flyout-mode {
                     position: relative;
                     padding-top: 20px;
+                    -ms-overflow-style: scrollbar;
                 }
-                #flyout.flyout-mode:after {
+                /* Provisionally removed this because it blocks the scrollbar under it.
+                 * We might bring it back in case people insist on it.
+                 */
+                /*#flyout.flyout-mode:after {
                     content: '';
                     position: absolute;
                     right: 0;
                     top: -20px;
                     bottom: 0;
                     width: 15px;
-                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
-                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                }
+                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+                }*/
                 #svg {
                     height: 100%;
                     width: 100%;
